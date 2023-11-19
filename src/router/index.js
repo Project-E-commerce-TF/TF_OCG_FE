@@ -1,20 +1,68 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home",
+    meta: {
+      layout: "main",
+    },
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/index.vue"),
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: "/register",
+    name: "Register",
+    meta: {
+      layout: "auth",
+    },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+      import(/* webpackChunkName: "register" */ "../views/register.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    meta: {
+      layout: "auth",
+    },
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/login.vue"),
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    meta: {
+      layout: "personal",
+    },
+    component: () =>
+      import(/* webpackChunkName: "Profile" */ "../views/profile.vue"),
+  },
+  {
+    path: "/home",
+    name: "Home",
+    meta: {
+      layout: "main",
+    },
+    component: () =>
+      import(/* webpackChunkName: "Profile" */ "../views/mainLandingPage.vue"),
+  },
+  {
+    path: "/cart/0",
+    name: "CartEmpty",
+    meta: {
+      layout: "main",
+    },
+    component: () =>
+      import(/* webpackChunkName: "cartEmpty" */ "../views/cartEmpty.vue"),
+  },
+  {
+    path: "/category/:categoryName",
+    name: "category",
+    component: () =>
+      import(
+        /* webpackChunkName: "cartEmpty" */ "../components/CategoryBox.vue"
+      ),
+    props: true,
   },
 ];
 
