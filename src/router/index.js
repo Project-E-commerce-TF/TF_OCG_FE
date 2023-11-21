@@ -64,6 +64,15 @@ const routes = [
       ),
     props: true,
   },
+  {
+    path: "/products",
+    name: "products",
+    meta: {
+      layout: "main",
+    },
+    component: () =>
+      import(/* webpackChunkName: "home" */ "../views/productCollection.vue"),
+  },
 ];
 
 const router = createRouter({

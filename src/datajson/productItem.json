@@ -1,0 +1,56 @@
+[
+  {
+    "product_id": 1,
+    "img": "https://akko.vn/wp-content/uploads/2023/07/kit-ban-phim-Monsgeek-M3-QMK-247x247.png",
+    "title": "Kit bàn phím cơ MonsGeek M3 QMK (Full Nhôm – Mạch xuôi – QMK / VIA – PCB Stab)",
+    "price": 100
+  },
+  {
+    "product_id": 2,
+    "img": "https://akko.vn/wp-content/uploads/2020/03/10412-247x247.jpg",
+    "title": "KIT bàn phím AKKO ACR TOP 40 (Hotswap / RGB / Top-mount / South-Facing / QMK – VIA)",
+    "price": 200
+  },
+  {
+    "product_id": 3,
+    "img": "https://akko.vn/wp-content/uploads/2021/10/Kit-ban-phim-co-akko-designer-studio-mod003-ava-akkovn-247x247.jpg",
+    "title": "KIT bàn phím AKKO SPR67 – Gray (Full nhôm / Spring mount / Flex-cut / Mạch xuôi)",
+    "price": 300
+  },
+  {
+    "product_id": 4,
+    "img": "https://akko.vn/wp-content/uploads/2023/07/KIT-ban-phim-akko-ACR-TOP-40-01-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007v3 (Flex-cut / Gasket mount / South-Facing)",
+    "price": 400
+  },
+  {
+    "product_id": 5,
+    "img": "https://akko.vn/wp-content/uploads/2022/04/kit-ban-phim-co-akko-designer-studio-mod005-avatar-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007S Very Peri (South Facing / Mạch Xuôi)",
+    "price": 500
+  },
+  {
+    "product_id": 5,
+    "img": "https://akko.vn/wp-content/uploads/2022/04/kit-ban-phim-co-akko-designer-studio-mod005-avatar-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007S Very Peri (South Facing / Mạch Xuôi)",
+    "price": 500
+  },
+  {
+    "product_id": 5,
+    "img": "https://akko.vn/wp-content/uploads/2022/04/kit-ban-phim-co-akko-designer-studio-mod005-avatar-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007S Very Peri (South Facing / Mạch Xuôi)",
+    "price": 500
+  },
+  {
+    "product_id": 5,
+    "img": "https://akko.vn/wp-content/uploads/2022/04/kit-ban-phim-co-akko-designer-studio-mod005-avatar-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007S Very Peri (South Facing / Mạch Xuôi)",
+    "price": 500
+  },
+  {
+    "product_id": 5,
+    "img": "https://akko.vn/wp-content/uploads/2022/04/kit-ban-phim-co-akko-designer-studio-mod005-avatar-247x247.png",
+    "title": "Kit AKKO Designer Studio – MOD007S Very Peri (South Facing / Mạch Xuôi)",
+    "price": 500
+  }
+]
