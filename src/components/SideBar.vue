@@ -6,13 +6,13 @@
       <div>
         <div v-for="category in data" :key="category.id">
           <input
-            :id="category.category_id"
+            :id="category.categoryId"
             type="checkbox"
-            :value="category.value"
+            :value="category.handle"
             class="mr-2 mb-2.5"
-            @change="handleChecked($event, category.value)"
+            @change="handleChecked($event, category.handle)"
           />
-          <label :for="category.category_id" class="text-gray_footer">{{
+          <label :for="category.categoryId" class="text-gray_footer">{{
             category.name
           }}</label>
         </div>

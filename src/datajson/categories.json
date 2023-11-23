@@ -1,22 +1,22 @@
 [
   {
-    "category_id":1,
+    "categoryId":1,
     "name": "KIT Keyboard",
-    "value": "kit-keyboard"
+    "handle": "kit-keyboard"
   },
   {
-    "category_id":2,
+    "categoryId":2,
     "name": "Keycap",
-    "value": "keycap"
+    "handle": "keycap"
   },
   {
-    "category_id":3,
+    "categoryId":3,
     "name": "Switch",
-    "value": "switch"
+    "handle": "switch"
   },
   {
-    "category_id":4,
+    "categoryId":4,
     "name": "Plate",
-    "value": "plate"
+    "handle": "plate"
   }
 ]

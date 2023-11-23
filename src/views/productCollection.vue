@@ -5,7 +5,7 @@
       <SideBar />
     </div>
     <!-- list product -->
-    <div class="w-4/5 px-3 relative">
+    <div class="list_pro w-4/5 px-3 relative">
       <!-- sort -->
       <div class="absolute right-5 top-5">
         <span>Sort by</span>
@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="font-black text-gray_footer mb-3">{{ item.title }}</div>
-          <div class="text-2xl font-bold text-primary mb-4">
+          <div class="text-2xl font-bold text-primary mb-6">
             {{ item.price }}
           </div>
         </div>
@@ -96,6 +96,16 @@ const addToCart = () => {
   }
   .sidebar {
     display: none;
+  }
+  .list_pro {
+    width: 100%;
+  }
+  .product_item {
+    width: 100%;
+    padding: 0 15px;
+  }
+  .img_main {
+    width: 100%;
   }
 }
 </style>

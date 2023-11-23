@@ -47,7 +47,7 @@ const routes = [
       import(/* webpackChunkName: "Profile" */ "../views/mainLandingPage.vue"),
   },
   {
-    path: "/cart/0",
+    path: "/cart",
     name: "CartEmpty",
     meta: {
       layout: "main",
@@ -72,6 +72,19 @@ const routes = [
     },
     component: () =>
       import(/* webpackChunkName: "home" */ "../views/productCollection.vue"),
+  },
+  {
+    path: "/products/:id",
+    name: "variant",
+    meta: {
+      layout: "main",
+    },
+    component: () => import("../views/variantItem.vue"),
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "not_found",
+    component: () => import("../views/notFound.vue"),
   },
 ];
 
