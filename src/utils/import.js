@@ -17,4 +17,8 @@ export function registerGlobalComponents(app) {
     "main-layout",
     defineAsyncComponent(() => import("@/layouts/main"))
   );
+  app.component(
+    "order-layout",
+    defineAsyncComponent(() => import("@/layouts/order"))
+  );
 }

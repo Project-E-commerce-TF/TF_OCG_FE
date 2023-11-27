@@ -49,15 +49,6 @@ const routes = [
       ),
   },
   {
-    path: "/cart",
-    name: "CartEmpty",
-    meta: {
-      layout: "main",
-    },
-    component: () =>
-      import(/* webpackChunkName: "cartEmpty" */ "../views/cartEmpty.vue"),
-  },
-  {
     path: "/category/:categoryName",
     name: "Category",
     component: () =>
@@ -92,6 +83,46 @@ const routes = [
       layout: "default",
     },
     component: () => import("../views/addPhoneNumber.vue"),
+  },
+  {
+    path: "/pending",
+    name: "Pending",
+    meta: {
+      layout: "order",
+    },
+    component: () => import("../views/pending.vue"),
+  },
+  {
+    path: "/order-being-delivered",
+    name: "Order-being-delivered",
+    meta: {
+      layout: "order",
+    },
+    component: () => import("../views/orderBeingDelivered.vue"),
+  },
+  {
+    path: "/complete-the-order",
+    name: "Complete-the-order",
+    meta: {
+      layout: "order",
+    },
+    component: () => import("../views/completeTheOrder.vue"),
+  },
+  {
+    path: "/request-to-cancel-order",
+    name: "Request-to-cancel-order",
+    meta: {
+      layout: "order",
+    },
+    component: () => import("../views/requestToCancelOrder.vue"),
+  },
+  {
+    path: "/cancelled",
+    name: "Cancelled",
+    meta: {
+      layout: "order",
+    },
+    component: () => import("../views/cancelled.vue"),
   },
   // {
   //   path: "/:pathMatch(.*)*",

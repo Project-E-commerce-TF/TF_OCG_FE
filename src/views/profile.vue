@@ -1,6 +1,5 @@
 <template>
   <div class="flex w-3/4">
-    <!-- Start: info -->
     <div class="col w-1/5">
       <div class="flex justify-around container mx-auto px-8 pt-20">
         <div class="flex">
@@ -15,8 +14,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Start: menu -->
     <div class="col w-4/5">
       <div class="container mx-auto py-8 pr-60">
         <div class="grid grid-cols-1 py-3">

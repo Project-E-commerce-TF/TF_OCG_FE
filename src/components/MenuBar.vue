@@ -31,7 +31,7 @@
       </router-link>
     </div>
     <div class="text-center w-2/6 flex justify-end items-center gap-5 mr-4">
-      <router-link to="/user">
+      <router-link to="/profile">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_user.png')"

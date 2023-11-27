@@ -20,6 +20,8 @@ export default {
       40: "160px",
       full: "100%",
       img_landing: "568px",
+      "4/5": "80%",
+      "1/5": "20%",
     },
     minWidth: {
       100: "100px",
