@@ -9,11 +9,23 @@
       <!-- sort -->
       <div class="absolute right-5 top-5">
         <span>Sort by</span>
-        <select name="" id="" class="ml-2" @change="handleSort">
+        <select
+          name=""
+          id=""
+          class="ml-2"
+          @change="handleSort"
+          v-model="fieldSort"
+        >
           <option value="title">Title</option>
           <option value="price">Price</option>
         </select>
-        <select name="" id="" class="ml-2" @change="handleSort">
+        <select
+          name=""
+          id=""
+          class="ml-2"
+          @change="handleSort"
+          v-model="typeSort"
+        >
           <option value="asc">A -> Z</option>
           <option value="desc">Z -> A</option>
         </select>
@@ -26,7 +38,9 @@
           class="product_item w-1/5 min-w-200 mx-0.5"
         >
           <div class="mb-2 overflow-hidden relative cursor-pointer">
-            <router-link :to="{ name: `Login`, params: {} }">
+            <router-link
+              :to="{ name: `Variant`, params: { handle: item.handle } }"
+            >
               <img
                 :src="item.img"
                 alt=""
@@ -44,7 +58,9 @@
               />
             </div>
           </div>
-          <div class="font-black text-gray_footer mb-3">{{ item.title }}</div>
+          <div class="font-black text-gray_footer mb-3 min-h-24">
+            {{ item.title }}
+          </div>
           <div class="text-2xl font-bold text-primary mb-6">
             {{ item.price }}
           </div>
@@ -59,34 +75,45 @@
 <script setup>
 import Pagination from "@/components/Pagination.vue";
 import SideBar from "@/components/SideBar.vue";
-import productItem from "../datajson/productItem.json";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+// import { useRoute, useRouter } from "vue-router";
+import { computed, ref } from "vue";
+import store from "../store/index.js";
 
-const router = useRouter();
+// const route = useRoute();
+// const router = useRouter();
 const typeSort = ref("asc");
 const fieldSort = ref("title");
 
-const handleSort = (e) => {
-  const currentQuery = router.currentRoute.value.query;
-  typeSort.value = e.target.value == "asc" ? "asc" : "desc";
-  fieldSort.value = e.target.value == "title" ? "title" : "price";
+// async function getProducts(queryString) {
+//   const result = await fetchData(
+//     `${process.env.VUE_APP_URL}/product/search/list?${queryString}`
+//   );
+//   productItem.value = result;
+// }
+// getProducts();
 
-  router.push({
-    path: "/products",
-    query: {
-      ...currentQuery,
-      typeSort: typeSort.value,
-      fieldSort: fieldSort.value,
-    },
-  });
-};
+const productItem = computed(() => {
+  return store.state.productItem;
+});
 
 const addToCart = () => {
   //toast mess
   // add data to vue store
   alert("ok");
 };
+
+// watch([typeSort, fieldSort], async () => {
+//   const currentQuery = route.currentRoute.value.query;
+//   await router.push({
+//     path: "/products",
+//     query: {
+//       ...currentQuery,
+//       typeSort: typeSort.value,
+//       fieldSort: fieldSort.value,
+//     },
+//   });
+//   await store.dispatch("fetchProductItem");
+// });
 </script>
 
 <style scoped>
@@ -107,5 +134,8 @@ const addToCart = () => {
   .img_main {
     width: 100%;
   }
+}
+.min-h-24 {
+  min-height: 100px;
 }
 </style>

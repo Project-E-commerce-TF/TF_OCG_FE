@@ -42,6 +42,7 @@
         />
         <button
           class="add_button grow bg-primary text-white rounded-lg ml-2 font-bold"
+          @click="click"
         >
           Add to cart
         </button>

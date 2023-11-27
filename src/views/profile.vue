@@ -35,7 +35,7 @@
               id="fullName"
               class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white w-full"
               type="text"
-              placeholder="Lê Duy Cương"
+              placeholder="Example"
             />
           </div>
         </div>

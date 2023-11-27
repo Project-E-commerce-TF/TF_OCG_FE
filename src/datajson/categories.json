@@ -2,21 +2,25 @@
   {
     "categoryId":1,
     "name": "KIT Keyboard",
-    "handle": "kit-keyboard"
+    "handle": "kit-keyboard",
+    "image":"https://akko.vn/wp-content/uploads/2023/07/akko-5108s-Naraka-Blade-Point-01-247x247.png"
   },
   {
     "categoryId":2,
     "name": "Keycap",
-    "handle": "keycap"
+    "handle": "keycap",
+    "image":"https://akko.vn/wp-content/uploads/2022/06/akko-keycap-set-black-cyan-ava-247x247.png"
   },
   {
     "categoryId":3,
     "name": "Switch",
-    "handle": "switch"
+    "handle": "switch",
+    "image":"https://akko.vn/wp-content/uploads/2021/12/akko-cs-switch-lavender-purple-ava2-247x247.png"
   },
   {
     "categoryId":4,
-    "name": "Plate",
-    "handle": "plate"
+    "name": "Mouse",
+    "handle": "mouse",
+    "image":"https://akko.vn/wp-content/uploads/2021/11/Akko-Hamster-X-wireless-Momo-01-247x247.jpg"
   }
 ]

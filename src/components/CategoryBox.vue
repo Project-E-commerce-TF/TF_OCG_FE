@@ -1,23 +1,25 @@
 <!-- CategoryBox.vue -->
 <template>
-  <div class="bg-white shadow-md rounded-md p-6 m-4">
+  <div class="bg-white shadow-2xl rounded-md p-6 m-4">
     <div class="mt-4">
       <router-link
         :to="{
-          name: 'category',
-          params: { categoryName: category.categoryName },
+          // name: 'category',
+          // params: { categoryName: category.categoryName },
         }"
-        class="inline-block mt-2 px-4 py-2 text-white rounded-md"
+        class="inline-block mt-2 rounded-md"
       >
         <div class="aspect-w-16 aspect-h-9">
           <img
-            class="object-cover w-80 h-40 rounded-md"
-            :src="category.imageUrl"
+            class="object-cover w-80 rounded-md"
+            :src="category.image"
             alt="Category Image"
           />
         </div>
       </router-link>
-      <h5 class="text-xl font-semibold">{{ category.categoryName }}</h5>
+      <div class="text-xl font-semibold text-primary text-center">
+        {{ category.name }}
+      </div>
     </div>
   </div>
 </template>

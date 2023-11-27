@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="w-full h-img_landing relative">
+    <div class="w-full relative">
       <img
-        class="w-full h-img_landing top-0"
+        class="w-full h-auto top-0"
         :src="require('@/assets/images/landing_img.png')"
       />
     </div>
@@ -61,21 +61,23 @@
       <div class="row flex justify-around">
         <category-box
           v-for="category in categories"
-          :key="category.categoryName"
+          :key="category.categoryId"
           :category="category"
         />
       </div>
     </div>
   </div>
+  <ForgotPassword />
 </template>
 
 <script>
 import CategoryBox from "@/components/CategoryBox.vue";
-import categories from "@/datajson/categories.json"; // Thay đổi đường dẫn tới tệp JSON thực tế của bạn
-
+import categories from "@/datajson/categories.json";
+import ForgotPassword from "@/components/ForgotPassword.vue";
 export default {
   components: {
     CategoryBox,
+    ForgotPassword,
   },
   data() {
     return {

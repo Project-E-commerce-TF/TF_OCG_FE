@@ -50,10 +50,11 @@
         </div>
         <div class="row">
           <button
-            type="submit"
+            type="button"
             class="py-3 justify-center w-full bg-grey_white text-mouse_gray font-bold rounded-lg flex"
+            @click="onClick"
           >
-            Login or Sign up using
+            Login or Signup using
             <img
               src="../assets/images/logo_gg.png"
               alt="Logo"
@@ -82,21 +83,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import { useLogin } from "@/composables/useLogin";
-export default {
-  setup() {
-    const { error, isPending, login } = useLogin();
-    const router = useRoute();
-    const email = ref("");
-    const password = ref("");
-    async function onSubmit() {
-      await login(email.value, password.value);
-      if (!error.value) router.push({ name: "Home", params: {} });
-    }
-    return { email, password, error, isPending, onSubmit };
-  },
-};
+import { useLoginGoogle } from "@/composables/useLoginGoogle";
+
+const { error, isPending, login } = useLogin();
+const { loginGoogle } = useLoginGoogle();
+const router = useRouter(),
+  email = ref(""),
+  password = ref("");
+
+async function onSubmit() {
+  await login(email.value, password.value);
+  if (!error.value) router.push({ name: "Home" });
+}
+async function onClick() {
+  await loginGoogle();
+  if (!error.value) router.push({ name: "Home" });
+}
 </script>
