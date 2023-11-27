@@ -16,6 +16,7 @@ export default {
     height: {
       150: "600px",
       20: "80px",
+      5: "20px",
       25: "100px",
       40: "160px",
       full: "100%",
