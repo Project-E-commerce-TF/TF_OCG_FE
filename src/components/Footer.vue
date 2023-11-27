@@ -1,7 +1,9 @@
 <template>
-  <div class="h-15">
-    <div class="px-32 bg-grey_white flex flex-col h-150 justify-around">
-      <div class="row flex">
+  <div class="footer h-15">
+    <div
+      class="infoCompany px-32 bg-grey_white flex flex-col h-150 justify-around"
+    >
+      <div class="contact row flex">
         <div class="col w-2/6">
           <div class="row mb-16">
             <router-link to="/">
@@ -142,3 +144,10 @@
     </div>
   </div>
 </template>
+<style>
+@media screen and (max-width: 480px) {
+  .footer {
+    display: none;
+  }
+}
+</style>

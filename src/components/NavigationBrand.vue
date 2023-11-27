@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col pt-20">
+  <div class="flex flex-col pt-10">
     <div class="w-40 text-center mx-auto">
       <img
         :src="require('@/assets/images/logo.png')"

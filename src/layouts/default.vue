@@ -1,4 +1,4 @@
-<template><h1></h1></template>
+<template><slot /></template>
 
 <!-- <script>
 import MenuBar from "@/components/MenuBar.vue";

@@ -1,23 +1,38 @@
 import { ref } from "vue";
-import axios from "axios";
+import { fetchData } from "@/utils/axiosFetchApi";
+import { isValidEmail } from "@/utils/regexEmail";
+import { setLocalStorage } from "@/utils/localStorage";
+import Cookies from "js-cookie";
 
 const error = ref(null);
 const isPending = ref(false);
 
 async function login(email, password) {
-  isPending.value = true;
-  error.value = null;
   try {
-    const response = await axios.post("URL_BACKEND_GO/login", {
-      email,
-      password,
-    });
-
-    if (!response.data || response.status !== 200) {
-      throw new Error("Invalid login credentials");
+    if (!email || !password) {
+      error.value = "Please fill all fields";
+      return;
+    }
+    if (!isValidEmail(email)) {
+      error.value = "Email is not valid";
+      return;
     }
 
-    return response.data; // Hoặc xử lý dữ liệu phản hồi theo cách khác nếu cần thiết
+    isPending.value = true;
+    error.value = null;
+
+    const response = await fetchData(
+      `${process.env.VUE_APP_URL}/auth/login`,
+      "POST",
+      { email, password }
+    );
+    if (!response) {
+      throw new Error("Invalid login credentials");
+    }
+    Cookies.set("accessToken", response.accessToken, { expires: 1 / 24 });
+    Cookies.set("refreshToken", response.refreshToken, { expires: 1 });
+    setLocalStorage("infoUser", response);
+    return response;
   } catch (err) {
     console.error(err);
     error.value = err.message;

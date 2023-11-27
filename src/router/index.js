@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "Index",
     meta: {
       layout: "main",
     },
@@ -44,7 +44,9 @@ const routes = [
       layout: "main",
     },
     component: () =>
-      import(/* webpackChunkName: "Profile" */ "../views/mainLandingPage.vue"),
+      import(
+        /* webpackChunkName: "Landing page" */ "../views/mainLandingPage.vue"
+      ),
   },
   {
     path: "/cart",
@@ -57,35 +59,45 @@ const routes = [
   },
   {
     path: "/category/:categoryName",
-    name: "category",
+    name: "Category",
     component: () =>
       import(
-        /* webpackChunkName: "cartEmpty" */ "../components/CategoryBox.vue"
+        /* webpackChunkName: "category " */ "../components/CategoryBox.vue"
       ),
     props: true,
   },
   {
     path: "/products",
-    name: "products",
+    name: "Products",
     meta: {
       layout: "main",
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/productCollection.vue"),
+      import(
+        /* webpackChunkName: "product" */ "../views/productCollection.vue"
+      ),
   },
   {
-    path: "/products/:id",
-    name: "variant",
+    path: "/products/:handle",
+    name: "Variant",
     meta: {
       layout: "main",
     },
     component: () => import("../views/variantItem.vue"),
   },
   {
-    path: "/:pathMatch(.*)*",
-    name: "not_found",
-    component: () => import("../views/notFound.vue"),
+    path: "/phone",
+    name: "Phone",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/addPhoneNumber.vue"),
   },
+  // {
+  //   path: "/:pathMatch(.*)*",
+  //   name: "not_found",
+  //   component: () => import("../views/notFound.vue"),
+  // },
 ];
 
 const router = createRouter({

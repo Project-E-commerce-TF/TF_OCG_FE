@@ -1,21 +1,21 @@
 <template>
-  <div class="flex justify-between items-center h-28 border-b-8 border-primary">
-    <div class="w-1/6 text-center flex justify-center">
+  <div
+    class="header flex justify-between items-center h-28 border-b-8 border-primary"
+  >
+    <div class="w-1/6 text-center">
       <router-link to="/">
-        <button class="w-38 h-12 border-none bg-transparent">
-          <img
-            :src="require('@/assets/images/logo_header.png')"
-            alt="logo_brand"
-            class="w-full h-full object-cover"
-          />
-        </button>
+        <img
+          :src="require('@/assets/images/logo_header.png')"
+          alt="logo_brand"
+          class="w-full object-cover"
+        />
       </router-link>
     </div>
-    <div class="relative w-2/6 h-1/2 flex justify-center items-center">
+    <div class="relative w-2/6 flex justify-center items-center">
       <input
         type="text"
-        class="border border-gray-300 pl-10 pr-4 py-2 focus:outline-none focus:border-blue-500 w-full"
-        placeholder="Search for product, categories, etc..."
+        class="border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-md"
+        placeholder="Search for product..."
       />
 
       <router-link to="/search">
@@ -30,16 +30,7 @@
         </button>
       </router-link>
     </div>
-    <div class="text-center w-2/6 flex justify-between mx-20 items-center">
-      <router-link to="/language">
-        <button class="w-28 h-5 bg-transparent border-none">
-          <img
-            :src="require('@/assets/images/icon_language.png')"
-            alt="icon_search"
-            class="w-full h-full"
-          />
-        </button>
-      </router-link>
+    <div class="text-center w-2/6 flex justify-end items-center gap-5 mr-4">
       <router-link to="/user">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
@@ -76,7 +67,21 @@
           />
         </button>
       </router-link>
-      <div>AED 24.98</div>
     </div>
   </div>
 </template>
+<style>
+@media screen and (max-width: 480px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .header > div {
+    width: 100%;
+    margin: 3px 0;
+  }
+  .header > div:first-child {
+    display: none;
+  }
+}
+</style>

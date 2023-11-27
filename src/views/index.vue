@@ -2,6 +2,7 @@
   <div class="home">
     <div class="mt-6" v-if="user">
       {{ user.displayName }}
+      <h1>alo</h1>
     </div>
     <div v-else>User is not available.</div>
   </div>

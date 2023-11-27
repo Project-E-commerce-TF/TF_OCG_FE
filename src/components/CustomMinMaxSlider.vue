@@ -17,14 +17,27 @@
 <script setup>
 import Slider from "@vueform/slider";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const handleChange = (newValue) => {
-  value.value = newValue;
-};
-
+const router = useRouter();
 const value = ref([0, 5000000]);
 const min = 0;
 const max = 10000000;
+
+const handleChange = (newValue) => {
+  value.value = newValue;
+  const currentQuery = router.currentRoute.value.query;
+  console.log(value.value[0]);
+  console.log(value.value[1]);
+  router.push({
+    path: "/products",
+    query: {
+      ...currentQuery,
+      priceFrom: value.value[0],
+      priceTo: value.value[1],
+    },
+  });
+};
 </script>
 
 <style src="@vueform/slider/themes/default.css">

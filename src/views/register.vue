@@ -7,14 +7,14 @@
         @submit.prevent="onSubmit"
       >
         <div class="row">
-          <label class="flex flex-col" for="fullName">
-            <span class="font-semibold">Full Name</span>
+          <label class="flex flex-col" for="username">
+            <span class="font-semibold">Username</span>
             <input
-              id="fullName"
+              id="username"
               class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
               type="text"
               placeholder="Le Duy Cuong"
-              v-model="fullName"
+              v-model="username"
             />
           </label>
         </div>
@@ -45,6 +45,31 @@
           </label>
         </div>
         <div class="row">
+          <label class="flex flex-col" for="repeatPassword">
+            <span class="font-semibold">Repeat Password</span>
+            <input
+              id="repeatPassword"
+              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              type="password"
+              placeholder="Example"
+              v-model="repeatPassword"
+            />
+          </label>
+        </div>
+        <div class="row">
+          <label class="flex flex-col" for="phoneNumber">
+            <span class="font-semibold">Phone number</span>
+            <input
+              id="phoneNumber"
+              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              type="text"
+              placeholder="090xxxxxxx"
+              autocomplete="phoneNumber"
+              v-model="phoneNumber"
+            />
+          </label>
+        </div>
+        <div class="row">
           <button
             v-if="!isPending"
             type="submit"
@@ -62,17 +87,17 @@
         </div>
       </form>
 
-      <div v-if="error" class="text-left text-red-700 mt-4">
+      <div v-if="error" class="text-left text-red-700 mt-4 font-bold text-xl">
         <span>{{ error }}</span>
       </div>
 
       <!-- Start Direction -->
-      <div class="w-full text-center mt-6">
+      <div class="w-full text-center my-8 text-xl">
         <span class="font-semibold">I'm a already a member.</span>
         <span class="ml-1">
           <router-link
             :to="{ name: `Login`, params: {} }"
-            class="text-primary font-bold"
+            class="text-primary font-bold hover:text-amber-400"
             >Login</router-link
           >
         </span>
@@ -81,23 +106,26 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useSignUp } from "@/composables/useSignUp";
-import { useRoute } from "vue-router";
-export default {
-  setup() {
-    const { error, isPending, signup } = useSignUp();
-    const router = useRoute();
-    const fullName = ref("");
-    const email = ref("");
-    const password = ref("");
+import { useRouter } from "vue-router";
+const { error, isPending, signup } = useSignUp();
+const router = useRouter(),
+  username = ref(""),
+  email = ref(""),
+  password = ref(""),
+  phoneNumber = ref(""),
+  repeatPassword = ref("");
 
-    async function onSubmit() {
-      await signup(fullName.value, email.value, password.value);
-      if (!error.value) router.push({ name: "Home", params: {} });
-    }
-    return { fullName, email, password, error, isPending, onSubmit };
-  },
-};
+async function onSubmit() {
+  await signup(
+    username.value,
+    email.value,
+    password.value,
+    repeatPassword.value,
+    phoneNumber.value
+  );
+  if (!error.value) router.push({ name: "Login" });
+}
 </script>
