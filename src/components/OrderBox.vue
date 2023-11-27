@@ -5,7 +5,7 @@
         <div class="row flex justify-between border-b-2 pb-2">
           <div class="col">
             <div class="row font-bold">{{ order.status }}</div>
-            <div class="row font-bold">{{ order.orderDate }}</div>
+            <div class="row font-bold">{{ formattedOrderDate }}</div>
           </div>
           <div class="col font-bold">{{ order.shippingAddress }}</div>
           <div class="col">
@@ -25,25 +25,30 @@
               <div class="row font-bold">{{ orderDetailsLength }} Items</div>
             </div>
           </div>
-          <div class="col">
-            <div class="row font-bold">Total</div>
-            <div class="row"></div>
+          <div class="col flex flex-col justify-center">
+            <div class="row font-bold text-right">Total</div>
+            <div class="row font-bold text-2xl">
+              {{ order.totalPrice.toFixed(2) }} VND
+            </div>
           </div>
         </div>
       </div>
-      <div class="bg-grey_white flex flex-col justify-center items-center">
+      <router-link
+        to="/your-target-route"
+        class="bg-grey_white flex flex-col justify-center items-center"
+      >
         <img
           :src="require('@/assets/images/chevron-right.png')"
           alt="logo_brand"
           class="w-5 h-5 mx-3 object-cover"
         />
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 
 export default {
   props: {
@@ -54,6 +59,13 @@ export default {
   },
   setup(props) {
     const orderDetailsLength = ref(0);
+
+    const formattedOrderDate = computed(() => {
+      if (props.order && props.order.orderDate) {
+        return props.order.orderDate.substring(0, 10);
+      }
+      return "";
+    });
 
     watch(
       () => props.order,
@@ -67,6 +79,7 @@ export default {
 
     return {
       orderDetailsLength,
+      formattedOrderDate,
     };
   },
 };
