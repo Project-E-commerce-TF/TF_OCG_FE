@@ -33,7 +33,7 @@
       <!-- item -->
       <div class="flex flex-wrap justify-around mt-20">
         <div
-          v-for="item in productItem"
+          v-for="item in productList"
           :key="item.product_id"
           class="product_item w-1/5 min-w-200 mx-0.5"
         >
@@ -42,7 +42,7 @@
               :to="{ name: `Variant`, params: { handle: item.handle } }"
             >
               <img
-                :src="item.img"
+                :src="item.image"
                 alt=""
                 class="img_main rounded-lg hover:scale-125 transition-all"
               />
@@ -62,7 +62,7 @@
             {{ item.title }}
           </div>
           <div class="text-2xl font-bold text-primary mb-6">
-            {{ item.price }}
+            {{ numberToCurrencyVND(item.price) }}
           </div>
         </div>
       </div>
@@ -75,45 +75,51 @@
 <script setup>
 import Pagination from "@/components/Pagination.vue";
 import SideBar from "@/components/SideBar.vue";
-// import { useRoute, useRouter } from "vue-router";
-import { computed, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { computed, onMounted, ref, watch } from "vue";
 import store from "../store/index.js";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
-// const route = useRoute();
-// const router = useRouter();
+const route = useRoute();
+const router = useRouter();
 const typeSort = ref("asc");
 const fieldSort = ref("title");
 
-// async function getProducts(queryString) {
-//   const result = await fetchData(
-//     `${process.env.VUE_APP_URL}/product/search/list?${queryString}`
-//   );
-//   productItem.value = result;
-// }
-// getProducts();
+onMounted(async () => {
+  await store.dispatch("fetchProductList");
+  productList.value = store.state.productList;
+});
 
-const productItem = computed(() => {
-  return store.state.productItem;
+const productList = computed(() => {
+  return store.state.productList;
 });
 
 const addToCart = () => {
   //toast mess
   // add data to vue store
+  // call api add to cart
   alert("ok");
 };
 
-// watch([typeSort, fieldSort], async () => {
-//   const currentQuery = route.currentRoute.value.query;
-//   await router.push({
-//     path: "/products",
-//     query: {
-//       ...currentQuery,
-//       typeSort: typeSort.value,
-//       fieldSort: fieldSort.value,
-//     },
-//   });
-//   await store.dispatch("fetchProductItem");
-// });
+watch(
+  [typeSort, fieldSort],
+  async () => {
+    const currentQuery = route.query;
+    // router.push là hàm bất đồng bộ, await thì route.query mới lấy đc giá trị mới nhất
+    await router.push({
+      path: "/products",
+      query: {
+        ...currentQuery,
+        typeSort: typeSort.value,
+        fieldSort: fieldSort.value,
+      },
+    });
+    const updateCurrentQuery = route.query;
+
+    await store.dispatch("fetchProductList", updateCurrentQuery);
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>

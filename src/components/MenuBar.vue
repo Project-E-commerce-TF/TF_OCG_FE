@@ -16,6 +16,7 @@
         type="text"
         class="border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-md"
         placeholder="Search for product..."
+        v-model="searchText"
       />
 
       <router-link to="/search">
@@ -70,6 +71,29 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import store from "../store/index.js";
+
+const router = useRouter();
+const route = useRoute();
+const searchText = ref("");
+
+watch(searchText, async () => {
+  console.log(1);
+  const currentQuery = route.query;
+  await router.push({
+    path: "/products",
+    query: { ...currentQuery, searchText: searchText.value },
+  });
+
+  const updateCurrentQuery = route.query;
+  await store.dispatch("fetchProductList", updateCurrentQuery);
+});
+</script>
+
 <style>
 @media screen and (max-width: 480px) {
   .header {

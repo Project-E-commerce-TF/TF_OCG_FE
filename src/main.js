@@ -7,12 +7,11 @@ import "./assets/style/global.css";
 import { registerGlobalComponents } from "./utils/import";
 import VueAwesomePaginate from "vue-awesome-paginate";
 import Cookies from "js-cookie";
-import { refreshAccessToken } from "./utils/axiosFetchApi";
 
 const app = createApp(App);
+const axios = require("axios");
 
 registerGlobalComponents(app);
-const axios = require("axios");
 
 axios.interceptors.request.use(
   (config) => {
@@ -36,8 +35,28 @@ axios.interceptors.response.use(
       originalRequest._retry = true;
       const refreshToken = Cookies.get("refreshToken");
       originalRequest.headers["Authorization"] = `Bearer ${refreshToken}`;
-      refreshAccessToken();
-      return axios(originalRequest);
+      try {
+        // Make an API call to refresh the access token
+        const response = await axios.post(
+          "http://localhost:8080/refreshToken",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+
+        // If the API call is successful, update the access token in the original request and retry it
+        if (response.status === 200) {
+          const newAccessToken = response.data.accessToken;
+          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return axios(originalRequest);
+        }
+      } catch (err) {
+        // Handle the error from the API call
+        console.error(err);
+      }
     }
     return Promise.reject(error);
   }
