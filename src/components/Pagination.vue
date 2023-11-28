@@ -11,23 +11,37 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-
-const totalItem = ref(100);
-const itemPerPage = ref(16);
-const currentPage = ref(1);
+import { computed, onMounted, ref, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import store from "../store/index.js";
 
 const router = useRouter();
+const route = useRoute();
+const itemPerPage = ref(10);
+const currentPage = ref(1);
 
-const onClickHandler = () => {
-  const currentQuery = router.currentRoute.value.query;
+onMounted(async () => {
+  await store.dispatch("fetchProductList");
+  totalItem.value = store.state.totalItems;
+});
 
-  router.push({
-    path: "/products",
-    query: { ...currentQuery, page: currentPage.value },
-  });
-};
+const totalItem = computed(() => store.state.totalItems);
+
+watch(
+  currentPage,
+  async () => {
+    const currentQuery = route.query;
+
+    await router.push({
+      path: "/products",
+      query: { ...currentQuery, page: currentPage.value },
+    });
+
+    const updateCurrentQuery = route.query;
+    await store.dispatch("fetchProductList", updateCurrentQuery);
+  },
+  { immediate: true }
+);
 </script>
 
 <style>

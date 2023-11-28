@@ -1,29 +1,32 @@
 import { createStore } from "vuex";
-import { useRouter } from "vue-router";
+import {} from "vue-router";
 import { fetchData } from "@/utils/axiosFetchApi";
-const router = useRouter();
 
 export default createStore({
-  state: { productItem: [] },
+  state: { productList: [], totalItems: 0 },
 
   getters: {},
 
   mutations: {
-    setProductItem(state, productItem) {
-      state.productItem = productItem;
+    setProductList(state, productList) {
+      console.log(
+        "🚀 ~ file: index.js:12 ~ setProductList ~ productList:",
+        productList.products
+      );
+      state.productList = productList.products;
+      state.totalItems = productList.totalItems;
     },
   },
 
   actions: {
-    async fetchProductItem({ commit }) {
-      const currentQuery = router.currentRoute.value.query;
-      const queryString = new URLSearchParams(currentQuery).toString();
+    async fetchProductList({ commit }, obj) {
+      const queryString = new URLSearchParams(obj).toString();
+
       const result = await fetchData(
         `${process.env.VUE_APP_URL}/product/search/list?${queryString}`
       );
-      commit("setProductItem", result);
+      commit("setProductList", result);
     },
   },
-
   modules: {},
 });

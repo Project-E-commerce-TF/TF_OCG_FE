@@ -58,7 +58,7 @@ const routes = [
       import(/* webpackChunkName: "cartEmpty" */ "../views/cartEmpty.vue"),
   },
   {
-    path: "/category/:categoryName",
+    path: "/category/:handle",
     name: "Category",
     component: () =>
       import(
