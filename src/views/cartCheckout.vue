@@ -20,7 +20,46 @@
     <div>
       <!-- <div class="total-items">Total Items: {{ totalItems }}</div>
       <div class="total-price">Total Price: ${{ totalPrice.toFixed(2) }}</div>
-      <button @click="checkout" class="checkout-btn">Checkout</button> -->
+       -->
+      <div class="row">Order Summary</div>
+      <div class="row">
+        <img
+          :src="require('@/assets/images/oto.png')"
+          alt="oto"
+          class="w-5 h-5 mx-3 object-cover"
+        />
+        <div class="col">Yay! Free shipping available on this order.</div>
+      </div>
+      <div class="row">
+        <div class="col">Item Total ({{ totalItems }} items)</div>
+        <div class="col">{{ totalPrice.toFixed(2) }}</div>
+      </div>
+      <div class="row">
+        <div class="col">Discount</div>
+        <div class="col"></div>
+      </div>
+      <router-link to="/">
+        <button class="w-38 h-12 border-none bg-transparent">
+          <img
+            :src="require('@/assets/images/logo_header.png')"
+            alt="logo_brand"
+            class="w-full h-full object-cover"
+          />
+        </button>
+      </router-link>
+      <div class="row">
+        <div class="col">
+          <div class="row">Grand Total</div>
+          <div class="row">(Inclusive of Taxes)</div>
+        </div>
+        <div class="col">
+          <div class="row">{{ totalPrice.toFixed(2) }}</div>
+          <div class="row">You Saved AED {{}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <button @click="checkout" class="checkout-btn">Checkout</button>
+      </div>
     </div>
   </div>
 </template>
