@@ -124,6 +124,14 @@ const routes = [
     },
     component: () => import("../views/cancelled.vue"),
   },
+  {
+    path: "/cart",
+    name: "Cart",
+    meta: {
+      layout: "cart",
+    },
+    component: () => import("../views/cartCheckout.vue"),
+  },
   // {
   //   path: "/:pathMatch(.*)*",
   //   name: "not_found",

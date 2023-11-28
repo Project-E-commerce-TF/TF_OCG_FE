@@ -2,9 +2,9 @@
   <div class="flex">
     <div class="cart p-6 w-3/5">
       <div class="w-full flex justify-between">
-        <div class="col w-1/2">Product</div>
-        <div class="col w-1/4 flex justify-center pr-6">Quantity</div>
-        <div class="col w-1/8 mr-24">Total</div>
+        <div class="col w-1/2 font-bold">Product</div>
+        <div class="col w-1/4 flex justify-center pr-6 font-bold">Quantity</div>
+        <div class="col w-1/8 flex justify-center mr-24 font-bold">Total</div>
       </div>
       <div v-if="cartItems && cartItems.length > 0">
         <div v-if="cartItems.length === 0">Your cart is empty.</div>
@@ -17,48 +17,82 @@
       </div>
       <div v-else>Loading...</div>
     </div>
-    <div>
-      <!-- <div class="total-items">Total Items: {{ totalItems }}</div>
-      <div class="total-price">Total Price: ${{ totalPrice.toFixed(2) }}</div>
-       -->
-      <div class="row">Order Summary</div>
-      <div class="row">
+    <div class="py-6 px-16 bg-gray_rectangle w-2/5">
+      <div class="row text-right border-b-4 border-primary font-bold pb-2">
+        Order Summary
+      </div>
+      <div class="row flex items-center my-4">
         <img
           :src="require('@/assets/images/oto.png')"
           alt="oto"
-          class="w-5 h-5 mx-3 object-cover"
+          class="w-10 h-full mx-3 object-cover"
         />
-        <div class="col">Yay! Free shipping available on this order.</div>
+        <div class="col font-bold">
+          Yay! Free shipping available on this order.
+        </div>
       </div>
-      <div class="row">
-        <div class="col">Item Total ({{ totalItems }} items)</div>
-        <div class="col">{{ totalPrice.toFixed(2) }}</div>
+      <div class="row flex justify-between my-4">
+        <div class="col text-primary font-bold">
+          Item Total ({{ totalItems }} items)
+        </div>
+        <div class="col font-bold">{{ totalPrice.toFixed(2) }}</div>
       </div>
-      <div class="row">
-        <div class="col">Discount</div>
-        <div class="col"></div>
+      <div class="row flex justify-between my-4">
+        <div class="col font-bold">Discount</div>
+        <div class="col font-bold"></div>
       </div>
-      <router-link to="/">
-        <button class="w-38 h-12 border-none bg-transparent">
-          <img
-            :src="require('@/assets/images/logo_header.png')"
-            alt="logo_brand"
-            class="w-full h-full object-cover"
-          />
+      <div class="col">Your Location</div>
+      <div class="flex items-stretch">
+        <select
+          name=""
+          id=""
+          class="text-lg rounded-lg w-full h-2 p-5 text-primary border-gray_footer border-solid border"
+          v-model="selectedProvince"
+        >
+          <option value="" disabled selected>Please Choose...</option>
+          <option
+            v-for="province in provinces"
+            :value="province.provinceId"
+            :key="province.provinceId"
+            class="text-lg w-full text-primary"
+          >
+            {{ province.provinceName }}
+          </option>
+        </select>
+      </div>
+      <div class="relative my-4">
+        <input
+          type="text"
+          class="border border-gray-300 pl-4 pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
+          placeholder="Coupon code"
+        />
+        <button
+          class="absolute right-0 top-0 bg-primary text-white px-8 py-2 rounded-lg font-bold"
+        >
+          Apply
         </button>
-      </router-link>
-      <div class="row">
+      </div>
+      <div class="row my-4 flex justify-between">
         <div class="col">
-          <div class="row">Grand Total</div>
-          <div class="row">(Inclusive of Taxes)</div>
+          <div class="row font-bold text-grand_totle text-xl">Grand Total</div>
+          <div class="row font-bold text-grand_totle text-xl">
+            (Inclusive of Taxes)
+          </div>
         </div>
         <div class="col">
-          <div class="row">{{ totalPrice.toFixed(2) }}</div>
-          <div class="row">You Saved AED {{}}</div>
+          <div class="row text-right text-xl font-bold">
+            {{ totalPrice.toFixed(2) }}
+          </div>
+          <div class="row text-right text-sm text-save">You Saved AED {{}}</div>
         </div>
       </div>
-      <div class="row">
-        <button @click="checkout" class="checkout-btn">Checkout</button>
+      <div class="flex justify-center">
+        <button
+          @click="checkout"
+          class="checkout-btn border-2 py-2 px-4 rounded-lg bg-save font-bold text-white"
+        >
+          Continue
+        </button>
       </div>
     </div>
   </div>

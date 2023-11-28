@@ -11,6 +11,8 @@ export default {
         gray_footer: "#979999",
         gray_rectangle: "#F9F9FB",
         gray_sidebar: "#f9f9fb",
+        grand_totle: "#29367C",
+        save: "#64A759",
       },
     },
     height: {
