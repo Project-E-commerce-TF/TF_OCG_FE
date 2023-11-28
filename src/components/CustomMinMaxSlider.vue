@@ -16,28 +16,38 @@
 
 <script setup>
 import Slider from "@vueform/slider";
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import store from "../store/index.js";
 
 const router = useRouter();
-const value = ref([0, 5000000]);
+const route = useRoute();
+const value = ref([0, 2500000]);
 const min = 0;
-const max = 10000000;
+const max = 5000000;
 
 const handleChange = (newValue) => {
   value.value = newValue;
-  const currentQuery = router.currentRoute.value.query;
-  console.log(value.value[0]);
-  console.log(value.value[1]);
-  router.push({
-    path: "/products",
-    query: {
-      ...currentQuery,
-      priceFrom: value.value[0],
-      priceTo: value.value[1],
-    },
-  });
 };
+
+watch(
+  value,
+  async () => {
+    const currentQuery = route.query;
+    await router.push({
+      path: "/products",
+      query: {
+        ...currentQuery,
+        priceFrom: value.value[0],
+        priceTo: value.value[1],
+      },
+    });
+
+    const updateCurrentQuery = route.query;
+    await store.dispatch("fetchProductList", updateCurrentQuery);
+  },
+  { deep: true }
+);
 </script>
 
 <style src="@vueform/slider/themes/default.css">

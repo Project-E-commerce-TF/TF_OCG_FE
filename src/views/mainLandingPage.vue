@@ -53,39 +53,33 @@
         </div>
       </div>
     </div>
-    <div class="w-full h-[550px] mt-36">
+    <div class="w-full mt-36">
       <div class="row font-bold text-center text-4xl">Shop by category</div>
       <div class="row text-center text-2xl mt-7">
-        Pick the catogory you are looking for and start shopping now!
+        Pick the category you are looking for and start shopping now!
       </div>
-      <div class="row flex justify-around">
+      <div class="row flex justify-around flex-wrap">
         <category-box
-          v-for="category in categories"
-          :key="category.categoryId"
-          :category="category"
+          v-for="cate in category"
+          :key="cate.categoryId"
+          :category="cate"
         />
       </div>
     </div>
   </div>
-  <ForgotPassword />
 </template>
 
-<script>
+<script setup>
 import CategoryBox from "@/components/CategoryBox.vue";
-import categories from "@/datajson/categories.json";
-import ForgotPassword from "@/components/ForgotPassword.vue";
-export default {
-  components: {
-    CategoryBox,
-    ForgotPassword,
-  },
-  data() {
-    return {
-      categories: [],
-    };
-  },
-  created() {
-    this.categories = categories;
-  },
-};
+import { fetchData } from "@/utils/axiosFetchApi";
+import { onMounted, ref } from "vue";
+
+const category = ref([]);
+
+onMounted(async () => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/category?page=1&pageSize=10`
+  );
+  category.value = res.categories;
+});
 </script>

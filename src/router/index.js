@@ -49,7 +49,16 @@ const routes = [
       ),
   },
   {
-    path: "/category/:categoryName",
+    path: "/cart",
+    name: "CartEmpty",
+    meta: {
+      layout: "main",
+    },
+    component: () =>
+      import(/* webpackChunkName: "cartEmpty" */ "../views/cartCheckout.vue"),
+  },
+  {
+    path: "/category/:handle",
     name: "Category",
     component: () =>
       import(

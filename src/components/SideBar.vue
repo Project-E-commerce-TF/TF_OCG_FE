@@ -26,26 +26,36 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import data from "../datajson/categories";
 import CustomMinMaxSlider from "./CustomMinMaxSlider.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import store from "../store/index.js";
 
 const router = useRouter();
+const route = useRoute();
 const cateList = ref([]);
 
 const handleChecked = (e, value) => {
-  const currentQuery = router.currentRoute.value.query;
-
   e.target.checked
     ? cateList.value.push(value)
     : (cateList.value = cateList.value.filter((cate) => cate != value));
-
-  router.push({
-    path: "/products",
-    query: { ...currentQuery, category: cateList.value.join() },
-  });
 };
+
+watch(
+  cateList,
+  async () => {
+    const currentQuery = route.query;
+    await router.push({
+      path: "/products",
+      query: { ...currentQuery, category: cateList.value.join() },
+    });
+
+    const updateCurrentQuery = route.query;
+    await store.dispatch("fetchProductList", updateCurrentQuery);
+  },
+  { deep: true }
+);
 </script>
 
 <style lang="scss" scoped></style>
