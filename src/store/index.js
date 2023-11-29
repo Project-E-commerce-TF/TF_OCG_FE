@@ -9,10 +9,6 @@ export default createStore({
 
   mutations: {
     setProductList(state, productList) {
-      console.log(
-        "🚀 ~ file: index.js:12 ~ setProductList ~ productList:",
-        productList.products
-      );
       state.productList = productList.products;
       state.totalItems = productList.totalItems;
     },

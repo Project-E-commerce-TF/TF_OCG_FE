@@ -58,7 +58,7 @@
       <div class="row text-center text-2xl mt-7">
         Pick the category you are looking for and start shopping now!
       </div>
-      <div class="row flex justify-around flex-wrap">
+      <div class="row flex gap-10 flex-wrap pl-[110px]">
         <category-box
           v-for="cate in category"
           :key="cate.categoryId"
