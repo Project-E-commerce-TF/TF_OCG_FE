@@ -31,6 +31,7 @@
           type="text"
           min="1"
           class="w-12 text-center"
+          @input="updateQuantity"
         />
         <button @click="increment" class="px-2 py-1 bg-gray-300">+</button>
       </div>
@@ -49,46 +50,67 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import axios from "axios";
+import { ref, watch, onMounted } from "vue";
+import { fetchData } from "@/utils/axiosFetchApi";
 
 export default {
   props: {
     cart: Object,
   },
   setup(props, { emit }) {
-    console.log(props.cart);
-
     const quantity = ref(
       props.cart.quantity !== undefined ? Math.max(1, props.cart.quantity) : 1
     );
+
     const updateQuantity = async () => {
       try {
-        const response = await axios.put(
-          `/api/cart/update-cart-item/${props.cart.productId}`,
-          {
-            quantity: quantity.value,
-          }
+        const response = await fetchData(
+          `${process.env.VUE_APP_URL}/cart/update-cart-item/${props.cart.productId}?quantity=${quantity.value}`,
+          "PUT"
         );
         emit("quantity-updated", response.data);
       } catch (error) {
         console.error("Error updating quantity:", error);
+
+        if (error.response) {
+          console.log("Backend response data:", error.response.data);
+
+          if (
+            error.response.data &&
+            error.response.data.error === "Invalid quantity"
+          ) {
+            console.error("Invalid quantity. Please enter a valid quantity.");
+          } else {
+            console.error("An unexpected error occurred:", error.response.data);
+          }
+        }
       }
     };
 
     const decrement = () => {
       if (quantity.value > 1) {
         quantity.value--;
-        updateQuantity();
       }
     };
 
     const increment = () => {
       quantity.value++;
-      updateQuantity();
     };
 
-    return { quantity, decrement, increment };
+    watch(
+      () => quantity.value,
+      () => {
+        updateQuantity();
+      }
+    );
+
+    onMounted(() => {
+      fetchDataForComponent();
+    });
+
+    const fetchDataForComponent = async () => {};
+
+    return { quantity, decrement, increment, updateQuantity };
   },
 };
 </script>

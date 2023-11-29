@@ -52,10 +52,10 @@ const routes = [
     path: "/cart",
     name: "CartEmpty",
     meta: {
-      layout: "main",
+      layout: "cart",
     },
     component: () =>
-      import(/* webpackChunkName: "cartEmpty" */ "../views/cartCheckout.vue"),
+      import(/* webpackChunkName: "CartEmpty" */ "../views/cartCheckout.vue"),
   },
   {
     path: "/category/:handle",

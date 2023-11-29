@@ -9,6 +9,7 @@ export async function fetchData(
   headers = {}
 ) {
   try {
+    console.log("Request method:", method);
     const response = await axios({
       method: method,
       url: url,
