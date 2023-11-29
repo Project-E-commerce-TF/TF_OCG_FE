@@ -166,6 +166,15 @@ const routes = [
     },
     component: () => import("../views/addProduct.vue"),
   },
+  {
+    path: "/map",
+    name: "Map",
+    meta: {
+      layout: "main",
+    },
+    component: () => import("../views/map.vue"),
+  },
+
   // {
   //   path: "/:pathMatch(.*)*",
   //   name: "not_found",

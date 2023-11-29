@@ -1,3 +1,5 @@
+MenuBar
+
 <template>
   <div
     class="header flex justify-between items-center h-28 border-b-8 border-primary"
@@ -41,7 +43,7 @@
           />
         </button>
       </router-link>
-      <router-link to="/location">
+      <router-link to="/map">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_location.png')"
