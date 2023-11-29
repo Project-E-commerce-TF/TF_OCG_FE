@@ -174,6 +174,14 @@ const routes = [
     },
     component: () => import("../views/map.vue"),
   },
+  {
+    path: "/orderdetail",
+    name: "OrderDetail",
+    meta: {
+      layout: "personal",
+    },
+    component: () => import("../views/orderDetail.vue"),
+  },
 
   // {
   //   path: "/:pathMatch(.*)*",

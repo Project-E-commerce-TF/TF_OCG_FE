@@ -335,12 +335,20 @@ const handleCheckout = async () => {
       return;
     }
 
+    // Kiểm tra dữ liệu trước khi gửi request
+    if (totalItems.value <= 0 || totalPrices.value <= 0) {
+      console.error("Invalid total items or total prices");
+      return;
+    }
+
     // Tạo một đối tượng payload
     const payload = {
       shippingAddress: shippingAddress.value,
       provinceId: selectedProvince.value,
-      discountCode: discountCode.value || "", // Nếu discountCode không có, truyền giá trị trống
-
+      totalQuantity: totalItems.value,
+      totalPrice: totalPrices.value,
+      grandTotal: calculateTotalPrice.value,
+      discountAmount: calculateSavings.value,
       // Có thể bạn cần thêm các thông tin khác của payload tại đây nếu cần
     };
 
@@ -351,11 +359,13 @@ const handleCheckout = async () => {
       payload
     );
 
-    if (response) {
+    if (response && response.success) {
+      // Thực hiện các bước xử lý sau khi thanh toán thành công
       alertMessage.value = "Checkout successfully!";
-      // Chuyển hướng sang router /products sau khi thanh toán thành công
+      // Chuyển hướng sau khi thanh toán thành công
       router.push("/products");
     } else {
+      // Hiển thị thông báo lỗi nếu có
       console.error("Lỗi trong quá trình thanh toán:", response);
     }
   } catch (error) {

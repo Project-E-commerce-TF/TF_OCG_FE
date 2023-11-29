@@ -34,7 +34,7 @@
         </div>
       </div>
       <router-link
-        to="/your-target-route"
+        to="/orderdetail"
         class="bg-grey_white flex flex-col justify-center items-center"
       >
         <img
