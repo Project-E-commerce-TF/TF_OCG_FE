@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div v-if="cartItems && cartItems.length > 0" class="cart p-6 w-3/5">
+    <div v-if="cartItems && cartItems.length > 0" class="cart p-6 w-full flex">
       <div class="cart p-6 w-3/5">
         <div class="w-full flex justify-between">
           <div class="col w-1/2 font-bold">Product</div>
@@ -15,6 +15,7 @@
             :key="item.cartId"
             :cart="item"
             @quantity-updated="updateCart"
+            @remove-from-cart="handleRemoveFromCart"
           />
         </div>
         <div v-else>
@@ -77,7 +78,6 @@
         >
           Shipping Fee: {{ shippingFee }}
         </div>
-        {{ console.log("Shipping Fee Value:", shippingFee) }}
         <div class="my-4">
           <input
             v-model="shippingAddress"
@@ -139,6 +139,9 @@
       <cart-empty></cart-empty>
     </div>
   </div>
+  <div v-if="alertMessage" class="alert-message font-bold">
+    {{ alertMessage }}
+  </div>
 </template>
 
 <script setup>
@@ -148,7 +151,7 @@ import CartBox from "@/components/CartBox.vue";
 import CartEmpty from "@/components/CartEmpty.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-
+const alertMessage = ref(null);
 const cartItems = ref([]);
 const totalItems = ref(0);
 const totalPrices = ref(0);
@@ -162,16 +165,6 @@ const shippingAddress = ref("");
 const discountedTotalPrices = ref(0);
 const discountCodeError = ref(null);
 const showWarningMessage = ref(false);
-
-// Watch for changes in appliedDiscount and update the template accordingly
-watch(appliedDiscount, (newDiscount) => {
-  console.log("Applied Discount changed:", newDiscount);
-});
-
-// Thêm biến watch để theo dõi giá trị thay đổi của shippingFee
-watch(shippingFee, (newShippingFee) => {
-  console.log("Shipping Fee (watch):", newShippingFee);
-});
 
 watch([totalPrices, shippingFee], () => {
   discountedTotalPrices.value = totalPrices.value;
@@ -263,13 +256,28 @@ const fetchShippingFee = async () => {
 
       if (response && response.shippingFee !== undefined) {
         shippingFee.value = parseFloat(response.shippingFee);
-        console.log("Shipping Fee:", shippingFee.value);
       } else {
         console.error("Invalid response format:", response);
       }
     }
   } catch (error) {
     console.error("Error fetching shipping fee:", error);
+  }
+};
+
+const handleRemoveFromCart = async (productId) => {
+  try {
+    const response = await fetchData(
+      `${process.env.VUE_APP_URL}/cart/remove-cart-item/${productId}`,
+      "DELETE"
+    );
+    if (response) {
+      await updateCart();
+    } else {
+      console.error("Invalid response format:", response);
+    }
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
   }
 };
 
@@ -287,9 +295,6 @@ const applyDiscount = async () => {
       const response = await fetchData(
         `${process.env.VUE_APP_URL}/discount/get-discount/get-by-code?discountCode=${discountCode.value}`
       );
-
-      console.log("Discount API Response:", response);
-
       if (response) {
         appliedDiscount.value = response;
         // Lấy giá ban đầu từ biến tạm
@@ -339,8 +344,6 @@ const handleCheckout = async () => {
       // Có thể bạn cần thêm các thông tin khác của payload tại đây nếu cần
     };
 
-    console.log("Payload:", payload);
-
     // Gọi API với payload đã tạo
     const response = await fetchData(
       `${process.env.VUE_APP_URL}/order/checkout`,
@@ -348,9 +351,8 @@ const handleCheckout = async () => {
       payload
     );
 
-    console.log("Phản hồi thanh toán:", response);
-
-    if (response && response.success) {
+    if (response) {
+      alertMessage.value = "Checkout successfully!";
       // Chuyển hướng sang router /products sau khi thanh toán thành công
       router.push("/products");
     } else {
@@ -361,3 +363,22 @@ const handleCheckout = async () => {
   }
 };
 </script>
+<style scoped>
+.alert-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: rgba(0, 37, 68, 0.8);
+  color: white;
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.alert-message.hide {
+  opacity: 0;
+}
+</style>

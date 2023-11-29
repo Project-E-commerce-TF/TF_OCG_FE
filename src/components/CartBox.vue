@@ -39,13 +39,16 @@
     <div class="col w-1/8 font-bold">
       Total: ${{ (cart.productDetail?.price ?? 0) * quantity }}
     </div>
-    <div class="col w-1/8 bg-grey_white h-full flex justify-center py-14">
+    <button
+      @click="() => $emit('remove-from-cart', cart.productDetail.productId)"
+      class="col w-1/8 bg-grey_white h-full flex justify-center py-14"
+    >
       <img
         :src="require('@/assets/images/x.png')"
         alt="logo_brand"
         class="w-1/2 object-cover"
       />
-    </div>
+    </button>
   </div>
 </template>
 
