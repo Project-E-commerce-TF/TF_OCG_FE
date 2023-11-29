@@ -31,7 +31,7 @@
         </select>
       </div>
       <!-- item -->
-      <div class="flex flex-wrap justify-around mt-20">
+      <div class="flex flex-wrap mt-20 gap-6">
         <div
           v-for="item in productList"
           :key="item.product_id"
@@ -95,8 +95,7 @@ const productList = computed(() => {
 });
 
 const addToCart = () => {
-  //toast mess
-  // add data to vue store
+  // toast mess
   // call api add to cart
   alert("ok");
 };
@@ -115,7 +114,6 @@ watch(
       },
     });
     const updateCurrentQuery = route.query;
-
     await store.dispatch("fetchProductList", updateCurrentQuery);
   },
   { immediate: true }

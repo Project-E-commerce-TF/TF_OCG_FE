@@ -29,6 +29,15 @@ const routes = [
       import(/* webpackChunkName: "login" */ "../views/login.vue"),
   },
   {
+    path: "/login-dashboard",
+    name: "LoginDashboard",
+    meta: {
+      layout: "auth",
+    },
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/loginDashboard.vue"),
+  },
+  {
     path: "/profile",
     name: "Profile",
     meta: {
@@ -140,6 +149,22 @@ const routes = [
       layout: "cart",
     },
     component: () => import("../views/cartCheckout.vue"),
+  },
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/dashBoard.vue"),
+  },
+  {
+    path: "/add-product",
+    name: "AddProduct",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/addProduct.vue"),
   },
   // {
   //   path: "/:pathMatch(.*)*",
