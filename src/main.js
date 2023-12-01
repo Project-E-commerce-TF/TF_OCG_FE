@@ -1,3 +1,4 @@
+// Other imports and configurations for your Vue app
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";

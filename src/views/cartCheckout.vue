@@ -151,7 +151,6 @@ import CartBox from "@/components/CartBox.vue";
 import CartEmpty from "@/components/CartEmpty.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const alertMessage = ref(null);
 const cartItems = ref([]);
 const totalItems = ref(0);
 const totalPrices = ref(0);
@@ -165,6 +164,7 @@ const shippingAddress = ref("");
 const discountedTotalPrices = ref(0);
 const discountCodeError = ref(null);
 const showWarningMessage = ref(false);
+const alertMessage = ref(null);
 
 watch([totalPrices, shippingFee], () => {
   discountedTotalPrices.value = totalPrices.value;
@@ -349,23 +349,20 @@ const handleCheckout = async () => {
       totalPrice: totalPrices.value,
       grandTotal: calculateTotalPrice.value,
       discountAmount: calculateSavings.value,
-      // Có thể bạn cần thêm các thông tin khác của payload tại đây nếu cần
     };
 
-    // Gọi API với payload đã tạo
     const response = await fetchData(
       `${process.env.VUE_APP_URL}/order/checkout`,
       "POST",
       payload
     );
 
-    if (response && response.success) {
-      // Thực hiện các bước xử lý sau khi thanh toán thành công
+    if (response) {
       alertMessage.value = "Checkout successfully!";
-      // Chuyển hướng sau khi thanh toán thành công
-      router.push("/products");
+      setTimeout(() => {
+        router.push("/products");
+      }, 1000);
     } else {
-      // Hiển thị thông báo lỗi nếu có
       console.error("Lỗi trong quá trình thanh toán:", response);
     }
   } catch (error) {
@@ -385,7 +382,6 @@ const handleCheckout = async () => {
   border-radius: 5px;
   z-index: 1000;
   transition: opacity 0.5s ease-in-out;
-  opacity: 1;
 }
 
 .alert-message.hide {

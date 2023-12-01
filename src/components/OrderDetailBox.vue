@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full border-2 rounded-xl">
+  <div class="w-full border-2 rounded-xl my-10">
     <div class="row flex justify-between bg-grey_white">
       <div class="col flex">
         <div class="col">
@@ -11,16 +11,17 @@
         </div>
         <div class="col flex flex-col justify-between py-2">
           <div class="row font-bold">
-            Brand Name - Product name, its specifications and all other details
-            of it
+            {{ orderDetail.product.title }}
           </div>
-          <div class="row font-bold text-xl">AED 3.80</div>
-          <div class="row font-bold">QTY: 2</div>
+          <div class="row font-bold text-xl">
+            AED {{ orderDetail.variant.price }}
+          </div>
+          <div class="row font-bold">QTY: {{ orderDetail.quantity }}</div>
         </div>
       </div>
       <div class="col flex flex-col justify-center pr-5">
         <div class="row font-bold text-xl text-right">Total:</div>
-        <div class="row font-bold text-xl">AED 3.80</div>
+        <div class="row font-bold text-xl">AED {{ orderDetail.price }}</div>
       </div>
     </div>
 
@@ -39,26 +40,29 @@
       <div class="row bg-grey_white flex justify-between px-5 py-4">
         <div class="col font-bold text-primary text-xl">Track item</div>
         <div class="col font-bold text-gray_footer text-xl">
-          SKU: 8901425031926
+          SKU: {{ orderDetail.product.productId }}
         </div>
       </div>
 
       <div class="row mx-5 py-4 border-b-2">
         <div class="row font-bold mb-2 text-xl">Delivered Address</div>
         <div class="row flex mb-2">
-          <div class="col font-bold mr-1">Robert Ford</div>
+          <div class="col font-bold mr-1">{{ orderDetail.user.userName }}</div>
           <div class="col font-bold mx-1">|</div>
-          <div class="col font-bold mx-1">7877646542</div>
+          <div class="col font-bold mx-1">
+            {{ orderDetail.user.phoneNumber }}
+          </div>
         </div>
-        <div class="row font-bold mb-2">
-          5855 Amboy St, Dearborn Heights,Michigan(MI),48127
+        <div class="row font-bold mb-2 flex">
+          <div class="row mr-1">{{ shippingAddress }} -</div>
+          <div class="row">{{ provinceName }}</div>
         </div>
       </div>
 
       <div class="row px-5 py-4">
         <div class="row font-bold mb-2 text-xl">Updates sent to</div>
-        <div class="row font-bold mb-2">7877646542</div>
-        <div class="row font-bold mb-2">robertford@gmail.com</div>
+        <div class="row font-bold mb-2">{{ orderDetail.user.phoneNumber }}</div>
+        <div class="row font-bold mb-2">{{ orderDetail.user.email }}</div>
       </div>
     </div>
   </div>
@@ -76,18 +80,30 @@ export default {
       this.showDetails = !this.showDetails;
     },
   },
+  props: {
+    orderDetail: {
+      type: Object,
+      require: true,
+    },
+    provinceName: {
+      type: String,
+      required: true,
+    },
+    shippingAddress: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* CSS cho phần tử có hiệu ứng transform */
 .transition-transform {
   transition-property: transform;
-  transition-duration: 0.5s; /* Thời gian transition */
+  transition-duration: 0.5s;
 }
 
-/* CSS cho phần tử có hiệu ứng transform khi showDetails là true */
 .show-details {
-  transform: translateY(0); /* Hoặc bất kỳ giá trị transform mong muốn */
+  transform: translateY(0);
 }
 </style>

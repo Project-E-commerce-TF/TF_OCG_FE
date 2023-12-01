@@ -74,9 +74,6 @@
       <Pagination />
     </div>
   </section>
-  <div v-if="alertMessage" class="alert-message font-bold">
-    {{ alertMessage }}
-  </div>
 </template>
 
 <script setup>
@@ -86,13 +83,11 @@ import { useRoute, useRouter } from "vue-router";
 import { computed, onMounted, ref, watch } from "vue";
 import store from "../store/index.js";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
-import { fetchData } from "@/utils/axiosFetchApi";
 
 const route = useRoute();
 const router = useRouter();
 const typeSort = ref("asc");
 const fieldSort = ref("title");
-const alertMessage = ref(null);
 
 onMounted(async () => {
   await store.dispatch("fetchProductList");
@@ -102,39 +97,6 @@ const productList = computed(() => {
   return store.state.productList;
 });
 
-const addToCart = async (productId) => {
-  try {
-    const payload = {
-      ProductID: productId,
-      Quantity: 1,
-    };
-
-    const response = await fetchData(
-      `${process.env.VUE_APP_URL}/cart/add-to-cart`,
-      "POST",
-      payload
-    );
-
-    if (response !== null) {
-      alertMessage.value = "Product added to cart successfully!";
-    } else {
-      console.error(
-        "Failed to add product to cart. Server returned:",
-        response
-      );
-      alertMessage.value = "Failed to add product to cart. Please try again.";
-    }
-
-    // Show the alert for 2 seconds
-    setTimeout(() => {
-      alertMessage.value = null;
-    }, 2000);
-  } catch (error) {
-    console.error("Error adding product to cart:", error);
-    alertMessage.value =
-      "An error occurred while adding the product to the cart.";
-  }
-};
 watch(
   [typeSort, fieldSort],
   async () => {
@@ -175,22 +137,5 @@ watch(
 }
 .min-h-24 {
   min-height: 100px;
-}
-
-.alert-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  background-color: rgba(0, 37, 68, 0.8);
-  color: white;
-  border-radius: 5px;
-  z-index: 1000;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.alert-message.hide {
-  opacity: 0;
 }
 </style>

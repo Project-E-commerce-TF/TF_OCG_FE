@@ -175,7 +175,7 @@ const routes = [
     component: () => import("../views/map.vue"),
   },
   {
-    path: "/orderdetail",
+    path: "/orderdetail/:orderId",
     name: "OrderDetail",
     meta: {
       layout: "personal",

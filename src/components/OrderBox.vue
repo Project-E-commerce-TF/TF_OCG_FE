@@ -33,8 +33,9 @@
           </div>
         </div>
       </div>
+      <!-- Updated router-link to dynamically include orderId -->
       <router-link
-        to="/orderdetail"
+        :to="{ name: 'OrderDetail', params: { orderId: order.orderId } }"
         class="bg-grey_white flex flex-col justify-center items-center"
       >
         <img
