@@ -54,7 +54,7 @@ watch(
     const updateCurrentQuery = route.query;
     await store.dispatch("fetchProductList", updateCurrentQuery);
   },
-  { deep: true }
+  { deep: true, immediate: true }
 );
 </script>
 

@@ -159,7 +159,7 @@ const routes = [
     component: () => import("../views/dashBoard.vue"),
   },
   {
-    path: "/add-product",
+    path: "/dashboard/add-product",
     name: "AddProduct",
     meta: {
       layout: "default",

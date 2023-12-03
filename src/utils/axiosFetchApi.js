@@ -15,8 +15,9 @@ export async function fetchData(
       data: data,
       headers: headers,
     });
-
-    return response.data;
+    if (response.status === 200) {
+      return response.data;
+    }
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;

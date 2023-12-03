@@ -1,12 +1,23 @@
-  {
-    "variantId": 1,
-    "title": "Brand Name - Product name its specifications and all other details of it",
-    "handle":"Brand-Name-Product-name-its-specifications-and-all-other-details-of-it",
-    "price": 10000000,
-    "countInStock": 22,
-    "image":["https://akko.vn/wp-content/uploads/2023/06/akko-asa-shine-through-keycap-set-black-05-510x574-1.jpg","https://akko.vn/wp-content/uploads/2022/05/ban-phim-akko-acr75-pro-07-1-510x510.png","https://akko.vn/wp-content/uploads/2020/08/AKKO-3087v2-Bilibili-01-510x631.jpg"],
-    "optionSet":[
-      {"value":"Color","optionValue":["red","blue","green"]},
-      {"value":"Size","optionValue":["60","61","68" ]}
-    ]
-  }
+{
+  "product": {},
+  "optionSet": [
+    {
+      "optionProductId" : 1, 
+      "optionType": "Color",
+      "optionValue": [
+        {"optionValueId": 1,"optionProductId": 3,"value": "red"},
+        {"optionValueId": 2,"optionProductId": 3,"value": "blue"},
+        {"optionValueId": 3,"optionProductId": 3,"value": "green"}
+      ]
+    },
+    {
+      "optionProductId" : 2, 
+      "optionType": "Size",
+      "optionValue": [
+        {"optionValueId": 4,"optionProductId": 4,"value": "60"},
+        {"optionValueId": 5,"optionProductId": 4,"value": "61"},
+        {"optionValueId": 6,"optionProductId": 4,"value": "68"}
+      ]
+    }
+  ]
+}

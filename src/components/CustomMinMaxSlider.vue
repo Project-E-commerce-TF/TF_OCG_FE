@@ -22,7 +22,7 @@ import store from "../store/index.js";
 
 const router = useRouter();
 const route = useRoute();
-const value = ref([0, 2500000]);
+const value = ref([route.query.priceFrom || 0, route.query.priceTo || 2500000]);
 const min = 0;
 const max = 5000000;
 
