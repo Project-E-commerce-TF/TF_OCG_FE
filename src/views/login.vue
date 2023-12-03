@@ -49,18 +49,19 @@
           </button>
         </div>
         <div class="row">
-          <button
-            type="button"
-            class="py-3 justify-center w-full bg-grey_white text-mouse_gray font-bold rounded-lg flex"
-            @click="onClick"
-          >
-            Login or Signup using
-            <img
-              src="../assets/images/logo_gg.png"
-              alt="Logo"
-              class="ml-2 w-6 h-full"
-            />
-          </button>
+          <form action="http://localhost:8000/auth/login-google" method="get">
+            <button
+              type="submit"
+              class="py-3 justify-center w-full bg-grey_white text-mouse_gray font-bold rounded-lg flex"
+            >
+              Login or Signup using
+              <img
+                src="../assets/images/logo_gg.png"
+                alt="Logo"
+                class="ml-2 w-6 h-full"
+              />
+            </button>
+          </form>
         </div>
       </form>
 
@@ -85,22 +86,43 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useLogin } from "@/composables/useLogin";
-import { useLoginGoogle } from "@/composables/useLoginGoogle";
+import Cookies from "js-cookie";
 
 const { error, isPending, login } = useLogin();
-const { loginGoogle } = useLoginGoogle();
+const route = useRoute();
 const router = useRouter(),
   email = ref(""),
   password = ref("");
+const tartget = {
+  userId: 0,
+  userName: "",
+  email: "",
+  role: "",
+  userType: "",
+  accessToken: "",
+  refreshToken: "",
+};
 
 async function onSubmit() {
   await login(email.value, password.value);
   if (!error.value) router.push({ name: "Home" });
 }
-async function onClick() {
-  await loginGoogle();
-  if (!error.value) router.push({ name: "Home" });
+if (route.query.accessToken) {
+  const routeQuery = {
+    userId: route.query.userId,
+    userName: route.query.userName,
+    email: route.query.email,
+    role: route.query.role,
+    userType: route.query.userType,
+    accessToken: route.query.accessToken,
+    refreshToken: route.query.refreshToken,
+  };
+  const returnedTarget = Object.assign(tartget, routeQuery);
+  localStorage.setItem("userInfo", JSON.stringify(returnedTarget));
+  Cookies.set("accessToken", returnedTarget.accessToken, { expires: 1 / 24 });
+  Cookies.set("refreshToken", returnedTarget.refreshToken, { expires: 1 });
+  router.push({ name: "Home" });
 }
 </script>
