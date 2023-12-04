@@ -111,7 +111,7 @@ async function onSubmit() {
 }
 if (route.query.accessToken) {
   const routeQuery = {
-    userId: route.query.userId,
+    userId: route.query.userID,
     userName: route.query.userName,
     email: route.query.email,
     role: route.query.role,
@@ -120,9 +120,9 @@ if (route.query.accessToken) {
     refreshToken: route.query.refreshToken,
   };
   const returnedTarget = Object.assign(tartget, routeQuery);
-  localStorage.setItem("userInfo", JSON.stringify(returnedTarget));
+  localStorage.setItem("infoUser", JSON.stringify(returnedTarget));
   Cookies.set("accessToken", returnedTarget.accessToken, { expires: 1 / 24 });
   Cookies.set("refreshToken", returnedTarget.refreshToken, { expires: 1 });
-  router.push({ name: "Home" });
+  router.push({ name: "PhoneNumber" });
 }
 </script>

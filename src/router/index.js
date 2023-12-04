@@ -148,6 +148,32 @@ const routes = [
     meta: {
       layout: "default",
     },
+    children: [
+      {
+        path: "user",
+        name: "User",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/userDashboard.vue"),
+      },
+      {
+        path: "product",
+        name: "Product",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/productDashboard.vue"),
+      },
+      {
+        path: "order",
+        name: "Order",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/orderDashboard.vue"),
+      },
+    ],
     component: () => import("../views/dashBoard.vue"),
   },
   {
@@ -157,6 +183,22 @@ const routes = [
       layout: "default",
     },
     component: () => import("../views/addProduct.vue"),
+  },
+  {
+    path: "/phone-number",
+    name: "PhoneNumber",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/addPhoneNumber.vue"),
+  },
+  {
+    path: "/change-password",
+    name: "ChangePassword",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/changePassword.vue"),
   },
   // {
   //   path: "/:pathMatch(.*)*",
