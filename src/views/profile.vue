@@ -1,5 +1,5 @@
 <template>
-  <div class="flex w-3/4">
+  <div class="flex w-3/4 h-[100vh]">
     <div class="col w-1/5">
       <div class="flex justify-around container mx-auto px-8 pt-20">
         <div class="flex">
@@ -28,12 +28,14 @@
         </div>
         <div class="grid grid-cols-1 py-3">
           <div class="col-span-1">
-            <input
+            <div
               id="fullName"
               class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white w-full"
               type="text"
               placeholder="Example"
-            />
+            >
+              {{ infoUser.userName }}
+            </div>
           </div>
         </div>
         <div class="grid grid-cols-1 py-3">
@@ -43,52 +45,57 @@
         </div>
         <div class="grid grid-cols-1 py-3">
           <div class="col-span-1">
-            <input
+            <div
               id="email"
               class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white w-full"
               type="text"
-              placeholder="email@gmail.com"
-            />
-          </div>
-        </div>
-        <div class="grid grid-cols-1 py-3">
-          <div class="col-span-1">
-            <h3 class="font-bold text-gray-500">Password</h3>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 py-3">
-          <div class="col-span-1">
-            <input
-              id="password"
-              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white w-full"
-              type="password"
-              placeholder="12345678"
-            />
-          </div>
-        </div>
-        <div class="flex justify-between py-8">
-          <div class="grid grid-cols-1">
-            <div class="col-span-1 w-full flex justify-end">
-              <button
-                type="button"
-                class="bg-primary text-white border-2 text-center px-9 py-3 font-bold rounded-lg"
-              >
-                Save Changes
-              </button>
+              placeholder="Example"
+            >
+              {{ infoUser.email }}
             </div>
           </div>
+        </div>
+        <div class="grid grid-cols-1 py-3">
+          <div class="col-span-1">
+            <h3 class="font-bold text-gray-500">Phone</h3>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 py-3">
+          <div class="col-span-1">
+            <div
+              id="phoneNumber"
+              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white w-full"
+              type="text"
+              placeholder="Example"
+            >
+              {{ infoUser.phoneNumber }}
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-between py-8">
           <div class="grid grid-cols-1">
-            <div class="col-span-1 w-full flex justify-end">
+            <router-link
+              class="col-span-1 w-full flex justify-end"
+              :to="{ name: `ChangePassword` }"
+            >
               <button
                 type="button"
-                class="bg-white text-primary border-2 text-center px-9 py-3 font-bold rounded-lg"
+                class="bg-white text-primary border-4 text-center px-9 py-3 font-bold rounded-lg"
               >
                 Change Password
               </button>
-            </div>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { getLocalStorage } from "@/utils/localStorage";
+
+const infoUser = getLocalStorage("infoUser");
+</script>
+<style></style>

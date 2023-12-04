@@ -2,7 +2,7 @@
   <div
     class="main p-10 font-bold text-3xl rounded-lg bg-gray_sidebar flex flex-col justify-center gap-8"
   >
-    <div class="text-primary text-center">You phone number</div>
+    <div class="text-primary text-center">Your phone number</div>
     <input
       type="text"
       v-model="phoneNumber"
@@ -19,18 +19,35 @@
 </template>
 
 <script setup>
+import { fetchData } from "@/utils/axiosFetchApi";
+import { getLocalStorage } from "@/utils/localStorage";
 import { regexPhoneNumberVn } from "@/utils/regexPhoneNumberVn";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const phoneNumber = ref("");
 const error = ref("");
+const router = useRouter();
 
-const submitNumber = () => {
-  if (!regexPhoneNumberVn(phoneNumber)) {
-    error.value = "Invalid phone number";
-    return;
-  } else {
-    // call api get link to reset password via email
+const submitNumber = async () => {
+  try {
+    if (!regexPhoneNumberVn(phoneNumber.value)) {
+      error.value = "Invalid phone number";
+      return;
+    }
+    const userId = getLocalStorage("infoUser").userId;
+    const res = await fetchData(
+      `${process.env.VUE_APP_URL}/users/${userId}`,
+      "PUT",
+      {
+        phoneNumber: phoneNumber.value,
+      }
+    );
+    if (res) {
+      router.push({ name: "Home" });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 </script>

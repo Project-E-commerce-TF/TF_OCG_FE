@@ -10,7 +10,7 @@
     <!-- Product Information -->
     <div class="info w-1/2 p-10 flex flex-col gap-10">
       <h2 class="text-primary text-xl font-bold">{{ data.product.title }}</h2>
-      <b class="text-3xl">{{ data.product.price }}</b>
+      <b class="text-3xl">{{ numberToCurrencyVND(data.product.price) }}</b>
       <div>Count In Stock :</div>
       <div>
         <div
@@ -134,6 +134,7 @@ import { fetchData } from "@/utils/axiosFetchApi";
 import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/swiper-bundle.css";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const route = useRoute();
 const data = ref([]);

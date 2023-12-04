@@ -1,5 +1,7 @@
 <template>
-  <div class="p-10 font-bold text-3xl rounded-lg bg-gray_sidebar">
+  <div
+    class="p-10 font-bold text-3xl rounded-lg bg-gray_sidebar px-60 py-20 h-[100vh]"
+  >
     <div class="mb-20 text-primary">Change password</div>
     <div class="flex flex-col gap-4 mb-6">
       <label class="text-xl text-primary">New password</label>
@@ -36,6 +38,8 @@
 </template>
 
 <script setup>
+import { fetchData } from "@/utils/axiosFetchApi";
+import { getLocalStorage } from "@/utils/localStorage";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
@@ -44,12 +48,23 @@ const confirmPassword = ref("");
 const error = ref("");
 const router = useRouter();
 
-const submitPassword = () => {
+const submitPassword = async () => {
   if (newPassword.value !== confirmPassword.value) {
     error.value = "Password does not match";
     return;
   }
-
+  console.log(getLocalStorage("infoUser").email);
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/users/change-password`,
+    "POST",
+    {
+      email: getLocalStorage("infoUser").email,
+      Password: newPassword.value,
+    }
+  );
+  if (res) {
+    router.push({ name: "Profile" });
+  }
   // call api update password
 };
 
