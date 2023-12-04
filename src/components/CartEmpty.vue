@@ -10,12 +10,14 @@
     <div class="row font-bold text-2xl mb-5">Hey, The cart feels light !</div>
     <div class="row mb-16">Explore products and add your favorite items</div>
     <div class="row">
-      <button
-        type="button"
-        class="bg-primary text-white border-2 text-center px-9 py-3 font-bold rounded-lg"
-      >
-        Explore →
-      </button>
+      <router-link to="/products">
+        <button
+          type="button"
+          class="bg-primary text-white border-2 text-center px-9 py-3 font-bold rounded-lg"
+        >
+          Explore →
+        </button>
+      </router-link>
     </div>
   </div>
 </template>

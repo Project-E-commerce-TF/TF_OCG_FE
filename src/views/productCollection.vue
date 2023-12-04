@@ -54,7 +54,11 @@
                 src="../assets/images/icon_add_to_cart.png"
                 alt=""
                 class="object-scale-down w-full"
-                @click="addToCart"
+                @click="
+                  () => {
+                    addToCart(item.productId);
+                  }
+                "
               />
             </div>
           </div>
@@ -89,22 +93,14 @@ onMounted(async () => {
   await store.dispatch("fetchProductList");
   productList.value = store.state.productList;
 });
-
 const productList = computed(() => {
   return store.state.productList;
 });
-
-const addToCart = () => {
-  // toast mess
-  // call api add to cart
-  alert("ok");
-};
 
 watch(
   [typeSort, fieldSort],
   async () => {
     const currentQuery = route.query;
-    // router.push là hàm bất đồng bộ, await thì route.query mới lấy đc giá trị mới nhất
     await router.push({
       path: "/products",
       query: {

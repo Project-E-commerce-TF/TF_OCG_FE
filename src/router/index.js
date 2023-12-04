@@ -61,10 +61,10 @@ const routes = [
     path: "/cart",
     name: "CartEmpty",
     meta: {
-      layout: "main",
+      layout: "cart",
     },
     component: () =>
-      import(/* webpackChunkName: "cartEmpty" */ "../views/cartCheckout.vue"),
+      import(/* webpackChunkName: "CartEmpty" */ "../views/cartCheckout.vue"),
   },
   {
     path: "/category/:handle",
@@ -143,6 +143,14 @@ const routes = [
     component: () => import("../views/cancelled.vue"),
   },
   {
+    path: "/cart",
+    name: "Cart",
+    meta: {
+      layout: "cart",
+    },
+    component: () => import("../views/cartCheckout.vue"),
+  },
+  {
     path: "/dashboard",
     name: "Dashboard",
     meta: {
@@ -200,6 +208,23 @@ const routes = [
     },
     component: () => import("../views/changePassword.vue"),
   },
+  {
+    path: "/map",
+    name: "Map",
+    meta: {
+      layout: "main",
+    },
+    component: () => import("../views/map.vue"),
+  },
+  {
+    path: "/orderdetail/:orderId",
+    name: "OrderDetail",
+    meta: {
+      layout: "personal",
+    },
+    component: () => import("../views/orderDetail.vue"),
+  },
+
   // {
   //   path: "/:pathMatch(.*)*",
   //   name: "not_found",
