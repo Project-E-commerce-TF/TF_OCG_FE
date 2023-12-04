@@ -22,13 +22,6 @@
     >
 
     <router-link
-      to="/request-to-cancel-order"
-      :class="{ 'active-link': $route.path === '/request-to-cancel-order' }"
-      class="row font-bold border-2 rounded-lg bg-primary text-white p-1"
-      >Request To Cancel Order</router-link
-    >
-
-    <router-link
       to="/cancelled"
       :class="{ 'active-link': $route.path === '/cancelled' }"
       class="row font-bold border-2 rounded-lg bg-primary text-white p-1"

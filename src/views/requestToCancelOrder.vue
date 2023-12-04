@@ -26,12 +26,13 @@ export default {
 
     const fetchPendingOrders = async () => {
       try {
-        const response = await fetchData(
-          process.env.VUE_APP_URL + "/order/get-request-to-cancel-order-orders"
-        );
+        const url = `${process.env.VUE_APP_URL}/order/get-request-to-cancel-order-orders`;
+
+        const response = await fetchData(url);
+
         pendingOrders.value = response.orders;
       } catch (error) {
-        console.error("Error fetching pending orders:", error);
+        console.error("Error fetching request-to-cancel-order orders:", error);
       }
     };
 

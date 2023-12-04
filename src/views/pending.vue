@@ -16,7 +16,6 @@
 import OrderBox from "@/components/OrderBox.vue";
 import { ref, onMounted } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
-
 export default {
   components: {
     OrderBox,
@@ -26,15 +25,16 @@ export default {
 
     const fetchPendingOrders = async () => {
       try {
-        const response = await fetchData(
-          process.env.VUE_APP_URL + "/order/get-pending-orders"
-        );
+        const url = `${process.env.VUE_APP_URL}/order/get-pending-orders`;
+
+        const response = await fetchData(url);
+
+        // Assuming response contains an 'orders' property
         pendingOrders.value = response.orders;
       } catch (error) {
         console.error("Error fetching pending orders:", error);
       }
     };
-
     onMounted(() => {
       fetchPendingOrders();
     });

@@ -59,8 +59,40 @@
     <div>{{ data.description }}</div>
   </div>
 
-  <!-- description END-->
-  <!-- relate product START -->
+  <!-- Product Reviews-->
+  <div class="reviews my-20 mx-40">
+    <div class="font-bold text-xl mb-5">Product Reviews</div>
+
+    <div v-if="data.reviews && data.reviews.length > 0">
+      <div
+        v-for="(review, index) in data.reviews"
+        :key="index"
+        class="review-item border-2 my-4 rounded-xl p-2"
+      >
+        <div class="items-center">
+          <div class="font-bold">Rate:</div>
+          <div class="font-bold mr-2 flex">
+            <img
+              v-for="(star, index) in review.rating"
+              :key="index"
+              :src="require('@/assets/images/star.png')"
+              alt="star"
+              class="star-icon"
+            />
+          </div>
+          <div class="text-gray-500 font-bold">
+            User Name: {{ review.user.userName }}
+          </div>
+        </div>
+        <div class="mb-2 font-bold text-blue-600">{{ review.comment }}</div>
+      </div>
+    </div>
+
+    <div v-else>
+      <p>No reviews available for this product.</p>
+    </div>
+  </div>
+  <!-- Related Products -->
   <div class="relate my-20 mx-40">
     <div class="font-bold text-xl mb-10">Related products</div>
     <div class="row flex gap-10 flex-wrap justify-center">
@@ -108,22 +140,32 @@ const relateProducts = ref([]);
 watch(
   () => route.params,
   async (newParams) => {
-    const handle = newParams.handle;
-    if (handle) {
-      const res = await fetchData(
-        `${process.env.VUE_APP_URL}/product/find-product/handle?handle=${route.params.handle}`
-      );
-      data.value = res;
-      loading.value = false;
+    try {
+      const handle = newParams.handle;
+      if (handle) {
+        const res = await fetchData(
+          `${process.env.VUE_APP_URL}/product/find-product/handle?handle=${route.params.handle}`
+        );
+        data.value = res;
+        loading.value = false;
 
-      const resCate = await fetchData(
-        `${process.env.VUE_APP_URL}/category/${res.categoryID}`
-      );
+        const resCate = await fetchData(
+          `${process.env.VUE_APP_URL}/category/${res.categoryID}`
+        );
 
-      const result = await fetchData(
-        `${process.env.VUE_APP_URL}/product/search/list?category=${resCate.handle}&pageSize=4`
-      );
-      relateProducts.value = result.products;
+        const result = await fetchData(
+          `${process.env.VUE_APP_URL}/product/search/list?category=${resCate.handle}&pageSize=4`
+        );
+        relateProducts.value = result.products;
+
+        const reviewsResponse = await fetchData(
+          `${process.env.VUE_APP_URL}/review/get-review-by-product-id?productID=${res.productId}`
+        );
+        data.value.reviews = reviewsResponse;
+        console.log(reviewsResponse);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   },
   { immediate: true }
@@ -161,5 +203,11 @@ watch(
     padding: 0;
     padding-bottom: 20px;
   }
+}
+
+.star-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 </style>

@@ -6,6 +6,7 @@
           v-for="order in pendingOrders"
           :key="order.orderId"
           :order="order"
+          @complete-order="handleCompleteOrder"
         />
       </div>
     </div>
@@ -26,13 +27,18 @@ export default {
 
     const fetchPendingOrders = async () => {
       try {
-        const response = await fetchData(
-          process.env.VUE_APP_URL + "/order/get-order-being-delivered-orders"
-        );
+        const url = `${process.env.VUE_APP_URL}/order/get-order-being-delivered-orders`;
+
+        const response = await fetchData(url);
+
         pendingOrders.value = response.orders;
       } catch (error) {
-        console.error("Error fetching pending orders:", error);
+        console.error("Error fetching request-to-cancel-order orders:", error);
       }
+    };
+
+    const handleCompleteOrder = async () => {
+      fetchPendingOrders();
     };
 
     onMounted(() => {
@@ -41,6 +47,7 @@ export default {
 
     return {
       pendingOrders,
+      handleCompleteOrder,
     };
   },
 };
