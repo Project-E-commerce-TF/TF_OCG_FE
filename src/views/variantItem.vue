@@ -4,20 +4,20 @@
     <!-- slide img START-->
     <div class="slideImg w-1/2 flex flex-col">
       <div class="w-[70%] m-auto">
-        <img :src="data.image" class="w-full" />
+        <img :src="data.product.image" class="w-full" />
       </div>
     </div>
     <!-- slide img END -->
 
     <!-- spec START-->
     <div class="info w-1/2 p-10 flex flex-col gap-10">
-      <h2 class="text-primary text-xl font-bold">{{ data.title }}</h2>
-      <b class="text-3xl">{{ numberToCurrencyVND(data.price) }}</b>
+      <h2 class="text-primary text-xl font-bold">{{ data.product.title }}</h2>
+      <b class="text-3xl">{{ data.product.price }}</b>
       <div>Count In Stock :</div>
       <div>
         <div
           class="my-3 flex text-primary font-bold"
-          v-for="optionType in data.optionSet"
+          v-for="optionType in data.product.optionSet"
           :key="optionType.value"
         >
           <span class="p-2 mr-2 bg-gray_sidebar rounded-lg w-1/5">{{
@@ -56,7 +56,7 @@
   <!-- description START-->
   <div class="description my-20 mx-40 text-primary">
     <div class="font-bold text-xl mb-10">Detail Descriptions</div>
-    <div>{{ data.description }}</div>
+    <div>{{ data.product?.description }}</div>
   </div>
 
   <!-- Product Reviews-->
@@ -126,7 +126,7 @@
 </template>
 
 <script setup>
-import { numberToCurrencyVND } from "@/utils/currencyVND";
+// import { numberToCurrencyVND } from "@/utils/currencyVND";
 import { ref, watch } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
 import { useRoute } from "vue-router";
@@ -148,9 +148,10 @@ watch(
         );
         data.value = res;
         loading.value = false;
+        console.log(res);
 
         const resCate = await fetchData(
-          `${process.env.VUE_APP_URL}/category/${res.categoryID}`
+          `${process.env.VUE_APP_URL}/category/${res.product.categoryID}`
         );
 
         const result = await fetchData(
@@ -159,7 +160,7 @@ watch(
         relateProducts.value = result.products;
 
         const reviewsResponse = await fetchData(
-          `${process.env.VUE_APP_URL}/review/get-review-by-product-id?productID=${res.productId}`
+          `${process.env.VUE_APP_URL}/review/get-review-by-product-id?productID=${res.product.productId}`
         );
         data.value.reviews = reviewsResponse;
         console.log(reviewsResponse);
