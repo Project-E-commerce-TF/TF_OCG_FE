@@ -151,7 +151,6 @@ import CartBox from "@/components/CartBox.vue";
 import CartEmpty from "@/components/CartEmpty.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
-const alertMessage = ref(null);
 const cartItems = ref([]);
 const totalItems = ref(0);
 const totalPrices = ref(0);
@@ -165,6 +164,7 @@ const shippingAddress = ref("");
 const discountedTotalPrices = ref(0);
 const discountCodeError = ref(null);
 const showWarningMessage = ref(false);
+const alertMessage = ref(null);
 
 watch([totalPrices, shippingFee], () => {
   discountedTotalPrices.value = totalPrices.value;
@@ -335,16 +335,22 @@ const handleCheckout = async () => {
       return;
     }
 
+    // Kiểm tra dữ liệu trước khi gửi request
+    if (totalItems.value <= 0 || totalPrices.value <= 0) {
+      console.error("Invalid total items or total prices");
+      return;
+    }
+
     // Tạo một đối tượng payload
     const payload = {
       shippingAddress: shippingAddress.value,
       provinceId: selectedProvince.value,
-      discountCode: discountCode.value || "", // Nếu discountCode không có, truyền giá trị trống
-
-      // Có thể bạn cần thêm các thông tin khác của payload tại đây nếu cần
+      totalQuantity: totalItems.value,
+      totalPrice: totalPrices.value,
+      grandTotal: calculateTotalPrice.value,
+      discountAmount: calculateSavings.value,
     };
 
-    // Gọi API với payload đã tạo
     const response = await fetchData(
       `${process.env.VUE_APP_URL}/order/checkout`,
       "POST",
@@ -353,8 +359,9 @@ const handleCheckout = async () => {
 
     if (response) {
       alertMessage.value = "Checkout successfully!";
-      // Chuyển hướng sang router /products sau khi thanh toán thành công
-      router.push("/products");
+      setTimeout(() => {
+        router.push("/products");
+      }, 1000);
     } else {
       console.error("Lỗi trong quá trình thanh toán:", response);
     }
@@ -375,7 +382,6 @@ const handleCheckout = async () => {
   border-radius: 5px;
   z-index: 1000;
   transition: opacity 0.5s ease-in-out;
-  opacity: 1;
 }
 
 .alert-message.hide {

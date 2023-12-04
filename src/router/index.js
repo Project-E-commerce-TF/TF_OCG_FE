@@ -159,7 +159,7 @@ const routes = [
     component: () => import("../views/dashBoard.vue"),
   },
   {
-    path: "/add-product",
+    path: "/dashboard/add-product",
     name: "AddProduct",
     meta: {
       layout: "default",
@@ -173,6 +173,14 @@ const routes = [
       layout: "main",
     },
     component: () => import("../views/map.vue"),
+  },
+  {
+    path: "/orderdetail/:orderId",
+    name: "OrderDetail",
+    meta: {
+      layout: "personal",
+    },
+    component: () => import("../views/orderDetail.vue"),
   },
 
   // {

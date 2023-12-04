@@ -4,16 +4,29 @@
   >
     <div class="flex w-1/2 h-full">
       <img
-        :src="cart.productDetail.image"
-        alt="Product Image"
+        :src="cart.variantDetail.image"
+        alt="Variant Image"
         class="w-28 h-full mr-4"
       />
       <div class="col">
         <div class="row font-bold mb-2">{{ cart.productDetail.title }}</div>
-        <div class="row font-bold mb-2">
-          Price: ${{ (cart.productDetail?.price ?? 0).toFixed(2) }}
+        <div class="flex border-2 option_type p-1 rounded-xl">
+          <div class="row mr-1 font-bold text-gray_footer">
+            {{ cart.variantDetail.optionValue1.value }}
+          </div>
+          <div class="row mr-1 font-bold text-gray_footer">|</div>
+          <div class="row font-bold text-gray_footer">
+            {{ cart.variantDetail.optionValue2.value }}
+          </div>
         </div>
-        <div class="row font-bold">SKU: {{ cart.productDetail.productId }}</div>
+        <div class="flex">
+          <div class="row font-bold mb-2 mr-2">
+            Price: ${{ cart.variantDetail?.price ?? 0 }}
+          </div>
+          <div class="row font-bold">
+            SKU: {{ cart.productDetail.productId }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -36,11 +49,9 @@
         <button @click="increment" class="px-2 py-1 bg-gray-300">+</button>
       </div>
     </div>
-    <div class="col w-1/8 font-bold">
-      Total: ${{ (cart.productDetail?.price ?? 0) * quantity }}
-    </div>
+    <div class="col w-1/8 font-bold">Total: ${{ cart.totalPrice }}</div>
     <button
-      @click="() => $emit('remove-from-cart', cart.productDetail.productId)"
+      @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
       class="col w-1/8 bg-grey_white h-full flex justify-center py-14"
     >
       <img
@@ -68,7 +79,7 @@ export default {
     const updateQuantity = async () => {
       try {
         const response = await fetchData(
-          `${process.env.VUE_APP_URL}/cart/update-cart-item/${props.cart.productId}?quantity=${quantity.value}`,
+          `${process.env.VUE_APP_URL}/cart/update-cart-item/${props.cart.variantId}?quantity=${quantity.value}`,
           "PUT"
         );
         emit("quantity-updated", response.data);
@@ -117,3 +128,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.option_type {
+  max-width: fit-content;
+}
+</style>

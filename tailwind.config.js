@@ -35,7 +35,10 @@ export default {
     },
   },
   variants: {
-    extends: {},
+    extend: {
+      transitionProperty: ["hover", "focus", "active", "group-hover"],
+      transform: ["hover", "focus", "active", "group-hover"],
+    },
   },
   plugins: [require("@vueform/slider/tailwind")],
 };
