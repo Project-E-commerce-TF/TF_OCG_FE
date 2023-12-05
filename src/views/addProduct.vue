@@ -321,13 +321,11 @@ const submitProduct = async () => {
       "POST",
       body
     );
-    if (res) {
-      console.log(res);
-      error.value = "";
-      product.value = res;
-      disabledAddProduct.value = true;
-      disabledAddOption.value = false;
-    }
+    console.log(res);
+    error.value = "";
+    product.value = res;
+    disabledAddProduct.value = true;
+    disabledAddOption.value = false;
   } catch (err) {
     console.log(err);
     error.value = err.response.data.error;
