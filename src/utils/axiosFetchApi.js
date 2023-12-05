@@ -15,7 +15,7 @@ export async function fetchData(
       data: data,
       headers: headers,
     });
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 201) {
       return response.data;
     }
   } catch (error) {
