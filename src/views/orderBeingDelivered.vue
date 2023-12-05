@@ -61,10 +61,10 @@ export default {
     };
 
     const handleCompleteOrder = async () => {
-      fetchPendingOrders();
+      fetchOrders();
     };
 
-    const fetchPendingOrders = async () => {
+    const fetchOrders = async () => {
       try {
         const url = `${process.env.VUE_APP_URL}/order/get-order-being-delivered-orders`;
 

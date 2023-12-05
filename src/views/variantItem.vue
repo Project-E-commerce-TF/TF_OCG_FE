@@ -39,16 +39,12 @@
         <input
           type="number"
           min="0"
-          value="1"
+          v-model="quantity"
           class="w-20 p-4 bg-gray_sidebar rounded-lg"
         />
         <button
           class="add_button grow bg-primary text-white rounded-lg ml-2 font-bold"
-          @click="
-            () => {
-              addToCart(variantId);
-            }
-          "
+          @click="addToCart"
         >
           Add to cart
         </button>
@@ -147,6 +143,7 @@ const modules = {};
 const alertMessage = ref(null);
 const countInStock = ref(0);
 const selectedOptions = ref({});
+const quantity = ref(1);
 
 const updateSwiper = () => {
   // Calculate the number of slides based on the window width or any other logic you want
@@ -163,33 +160,57 @@ const updateSwiper = () => {
   console.log(mySwiperRef);
 };
 
-const addToCart = async (variantId) => {
+const addToCart = async () => {
   try {
-    const payload = {
-      variantId: variantId,
-      quantity: 1,
+    console.log("selectedOptions:", selectedOptions.value);
+    const keys = Object.keys(selectedOptions.value);
+
+    const body = {
+      productID: data.value.product.productId,
+      optionValue1: selectedOptions.value[keys[0]],
+      optionValue2: selectedOptions.value[keys[1]],
     };
 
-    const response = await fetchData(
-      `${process.env.VUE_APP_URL}/cart/add-to-cart`,
+    console.log("Request body:", body);
+
+    const variantResponse = await fetchData(
+      `${process.env.VUE_APP_URL}/variant/get-variant-id`,
       "POST",
-      payload
+      body
     );
 
-    if (response !== null) {
-      alertMessage.value = "Product added to cart successfully!";
+    if (variantResponse.variantId) {
+      const payload = {
+        variantId: variantResponse.variantId,
+        quantity: quantity.value, // Use the quantity from the body
+      };
+
+      const cartResponse = await fetchData(
+        `${process.env.VUE_APP_URL}/cart/add-to-cart`,
+        "POST",
+        payload
+      );
+
+      if (cartResponse !== null) {
+        alertMessage.value = "Product added to cart successfully!";
+      } else {
+        console.error(
+          "Failed to add product to cart. Server returned:",
+          cartResponse
+        );
+        alertMessage.value = "Failed to add product to cart. Please try again.";
+      }
+
+      setTimeout(() => {
+        alertMessage.value = null;
+      }, 2000);
     } else {
       console.error(
-        "Failed to add product to cart. Server returned:",
-        response
+        "Failed to get variant ID from the server:",
+        variantResponse
       );
-      alertMessage.value = "Failed to add product to cart. Please try again.";
+      alertMessage.value = "Failed to get variant ID. Please try again.";
     }
-
-    // Show the alert for 2 seconds
-    setTimeout(() => {
-      alertMessage.value = null;
-    }, 2000);
   } catch (error) {
     console.error("Error adding product to cart:", error);
     alertMessage.value =

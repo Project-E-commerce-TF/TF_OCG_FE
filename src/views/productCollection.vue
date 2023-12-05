@@ -47,20 +47,6 @@
                 class="img_main rounded-lg hover:scale-125 transition-all"
               />
             </router-link>
-            <div
-              class="w-10 absolute right-2 bottom-2 bg-primary rounded-md border-solid border-2 border-white hover:opacity-50"
-            >
-              <img
-                src="../assets/images/icon_add_to_cart.png"
-                alt=""
-                class="object-scale-down w-full"
-                @click="
-                  () => {
-                    addToCart(item.productId);
-                  }
-                "
-              />
-            </div>
           </div>
           <div class="font-black text-gray_footer mb-3 min-h-24">
             {{ item.title }}

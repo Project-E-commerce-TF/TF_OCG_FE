@@ -6,6 +6,7 @@
           v-for="order in pendingOrders"
           :key="order.orderId"
           :order="order"
+          @cancel="handleCancelOrder"
         />
       </div>
       <paginate
@@ -39,6 +40,10 @@ export default {
     const pageSize = ref(4);
     const totalPages = ref(0);
 
+    const handleCancelOrder = async () => {
+      fetchPendingOrders(currentPage.value); // Truyền giá trị currentPage vào hàm fetchPendingOrders
+    };
+
     const fetchPendingOrders = async (page) => {
       try {
         const url = `${process.env.VUE_APP_URL}/order/get-pending-orders?page=${page}&pageSize=${pageSize.value}`;
@@ -59,6 +64,7 @@ export default {
       pendingOrders,
       currentPage,
       totalPages,
+      handleCancelOrder,
     };
   },
 };

@@ -57,6 +57,15 @@
                 </template>
               </div>
             </div>
+            <div v-else-if="order.status === 'pending'">
+              <div
+                class="border-2 rounded-xl p-2 font-bold text-white bg-primary text-center w-fit"
+              >
+                <button @click="cancelOrder(order.orderId)">
+                  Cancel Order
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div v-if="showReviewForm">
@@ -124,7 +133,6 @@
           </div>
         </div>
       </div>
-      <!-- Updated router-link to dynamically include orderId -->
       <router-link
         :to="{ name: 'OrderDetail', params: { orderId: order.orderId } }"
         class="bg-grey_white flex flex-col justify-center items-center"
@@ -180,20 +188,18 @@ export default {
 
     const completeOrder = async () => {
       try {
-        const response = await fetch(
+        const response = await fetchData(
           `${process.env.VUE_APP_URL}/order/complete`,
+          "POST",
+          JSON.stringify({
+            orderId: props.order.orderId,
+          }),
           {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              orderId: props.order.orderId,
-            }),
+            "Content-Type": "application/json",
           }
         );
 
-        if (response.ok) {
+        if (response) {
           console.log("Order marked as complete successfully");
           context.emit("complete-order", props.order.orderId);
         } else {
@@ -208,9 +214,37 @@ export default {
       }
     };
 
+    const cancelOrder = async (orderId) => {
+      try {
+        const response = await fetchData(
+          `${process.env.VUE_APP_URL}/order/request-cancel`,
+          "POST",
+          JSON.stringify({
+            orderId: orderId,
+          }),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+
+        if (response) {
+          console.log("Order canceled successfully");
+          context.emit("cancel", props.order.orderId);
+        } else {
+          console.error(
+            "Failed to cancel order. Server responded with:",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error canceling order:", error);
+      }
+    };
+
     const fetchVariants = async () => {
       try {
-        const response = await fetch(
+        const response = await fetchData(
           `${process.env.VUE_APP_URL}/variant/get-variant-by-order-id?orderID=${props.order.orderId}`
         );
 
@@ -285,13 +319,10 @@ export default {
             response.status,
             response.statusText
           );
-          // Handle error scenarios if needed
         }
       } catch (error) {
         console.error("Error submitting review:", error);
-        // Handle error scenarios if needed
       } finally {
-        // Optionally, you can reset the review form state here
         variant.review = "";
         variant.rating = 0;
       }
@@ -300,7 +331,6 @@ export default {
       variant.rating = star;
     };
 
-    // Phương thức để lấy đường dẫn hình ảnh của sao
     const getStarImage = (star, variant) => {
       return star <= variant.rating ? filledStar : emptyStar;
     };
@@ -309,6 +339,7 @@ export default {
       orderDetailsLength,
       formattedOrderDate,
       completeOrder,
+      cancelOrder,
       addReviews,
       showReviewForm,
       review,
