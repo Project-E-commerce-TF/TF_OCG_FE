@@ -8,7 +8,7 @@ const routes = [
       layout: "main",
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/index.vue"),
+      import(/* webpackChunkName: "home" */ "../views/mainLandingPage.vue"),
   },
   {
     path: "/register",
