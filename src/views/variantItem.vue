@@ -11,23 +11,26 @@
     <div class="info w-1/2 p-10 flex flex-col gap-10">
       <h2 class="text-primary text-xl font-bold">{{ data.product.title }}</h2>
       <b class="text-3xl">{{ numberToCurrencyVND(data.product.price) }}</b>
-      <div>Count In Stock :</div>
+      <div>Count In Stock : {{ countInStock }}</div>
       <div>
         <div
           class="my-3 flex text-primary font-bold"
-          v-for="optionType in data.product.optionSet"
-          :key="optionType.value"
+          v-for="option in data.optionProducts"
+          :key="option.optionType"
         >
           <span class="p-2 mr-2 bg-gray_sidebar rounded-lg w-1/5">{{
-            optionType.value
+            option.optionType
           }}</span>
-          <select name="" id="" class="p-2 bg-gray_sidebar rounded-lg grow">
+          <select
+            v-model="selectedOptions[option.optionType]"
+            class="p-2 bg-gray_sidebar rounded-lg grow"
+          >
             <option
-              value=""
-              v-for="optionName in optionType.optionValue"
-              :key="optionName"
+              :value="optionName.optionValueId"
+              v-for="optionName in option.optionValues"
+              :key="optionName.optionValueId"
             >
-              {{ optionName }}
+              {{ optionName.value }}
             </option>
           </select>
         </div>
@@ -129,7 +132,7 @@
 
 <script setup>
 // import { numberToCurrencyVND } from "@/utils/currencyVND";
-import { ref, watch, onBeforeUnmount } from "vue";
+import { ref, watch, onBeforeUnmount, watchEffect } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
 import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
@@ -142,6 +145,8 @@ const loading = ref(true);
 const relateProducts = ref([]);
 const modules = {};
 const alertMessage = ref(null);
+const countInStock = ref(0);
+const selectedOptions = ref({});
 
 const updateSwiper = () => {
   // Calculate the number of slides based on the window width or any other logic you want
@@ -155,7 +160,6 @@ const updateSwiper = () => {
       prevEl: ".swiper-button-prev",
     },
   });
-
   console.log(mySwiperRef);
 };
 
@@ -196,6 +200,47 @@ const addToCart = async (variantId) => {
 onBeforeUnmount(() => {
   window.removeEventListener("resize", updateSwiper);
 });
+
+watch(
+  () => selectedOptions,
+  async (newVal) => {
+    try {
+      const keys = Object.keys(newVal.value);
+      const body = {
+        productID: data.value.product.productId,
+        optionValue1: newVal.value[keys[0]],
+        optionValue2: newVal.value[keys[1]],
+      };
+
+      const resVariantByOp = await fetchData(
+        `${process.env.VUE_APP_URL}/variant/get-variant-id`,
+        "POST",
+        body
+      );
+      const resVariantById = await fetchData(
+        `${process.env.VUE_APP_URL}/variant/get-variant/${resVariantByOp.variantId}`
+      );
+      if (resVariantById && resVariantById.countInStock) {
+        countInStock.value = resVariantById.countInStock;
+      }
+    } catch (error) {
+      console.error("Failed to update countInStock:", error);
+    }
+  },
+  {
+    deep: true,
+  }
+);
+
+watchEffect(() => {
+  if (data.value.optionProducts) {
+    selectedOptions.value = data.value.optionProducts.reduce((acc, option) => {
+      acc[option.optionType] = option.optionValues[0]?.optionValueId || null;
+      return acc;
+    }, {});
+  }
+});
+
 watch(
   () => route.params,
   async (newParams) => {
@@ -207,7 +252,7 @@ watch(
         );
         data.value = res;
         loading.value = false;
-        console.log(res);
+
         if (res.product.categoryID > 0) {
           const resCate = await fetchData(
             `${process.env.VUE_APP_URL}/category/${res.product?.categoryID}`
@@ -218,13 +263,10 @@ watch(
           relateProducts.value = result.products;
         }
 
-        // console.log("cate", resCate);
-
         const reviewsResponse = await fetchData(
           `${process.env.VUE_APP_URL}/review/get-review-by-product-id?productID=${res.product.productId}`
         );
         data.value.reviews = reviewsResponse;
-        console.log(reviewsResponse);
       }
     } catch (error) {
       throw new Error(error);
