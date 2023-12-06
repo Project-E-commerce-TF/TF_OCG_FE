@@ -247,9 +247,8 @@ export default {
         const response = await fetchData(
           `${process.env.VUE_APP_URL}/variant/get-variant-by-order-id?orderID=${props.order.orderId}`
         );
-
-        if (response.ok) {
-          const data = await response.json();
+        if (response) {
+          const data = await response;
           variants.value = data.variants.map((variant) => ({
             ...variant,
             rating: 0,

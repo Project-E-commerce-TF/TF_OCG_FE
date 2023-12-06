@@ -61,20 +61,7 @@ export default {
     };
 
     const handleCompleteOrder = async () => {
-      fetchOrders();
-    };
-
-    const fetchOrders = async () => {
-      try {
-        const url = `${process.env.VUE_APP_URL}/order/get-order-being-delivered-orders`;
-
-        const response = await fetchData(url);
-
-        paginatedOrders.value = response.orders;
-        totalPages.value = response.totalPages;
-      } catch (error) {
-        console.error("Error fetching orders being delivered:", error);
-      }
+      fetchDataForPage(1);
     };
 
     onMounted(() => fetchDataForPage(currentPage.value));

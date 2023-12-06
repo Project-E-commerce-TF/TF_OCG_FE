@@ -124,14 +124,17 @@
         <div v-if="showWarningMessage" class="text-red-500 my-2">
           Please enter your address and select province/city.
         </div>
-
         <div class="flex justify-center">
           <button
-            @click="handleCheckout"
-            class="bg-blue-500 text-white px-4 py-2 rounded"
+            @click="handlePay"
+            class="bg-blue-500 text-white px-8 py-2 rounded font-bold"
           >
-            Checkout
+            Pay
           </button>
+        </div>
+        <div class="mt-4">
+          <div id="paypal-button-container"></div>
+          <p id="result-message"></p>
         </div>
       </div>
     </div>
@@ -179,19 +182,14 @@ const calculateTotalPrice = computed(() => {
 const calculateSavings = computed(() => {
   const discount = appliedDiscount.value;
 
-  // Check if there is a discount
   if (discount) {
-    // Check the discount type
     if (discount.discountType === "percentage") {
-      // Calculate the savings based on the discounted total price
       return (discountedTotalPrices.value * discount.value) / 100;
     } else if (discount.discountType === "fixed") {
-      // If the discount type is "fixed," return the fixed discount value
       return discount.value;
     }
   }
 
-  // If no discount or discount is of a different type, savings is 0
   return 0;
 });
 
@@ -206,7 +204,6 @@ const formattedDiscount = computed(() => {
   }
 });
 
-// Lấy danh sách cart từ API khi component được mount
 onMounted(async () => {
   try {
     const response = await fetchData(
@@ -221,14 +218,11 @@ onMounted(async () => {
       console.error("Invalid response format:", response);
     }
 
-    // Lấy danh sách tỉnh/thành phố
     provinces.value = await fetchData(`${process.env.VUE_APP_URL}/province`);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 });
-
-// Hàm cập nhật giỏ hàng
 const updateCart = async () => {
   try {
     const response = await fetchData(
@@ -246,7 +240,6 @@ const updateCart = async () => {
   }
 };
 
-// Hàm xử lý khi chọn tỉnh/thành phố
 const fetchShippingFee = async () => {
   try {
     if (selectedProvince.value) {
@@ -283,12 +276,11 @@ const handleRemoveFromCart = async (productId) => {
 
 watch(selectedProvince, (newProvince) => {
   console.log("Selected Province (watch):", newProvince);
-  fetchShippingFee(); // Đảm bảo rằng fetchShippingFee được gọi khi tỉnh/thành phố thay đổi.
+  fetchShippingFee();
 });
 
 const applyDiscount = async () => {
   try {
-    // Reset the discount code error before attempting to apply the discount
     discountCodeError.value = null;
 
     if (discountCode.value) {
@@ -297,28 +289,21 @@ const applyDiscount = async () => {
       );
       if (response) {
         appliedDiscount.value = response;
-        // Lấy giá ban đầu từ biến tạm
         let originalTotalPrices = initialTotalPrices.value;
 
-        // Use $nextTick to wait for the next DOM update
         await nextTick();
 
-        // Xử lý khi nhận được response từ API
         if (response.discountType === "percentage") {
-          // Giảm giá theo tỷ lệ phần trăm dựa trên giá ban đầu
           const discountAmount = (originalTotalPrices * response.value) / 100;
           discountedTotalPrices.value = originalTotalPrices - discountAmount;
         } else if (response.discountType === "fixed") {
-          // Giảm giá cố định dựa trên giá ban đầu
           discountedTotalPrices.value = originalTotalPrices - response.value;
         }
 
-        // Check if discount value is 0
         if (response.value === 0) {
           discountCodeError.value = "This discount code does not exist";
         }
       } else {
-        // Set the error message if the discount code is not found
         discountCodeError.value = "This discount code does not exist";
         console.error("Invalid response format:", response);
       }
@@ -327,21 +312,20 @@ const applyDiscount = async () => {
     console.error("Error applying discount:", error);
   }
 };
-const handleCheckout = async () => {
+
+const handlePay = async () => {
+  if (shippingAddress.value === "" || selectedProvince.value === null) {
+    showWarningMessage.value = true;
+    return;
+  }
+  if (totalItems.value <= 0 || totalPrices.value <= 0) {
+    console.error("Invalid total items or total prices");
+    return;
+  }
+  setupPayPal();
+};
+const handleCheckout = async (paypalOrderID, status) => {
   try {
-    if (shippingAddress.value === "" || selectedProvince.value === null) {
-      // Hiển thị thông báo cảnh báo nếu điều kiện không được đáp ứng
-      showWarningMessage.value = true;
-      return;
-    }
-
-    // Kiểm tra dữ liệu trước khi gửi request
-    if (totalItems.value <= 0 || totalPrices.value <= 0) {
-      console.error("Invalid total items or total prices");
-      return;
-    }
-
-    // Tạo một đối tượng payload
     const payload = {
       shippingAddress: shippingAddress.value,
       provinceId: selectedProvince.value,
@@ -359,15 +343,156 @@ const handleCheckout = async () => {
 
     if (response) {
       alertMessage.value = "Checkout successfully!";
+      handleTransaction(status, paypalOrderID, response.order_id);
       setTimeout(() => {
         router.push("/products");
       }, 1000);
+      console.log("checkout:" + response);
     } else {
       console.error("Lỗi trong quá trình thanh toán:", response);
     }
   } catch (error) {
     console.error("Lỗi trong quá trình thanh toán:", error);
   }
+};
+const handleTransaction = async (status, paypalOrderID, orderID) => {
+  try {
+    const payload = {
+      orderID,
+      paypalOrderID,
+      status,
+    };
+
+    const response = await fetchData(
+      `${process.env.VUE_APP_URL}/transaction/create-transaction`,
+      "POST",
+      payload
+    );
+    if (response) {
+      console.log(response);
+    } else {
+      console.error("Invalid response format:", response);
+    }
+  } catch (error) {
+    console.error("Error create transaction:", error);
+  }
+};
+const setupPayPal = async () => {
+  const clientId =
+    "AdOIALptwcqSF-EWVwJuRZcG1fbDmUkton_tA-QklUMZ6ZB1rW8FkCD-mW2OihkIO0qryeh32AN9k320";
+
+  const paypalScriptUrl = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD`;
+
+  await loadPayPalScript(paypalScriptUrl);
+  console.log("clientId:" + clientId);
+  renderPayPalButtons(clientId);
+};
+
+const createOrder = async () => {
+  try {
+    console.log("Payload:");
+
+    const payload = {
+      grandTotal: calculateTotalPrice.value,
+    };
+    console.log("Payload:", payload);
+
+    const response = await fetchData(
+      `${process.env.VUE_APP_URL}/order/api/orders`,
+      "POST",
+      payload
+    );
+
+    console.log("Response status:", response);
+    if (response) {
+      return response.id;
+    } else {
+      console.error(
+        "Create order request failed with status:",
+        response.status
+      );
+      throw new Error(`Error creating order. Status: ${response.status}`);
+    }
+  } catch (error) {
+    throw new Error(`Error creating order: ${error}`);
+  }
+};
+
+const loadPayPalScript = async (scriptUrl) => {
+  try {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = scriptUrl;
+      script.async = true;
+      script.crossorigin = "anonymous";
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  } catch (error) {
+    throw new Error(`Error loading PayPal script: ${error}`);
+  }
+};
+
+const renderPayPalButtons = async (clientId) => {
+  if (!clientId) {
+    throw new Error("Invalid clientId");
+  }
+
+  window.paypal
+    .Buttons({
+      createOrder: async () => await createOrder(),
+      onApprove: async (data) => await onApprove(data),
+    })
+    .render("#paypal-button-container");
+  console.log("renderPayPalButtons:" + clientId);
+};
+
+const onApprove = async (data) => {
+  console.log("onApprove - Data:", data);
+  try {
+    const response = await fetchData(
+      `${process.env.VUE_APP_URL}/order/api/orders/${data.orderID}/capture`,
+      "POST"
+    );
+
+    console.log("onApprove - Response:", response);
+    const orderData = await response;
+    console.log("onApprove - Response2222:", orderData);
+    const captures = orderData?.purchase_units?.[0]?.payments?.captures || [];
+
+    if (captures.length > 0) {
+      const lastCapture = captures[captures.length - 1];
+
+      console.log("Capture details:", lastCapture);
+
+      const transactionAmount = lastCapture.amount.value;
+      const transactionCurrency = lastCapture.amount.currency_code;
+
+      resultMessage(
+        `Transaction Status: ${lastCapture.status}<br>
+         Transaction ID: ${lastCapture.id}<br>
+         Amount: ${transactionAmount} ${transactionCurrency}<br>
+         See console for all available details`
+      );
+      handleCheckout(orderData.id, orderData.status);
+    } else {
+      console.error("No captures found in the response.");
+      throw new Error("No captures found in the response.");
+    }
+  } catch (error) {
+    console.error(error);
+    resultMessage(
+      `Sorry, your transaction could not be processed...<br><br>${
+        error.message || "Unknown error"
+      }`
+    );
+  }
+};
+
+const resultMessage = async (message) => {
+  const container = document.querySelector("#result-message");
+  container.innerHTML = message;
 };
 </script>
 <style scoped>
