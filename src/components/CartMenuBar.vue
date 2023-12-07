@@ -13,9 +13,11 @@ CartMenuBar
       </router-link>
     </div>
     <div class="flex">
-      <div class="cart font-bold m-1 border-b-2 border-primary">Cart</div>
       <div class="doc1 font-bold text-gray_footer">....................</div>
-      <div class="payment font-bold m-1 text-gray_footer">Payment</div>
+      <div class="cart text-xl m-1 px-2 border-b-2 font-bold border-primary">
+        Cart
+      </div>
+      <div class="doc1 font-bold text-gray_footer">....................</div>
     </div>
     <router-link to="/products" class="flex mr-6">
       <img

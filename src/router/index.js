@@ -224,6 +224,14 @@ const routes = [
     },
     component: () => import("../views/orderDetail.vue"),
   },
+  {
+    path: "/wishlist",
+    name: "Wishlist",
+    meta: {
+      layout: "personal",
+    },
+    component: () => import("../views/wishlist.vue"),
+  },
 
   // {
   //   path: "/:pathMatch(.*)*",

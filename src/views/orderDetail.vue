@@ -143,20 +143,30 @@ const formatDateThreeDaysLater = (dateString) => {
 
 const generateInvoice = () => {
   invoiceHTML.value = `
-    <div class="invoice">
-      <div>Mã đơn hàng: ${currentOrder.value.orderId}</div>
-      <div>Ngày đặt: ${formatDate(currentOrder.value.orderDate)}</div>
-      <div>Tổng cộng: AED ${currentOrder.value.grandTotal.toFixed(2)}</div>
-      <div>Giảm giá: AED ${currentOrder.value.discountAmount.toFixed(2)}</div>
+    <div class="invoice my-2">
+      <div class="my-2 text-xl">Mã đơn hàng: #${
+        currentOrder.value.orderId
+      }</div>
+      <div class="my-2 text-xl">Ngày đặt: ${formatDate(
+        currentOrder.value.orderDate
+      )}</div>
+      <div class="my-2 text-xl">Tổng cộng: AED ${currentOrder.value.grandTotal.toFixed(
+        2
+      )}</div>
+      <div class="my-2 text-xl">Giảm giá: AED ${currentOrder.value.discountAmount.toFixed(
+        2
+      )}</div>
       <!-- Thêm chi tiết hóa đơn khác nếu cần -->
 
       <!-- Chi tiết hóa đơn (ví dụ: các sản phẩm đặt hàng) có thể được thêm ở đây -->
-      <div class="invoice-items">
+      <div class="invoice-items ">
         ${currentOrder.value.orderDetails
           .map(
-            (orderDetail) => `
-          <div>Sản phẩm ${orderDetail.product.title}: VND ${orderDetail.product.price}</div>
-        `
+            (orderDetail, index) => `
+          <div class="my-2 text-xl">Sản phẩm ${index + 1}:</div> 
+          <div class="ml-4">-${orderDetail.product.title}: ${
+              orderDetail.product.price
+            } VND</div>         `
           )
           .join("")}
       </div>
@@ -178,11 +188,10 @@ onMounted(async () => {
 .modal {
   position: absolute;
   top: 0;
-  width: 90%;
-  background: rgb(155, 151, 151);
+  width: 100%;
+  background: rgb(213, 213, 213);
   font-weight: bold;
-  padding-left: 20px;
-
-  padding-right: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 </style>
