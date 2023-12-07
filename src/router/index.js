@@ -256,6 +256,22 @@ const routes = [
     },
     component: () => import("../views/orderDetail.vue"),
   },
+  {
+    path: "/forgot-password",
+    name: "ForgotPassword",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/forgotPassword.vue"),
+  },
+  {
+    path: "/reset-password",
+    name: "ResetPassword",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/resetPassword.vue"),
+  },
 
   // {
   //   path: "/:pathMatch(.*)*",

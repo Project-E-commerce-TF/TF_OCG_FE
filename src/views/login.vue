@@ -71,14 +71,20 @@
 
       <!-- Start Direction -->
       <div class="w-full text-center mt-6">
-        <span class="font-semibold">I'm a new user.</span>
+        <span class="font-semibold">I'm a new user -></span>
         <span class="ml-1">
           <router-link
             :to="{ name: `Register`, params: {} }"
-            class="text-primary font-bold"
+            class="text-primary font-bold hover:text-blue-200"
             >Sign up</router-link
           >
         </span>
+        <span
+          class="ml-3 cursor-pointer text-rose-700 font-bold hover:text-rose-200"
+          ><router-link :to="{ name: 'ForgotPassword' }"
+            >Forgot Password</router-link
+          ></span
+        >
       </div>
     </div>
   </div>
@@ -109,8 +115,9 @@ async function onSubmit() {
   await login(email.value, password.value);
   if (!error.value) router.push({ name: "Home" });
 }
+
+// check khi login google redirect về url này
 if (route.query.accessToken) {
-  console.log(1);
   const routeQuery = {
     userId: route.query.userID,
     userName: route.query.userName,
