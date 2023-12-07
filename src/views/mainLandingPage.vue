@@ -76,11 +76,11 @@
         Pick the category you are looking for and start shopping now!
       </div>
       <div class="swiper-container category-slider" ref="categorySwiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper justify-center">
           <div
             v-for="cate in category"
             :key="cate.categoryId"
-            class="swiper-slide"
+            class="swiper-slide !w-[250px]"
           >
             <CategoryBox :category="cate" />
           </div>
