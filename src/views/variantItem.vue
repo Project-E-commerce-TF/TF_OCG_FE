@@ -231,7 +231,7 @@ watch(
       const body = {
         productID: data.value.product.productId,
         optionValue1: newVal.value[keys[0]],
-        optionValue2: newVal.value[keys[1]],
+        optionValue2: newVal.value[keys[1]] || 0,
       };
 
       const resVariantByOp = await fetchData(
