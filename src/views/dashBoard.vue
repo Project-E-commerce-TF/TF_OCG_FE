@@ -1,7 +1,7 @@
 <template>
-  <div class="w-screen h-screen flex">
+  <div class="h-screen flex">
     <!-- Side bar -->
-    <div class="w-[400px] h-full bg-primary text-white" v-show="showSide">
+    <div class="w-[400px] bg-primary text-white" v-show="showSide">
       <div class="h-[50px] bg-gray-900 flex justify-start items-center">
         <div class="px-[20px]">
           <h3 class="font-bold text-xl">Admin Dashboard</h3>
@@ -66,6 +66,23 @@
                 ></path>
               </svg>
               Order
+            </router-link>
+            <router-link
+              to="/dashboard/discount"
+              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+            >
+              <svg
+                class="ml-1 mr-2 bg-white"
+                xmlns="http://www.w3.org/2000/svg"
+                height="16"
+                width="18"
+                viewBox="0 0 576 512"
+              >
+                <path
+                  d="M112 112c0 35.3-28.7 64-64 64V336c35.3 0 64 28.7 64 64H464c0-35.3 28.7-64 64-64V176c-35.3 0-64-28.7-64-64H112zM0 128C0 92.7 28.7 64 64 64H512c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM176 256a112 112 0 1 1 224 0 112 112 0 1 1 -224 0zm80-48c0 8.8 7.2 16 16 16v64h-8c-8.8 0-16 7.2-16 16s7.2 16 16 16h24 24c8.8 0 16-7.2 16-16s-7.2-16-16-16h-8V208c0-8.8-7.2-16-16-16H272c-8.8 0-16 7.2-16 16z"
+                />
+              </svg>
+              Discount
             </router-link>
           </div>
         </div>
@@ -174,7 +191,7 @@
           </div>
         </div>
       </div>
-      <div class="h-[calc(100vh-50px)] bg-gray-50 p-[20px]">
+      <div class="h-auto bg-gray-50 p-[20px]">
         <div class="border border-gray-300 rounded-md p-[20px] h-full">
           <router-view></router-view>
         </div>
@@ -184,22 +201,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showDropDown: false,
-      showSide: true,
-    };
-  },
-  methods: {
-    toggleSideBar() {
-      this.showSide = !this.showSide;
-    },
-    toggleDrop() {
-      this.showDropDown = !this.showDropDown;
-    },
-  },
+<script setup>
+import { ref } from "vue";
+
+const showDropDown = ref(false);
+const showSide = ref(true);
+
+const toggleSideBar = () => {
+  showSide.value = !showSide.value;
+};
+const toggleDrop = () => {
+  showDropDown.value = !showDropDown.value;
 };
 </script>
 
