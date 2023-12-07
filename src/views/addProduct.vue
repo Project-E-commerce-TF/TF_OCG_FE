@@ -10,7 +10,7 @@
         Product
       </div>
       <div class="flex my-5 items-center">
-        <label for="title" class="min-w-[100px]">Title</label>
+        <label for="title" class="min-w-[120px]">Title</label>
         <input
           type="text"
           id="title"
@@ -19,7 +19,7 @@
         />
       </div>
       <div class="flex my-5 items-center">
-        <label for="desc" class="min-w-[100px]">Description</label>
+        <label for="desc" class="min-w-[120px]">Description</label>
         <textarea
           id="desc"
           class="grow rounded-md border border-solid p-2"
@@ -27,7 +27,7 @@
         ></textarea>
       </div>
       <div class="flex my-5 items-center">
-        <label for="price" class="min-w-[100px]">Price</label>
+        <label for="price" class="min-w-[120px]">Price</label>
         <input
           type="text"
           id="price"
@@ -36,7 +36,16 @@
         />
       </div>
       <div class="flex my-5 items-center">
-        <label for="category" class="min-w-[100px]">Category</label>
+        <label for="imageAddress" class="min-w-[120px]">Image Address</label>
+        <input
+          type="text"
+          id="imageAddress"
+          class="grow rounded-md border border-solid p-2"
+          v-model="imageAddress"
+        />
+      </div>
+      <div class="flex my-5 items-center">
+        <label for="category" class="min-w-[120px]">Category</label>
         <select
           id="category"
           class="grow rounded-md border border-solid p-2"
@@ -76,7 +85,9 @@
       class="product m-auto rounded-lg bg-gray_sidebar w-[90%] p-20"
       @submit.prevent="submitOptionProduct"
     >
-      <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
+      <div
+        class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-3"
+      >
         Option
       </div>
       <div>
@@ -252,6 +263,7 @@ const optionSet = ref([]);
 const selectedOptionValues = ref({});
 
 const imgAddress = ref("");
+const imageAddress = ref("");
 const amount = ref(0);
 const priceVariant = ref(0);
 const categoryList = ref([]);
@@ -321,6 +333,7 @@ const submitProduct = async () => {
       title: title.value,
       description: description.value,
       price: Number(price.value),
+      image: imageAddress.value,
       categoryID: category.value,
     };
     const res = await fetchData(
