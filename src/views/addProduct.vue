@@ -212,6 +212,12 @@
           placeholder="Amount"
           class="grow rounded-md border border-solid p-2"
         />
+        <label>Image Address</label>
+        <input
+          v-model="imgAddress"
+          placeholder="Image Address"
+          class="grow rounded-md border border-solid p-2"
+        />
 
         <button
           @click.prevent="submitVariant"
@@ -245,6 +251,7 @@ const router = useRouter();
 const optionSet = ref([]);
 const selectedOptionValues = ref({});
 
+const imgAddress = ref("");
 const amount = ref(0);
 const priceVariant = ref(0);
 const categoryList = ref([]);
@@ -388,7 +395,8 @@ const submitVariant = async () => {
     if (
       !priceVariant.value ||
       !amount.value ||
-      Object.keys(selectedOptionValues.value).length !== 2
+      !imgAddress.value
+      // || Object.keys(selectedOptionValues.value).length !== 2
     ) {
       error.value = "Please fill all fields";
       return;
@@ -396,6 +404,7 @@ const submitVariant = async () => {
     body.productId = product.value.productId;
     body.title = product.value.title;
     body.price = priceVariant.value;
+    body.image = imgAddress.value;
     body.countInStock = amount.value;
     body.optionValue1 = Number(Object.values(selectedOptionValues.value)[0]);
     body.optionValue2 = Number(Object.values(selectedOptionValues.value)[1]);
