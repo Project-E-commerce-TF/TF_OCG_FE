@@ -110,6 +110,7 @@ async function onSubmit() {
   if (!error.value) router.push({ name: "Home" });
 }
 if (route.query.accessToken) {
+  console.log(1);
   const routeQuery = {
     userId: route.query.userID,
     userName: route.query.userName,

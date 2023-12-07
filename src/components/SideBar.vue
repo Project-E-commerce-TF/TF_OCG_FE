@@ -27,14 +27,22 @@
 
 <script setup>
 import { useRouter, useRoute } from "vue-router";
-import data from "../datajson/categories";
 import CustomMinMaxSlider from "./CustomMinMaxSlider.vue";
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import store from "../store/index.js";
+import { fetchData } from "@/utils/axiosFetchApi";
 
 const router = useRouter();
 const route = useRoute();
 const cateList = ref([]);
+const data = ref([]);
+
+onMounted(async () => {
+  const res = await fetchData(`${process.env.VUE_APP_URL}/category`);
+  if (res) {
+    data.value = res.categories;
+  }
+});
 
 const handleChecked = (e, value) => {
   e.target.checked
