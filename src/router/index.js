@@ -159,7 +159,7 @@ const routes = [
     children: [
       {
         path: "user",
-        name: "User",
+        name: "UserDashboard",
         meta: {
           layout: "default",
         },
@@ -167,7 +167,7 @@ const routes = [
       },
       {
         path: "product",
-        name: "Product",
+        name: "ProductDashboard",
         meta: {
           layout: "default",
         },
@@ -175,11 +175,35 @@ const routes = [
       },
       {
         path: "order",
-        name: "Order",
+        name: "OrderDashboard",
         meta: {
           layout: "default",
         },
         component: () => import("../views/orderDashboard.vue"),
+      },
+      {
+        path: "variant",
+        name: "VariantDashboard",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/variantDashboard.vue"),
+      },
+      {
+        path: "discount",
+        name: "DiscountDashboard",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/discountDashboard.vue"),
+      },
+      {
+        path: "product/edit/:id",
+        name: "ProductEdit",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/productEditDashboard.vue"),
       },
     ],
     component: () => import("../views/dashBoard.vue"),
@@ -191,6 +215,14 @@ const routes = [
       layout: "default",
     },
     component: () => import("../views/addProduct.vue"),
+  },
+  {
+    path: "/dashboard/add-discount",
+    name: "AddDiscount",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/addDiscount.vue"),
   },
   {
     path: "/phone-number",

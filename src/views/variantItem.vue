@@ -10,7 +10,7 @@
     <!-- Product Information -->
     <div class="info w-1/2 p-10 flex flex-col gap-10">
       <h2 class="text-primary text-xl font-bold">{{ data.product.title }}</h2>
-      <b class="text-3xl">{{ numberToCurrencyVND(data.product.price) }}</b>
+      <b class="text-3xl">{{ numberToCurrencyVND(variantPrice) }}</b>
       <div>Count In Stock : {{ countInStock }}</div>
       <div>
         <div
@@ -101,7 +101,7 @@
     <div class="font-bold text-xl mb-10">Related products</div>
     <swiper
       :modules="modules"
-      :slides-per-view="5"
+      :slides-per-view="4"
       :space-between="5"
       navigation
     >
@@ -117,7 +117,7 @@
                 alt=""
                 class="object-cover w-full rounded-md"
               />
-              <div class="p-2">{{ product.title }}</div>
+              <div class="p-2 min-h-[120px]">{{ product.title }}</div>
             </div>
           </router-link>
         </div>
@@ -144,6 +144,7 @@ const alertMessage = ref(null);
 const countInStock = ref(0);
 const selectedOptions = ref({});
 const quantity = ref(1);
+const variantPrice = ref(0);
 
 const updateSwiper = () => {
   // Calculate the number of slides based on the window width or any other logic you want
@@ -243,6 +244,7 @@ watch(
       );
       if (resVariantById && resVariantById.countInStock) {
         countInStock.value = resVariantById.countInStock;
+        variantPrice.value = resVariantById.price;
       }
     } catch (error) {
       console.error("Failed to update countInStock:", error);
