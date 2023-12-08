@@ -281,7 +281,7 @@ watch(
             `${process.env.VUE_APP_URL}/category/${res.product?.categoryID}`
           );
           const result = await fetchData(
-            `${process.env.VUE_APP_URL}/product/search/list?category=${resCate.handle}&pageSize=4`
+            `${process.env.VUE_APP_URL}/product/search/list?category=${resCate.handle}&pageSize=10`
           );
           relateProducts.value = result.products;
         }

@@ -70,17 +70,25 @@
     </div>
 
     <!-- Categories -->
-    <div class="w-full mt-36">
-      <div class="row font-bold text-center text-4xl">Shop by category</div>
+    <div>
+      <div
+        class="row font-bold text-center text-4xl"
+        aria-label="Shop by category"
+      >
+        Shop by category
+      </div>
       <div class="row text-center text-2xl mt-7">
         Pick the category you are looking for and start shopping now!
       </div>
-      <div class="swiper-container category-slider" ref="categorySwiper">
+      <div
+        class="swiper-container category-slider custom-width"
+        ref="categorySwiper"
+      >
         <div class="swiper-wrapper justify-center">
           <div
             v-for="cate in category"
             :key="cate.categoryId"
-            class="swiper-slide !w-[250px]"
+            class="swiper-slide"
           >
             <CategoryBox :category="cate" />
           </div>
@@ -148,5 +156,10 @@ onMounted(async () => {
 <style scoped>
 .image-slide {
   max-height: 800px; /* Đặt chiều cao tối đa mong muốn */
+}
+
+.custom-width {
+  max-width: 60%;
+  margin: 0 auto;
 }
 </style>

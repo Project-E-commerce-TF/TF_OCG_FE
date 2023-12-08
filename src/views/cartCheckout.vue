@@ -324,7 +324,7 @@ const handlePay = async () => {
   }
   setupPayPal();
 };
-const handleCheckout = async (paypalOrderID, status) => {
+const handleCheckout = async (paypalOrderID, status, discountCode1) => {
   try {
     const payload = {
       shippingAddress: shippingAddress.value,
@@ -333,6 +333,7 @@ const handleCheckout = async (paypalOrderID, status) => {
       totalPrice: totalPrices.value,
       grandTotal: calculateTotalPrice.value,
       discountAmount: calculateSavings.value,
+      discountCode: discountCode1,
     };
 
     const response = await fetchData(
@@ -442,13 +443,13 @@ const renderPayPalButtons = async (clientId) => {
   window.paypal
     .Buttons({
       createOrder: async () => await createOrder(),
-      onApprove: async (data) => await onApprove(data),
+      onApprove: async (data) => await onApprove(data, discountCode.value),
     })
     .render("#paypal-button-container");
   console.log("renderPayPalButtons:" + clientId);
 };
 
-const onApprove = async (data) => {
+const onApprove = async (data, discountCode) => {
   console.log("onApprove - Data:", data);
   try {
     const response = await fetchData(
@@ -475,7 +476,7 @@ const onApprove = async (data) => {
          Amount: ${transactionAmount} ${transactionCurrency}<br>
          See console for all available details`
       );
-      handleCheckout(orderData.id, orderData.status);
+      handleCheckout(orderData.id, orderData.status, discountCode);
     } else {
       console.error("No captures found in the response.");
       throw new Error("No captures found in the response.");

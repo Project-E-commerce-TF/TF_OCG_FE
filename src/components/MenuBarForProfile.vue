@@ -43,7 +43,7 @@
           />
         </button>
       </router-link>
-      <router-link to="/location">
+      <router-link to="/map">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_location.png')"

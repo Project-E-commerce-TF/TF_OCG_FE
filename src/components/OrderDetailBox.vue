@@ -4,9 +4,9 @@
       <div class="col flex">
         <div class="col">
           <img
-            :src="require('@/assets/images/icon_user.png')"
-            alt="icon_search"
-            class="w-20 h-10 mr-4"
+            :src="orderDetail.variant.image"
+            alt="variant-image"
+            class="w-24 h-24 object-cover mr-2 rounded-xl"
           />
         </div>
         <div class="col flex flex-col justify-between py-2">
