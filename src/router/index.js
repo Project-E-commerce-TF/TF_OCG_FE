@@ -264,6 +264,22 @@ const routes = [
     },
     component: () => import("../views/wishlist.vue"),
   },
+  {
+    path: "/forgot-password",
+    name: "ForgotPassword",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/forgotPassword.vue"),
+  },
+  {
+    path: "/reset-password",
+    name: "ResetPassword",
+    meta: {
+      layout: "default",
+    },
+    component: () => import("../views/resetPassword.vue"),
+  },
 
   // {
   //   path: "/:pathMatch(.*)*",
@@ -275,6 +291,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      // Nếu đã lưu vị trí cuộn, sử dụng nó
+      return savedPosition;
+    } else {
+      // Nếu không có vị trí cuộn lưu trước đó, cuộn lên đầu trang
+      return { top: 0 };
+    }
+  },
 });
 
 export default router;

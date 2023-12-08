@@ -122,12 +122,12 @@ const columns = [
 
 const table = ref(null);
 onMounted(async () => {
-  const res = await fetchData(`${process.env.VUE_APP_URL}/product?pageSize=20`);
+  const res = await fetchData(`${process.env.VUE_APP_URL}/product`);
   if (res) {
     data.value = res;
   }
   table.value = useVueTable({
-    data: data.value.products,
+    data: data.value,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

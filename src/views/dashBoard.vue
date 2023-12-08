@@ -1,20 +1,21 @@
 <template>
-  <div class="h-screen flex">
+  <div class="max-h-[100vh] overflow-auto flex">
     <!-- Side bar -->
-    <div class="w-[400px] bg-primary text-white" v-show="showSide">
-      <div class="h-[50px] bg-gray-900 flex justify-start items-center">
+    <div class="bg_image w-[400px] bg-primary text-white" v-show="showSide">
+      <div class="h-[50px] bg-black flex justify-start items-center">
         <div class="px-[20px]">
           <h3 class="font-bold text-xl">Admin Dashboard</h3>
         </div>
       </div>
-      <div class="h-[calc(100vh-50px)] bg-primary py-[20px]">
+      <div class="h-[calc(100vh-50px)] py-[20px]">
         <div
           class="flex flex-col justify-between h-full px-[20px] space-y-[10px]"
         >
           <div class="flex flex-col justify-between space-y-[10px]">
             <router-link
+              active-class="active"
               to="/dashboard/user"
-              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
+              class="text-[20px] font-extrabold inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-200 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
                 aria-hidden="true"
@@ -32,8 +33,9 @@
               User
             </router-link>
             <router-link
+              active-class="active"
               to="/dashboard/product"
-              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+              class="text-[20px] font-extrabold inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
                 class="ml-1 mr-2 bg-white"
@@ -49,8 +51,9 @@
               Product
             </router-link>
             <router-link
+              active-class="active"
               to="/dashboard/order"
-              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+              class="text-[20px] font-extrabold inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
                 aria-hidden="true"
@@ -68,8 +71,9 @@
               Order
             </router-link>
             <router-link
+              active-class="active"
               to="/dashboard/discount"
-              class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
+              class="text-[20px] font-extrabold inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300 hover:text-gray-800 transition duration-400 ease-in-out"
             >
               <svg
                 class="ml-1 mr-2 bg-white"
@@ -108,35 +112,6 @@
         <div class="w-[calc(100%-30px)] flex">
           <div class="w-[calc(100%-200px)] flex justify-center">
             <!-- Search bar -->
-            <form class="flex items-center w-[500px]">
-              <label for="voice-search" class="sr-only">Search</label>
-              <div class="relative w-full">
-                <div
-                  class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="w-5 h-auto text-gray-500 dark:text-gray-400"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  id="voice-search"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Search..."
-                  required
-                />
-              </div>
-            </form>
           </div>
           <!-- User login -->
           <div class="w-[200px]">
@@ -191,8 +166,8 @@
           </div>
         </div>
       </div>
-      <div class="h-auto bg-gray-50 p-[20px]">
-        <div class="border border-gray-300 rounded-md p-[20px] h-full">
+      <div class="bg-gray-50 p-[20px] overflow-auto max-h-[calc(100vh-50px)]">
+        <div class="border border-gray-300 rounded-md p-[20px]">
           <router-view></router-view>
         </div>
       </div>
@@ -215,4 +190,15 @@ const toggleDrop = () => {
 };
 </script>
 
-<style></style>
+<style>
+.active {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+.bg_image {
+  background-image: url("https://i.pinimg.com/736x/a2/94/b5/a294b593769b6bf61b55c152032e7459.jpg?fbclid=IwAR3L0pyAy11YqFUzfOt2Bw_UNfWRxwROJOqRP6dTePsehjkz7IIj_E6f08E");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: -500px;
+}
+</style>

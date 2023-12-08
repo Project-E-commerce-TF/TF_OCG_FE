@@ -1,11 +1,13 @@
 <template>
-  <div>
+  <div
+    class="flex justify-center items-center h-[100vh] bg-[url(https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-a-conceptual-illustration-of-web-design-development-and-seo-optimization-in-image_13584944.png)]"
+  >
     <form
       @submit.prevent="submit"
-      class="product m-auto rounded-lg bg-gray_sidebar w-[90%] p-20"
+      class="product p-10 m-auto rounded-lg bg-purple-300 w-[60%] opacity-95 font-bold"
     >
-      <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
-        Add discount
+      <div class="w-[30%] m-auto text-center text-3xl font-bold pb-10">
+        ADD DISCOUNT
       </div>
       <div class="flex my-5 items-center">
         <label for="discountCode" class="min-w-[100px]">Code</label>
@@ -29,21 +31,60 @@
         </select>
       </div>
       <div class="flex my-5 items-center">
+        <label for="discountType" class="min-w-[100px]">Beneficiary</label>
+        <select
+          id="beneficiary"
+          class="grow rounded-md border border-solid p-2"
+          v-model="beneficiary"
+        >
+          <option disabled value="">Choose</option>
+          <option :value="false">All</option>
+          <option :value="true">Single</option>
+        </select>
+        <input
+          v-if="beneficiary"
+          type="text"
+          placeholder="User Id"
+          v-model="userId"
+          class="rounded-lg py-1 px-2 border border-solid ml-2"
+        />
+      </div>
+      <div class="flex my-5 items-center">
         <label for="value" class="min-w-[100px]">Value</label>
         <input
           type="number"
+          min="0"
           id="value"
           class="grow rounded-md border border-solid p-2"
           v-model="discountValue"
         />
       </div>
       <div class="flex my-5 items-center">
-        <label for="value" class="min-w-[100px]">Quantity</label>
+        <label for="discountQuantity" class="min-w-[100px]">Quantity</label>
         <input
           type="number"
+          min="0"
           id="discountQuantity"
           class="grow rounded-md border border-solid p-2"
           v-model="discountQuantity"
+        />
+      </div>
+      <div class="flex my-5 items-center">
+        <label for="startDate" class="min-w-[100px]">Start time</label>
+        <input
+          type="date"
+          id="startDate"
+          class="grow rounded-md border border-solid p-2"
+          v-model="startDate"
+        />
+      </div>
+      <div class="flex my-5 items-center">
+        <label for="endDate" class="min-w-[100px]">End time</label>
+        <input
+          type="date"
+          id="endDate"
+          class="grow rounded-md border border-solid p-2"
+          v-model="endDate"
         />
       </div>
       <div class="text-rose-700">{{ errorMess }}</div>
@@ -75,6 +116,10 @@ const discountCode = ref("");
 const discountType = ref("");
 const discountValue = ref(0);
 const discountQuantity = ref(0);
+const userId = ref("");
+const beneficiary = ref(false);
+const startDate = ref("");
+const endDate = ref("");
 const errorMess = ref("");
 const successMess = ref("");
 
@@ -84,7 +129,10 @@ const submit = async () => {
       !discountCode.value ||
       !discountType.value ||
       !discountValue.value ||
-      !discountQuantity.value
+      !discountQuantity.value ||
+      !startDate.value ||
+      !endDate.value ||
+      beneficiary.value
     ) {
       errorMess.value = "Please fill all fields";
       return;
@@ -94,8 +142,10 @@ const submit = async () => {
       discountType: discountType.value,
       value: Number(discountValue.value),
       availableQuantity: Number(discountQuantity.value),
+      userId: Number(userId.value),
+      startDate: new Date(startDate.value),
+      endDate: new Date(endDate.value),
     };
-
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/discount`,
       "POST",

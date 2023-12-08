@@ -1,9 +1,7 @@
 MenuBar
 
 <template>
-  <div
-    class="header flex justify-between items-center h-28 border-b-8 border-primary"
-  >
+  <div class="header flex justify-between items-center h-28">
     <div class="w-1/6 text-center">
       <router-link to="/">
         <img

@@ -114,10 +114,10 @@
           </div>
           <div class="col">
             <div class="row text-right text-xl font-bold">
-              {{ calculateTotalPrice.toFixed(2) }}
+              {{ numberToCurrencyVND(calculateTotalPrice) }}
             </div>
             <div class="row text-right text-sm text-save">
-              You Saved AED {{ calculateSavings.toFixed(2) }}
+              You Saved {{ numberToCurrencyVND(calculateSavings) }}
             </div>
           </div>
         </div>
@@ -153,6 +153,7 @@ import { ref, watch, onMounted, computed, nextTick } from "vue";
 import CartBox from "@/components/CartBox.vue";
 import CartEmpty from "@/components/CartEmpty.vue";
 import { useRouter } from "vue-router";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 const router = useRouter();
 const cartItems = ref([]);
 const totalItems = ref(0);

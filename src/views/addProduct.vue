@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div
+    class="overflow-y-auto flex justify-center items-center h-[100vh] bg-[url(https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-a-conceptual-illustration-of-web-design-development-and-seo-optimization-in-image_13584944.png)]"
+  >
     <!-- product START -->
     <form
       v-if="!disabledAddProduct"
-      class="product m-auto rounded-lg bg-gray_sidebar w-[70%] p-20"
+      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
       @submit.prevent="submitProduct"
     >
       <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
@@ -20,11 +22,14 @@
       </div>
       <div class="flex my-5 items-center">
         <label for="desc" class="min-w-[120px]">Description</label>
-        <textarea
-          id="desc"
-          class="grow rounded-md border border-solid p-2"
-          v-model="description"
-        ></textarea>
+        <div id="sample">
+          <Editor
+            class="grow"
+            style="width: 100%"
+            v-model="description"
+            api-key="5yuek9t1m6nvx7xnjxyglscjopwcnhtaam641fk7o7uvz8ri"
+          />
+        </div>
       </div>
       <div class="flex my-5 items-center">
         <label for="price" class="min-w-[120px]">Price</label>
@@ -82,7 +87,7 @@
     <!-- option START -->
     <form
       v-if="!disabledAddOption"
-      class="product m-auto rounded-lg bg-gray_sidebar w-[90%] p-20"
+      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
       @submit.prevent="submitOptionProduct"
     >
       <div
@@ -116,7 +121,7 @@
     <form
       v-if="!disabledAddOptionValue"
       @submit.prevent="submitOptionValue"
-      class="product m-auto rounded-lg bg-gray_sidebar w-[90%] p-20"
+      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
     >
       <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
         Value
@@ -187,7 +192,7 @@
     <!-- price and count in stock START -->
     <form
       v-if="!disabledAddVariant"
-      class="product m-auto rounded-lg bg-gray_sidebar w-full p-20"
+      class="product m-auto rounded-lg bg-purple-300 w-[90%] p-10 opacity-95 font-bold"
     >
       <div class="flex gap-5 items-center">
         <div
@@ -257,6 +262,7 @@
 import { fetchData } from "@/utils/axiosFetchApi";
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import Editor from "@tinymce/tinymce-vue";
 
 const router = useRouter();
 const optionSet = ref([]);
@@ -341,7 +347,7 @@ const submitProduct = async () => {
       "POST",
       body
     );
-    console.log(res);
+    console.log(body);
     error.value = "";
     product.value = res;
     disabledAddProduct.value = true;
@@ -462,4 +468,13 @@ const continueToVariant = async () => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@media (min-width: 1024px) {
+  #sample {
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    width: 100%;
+  }
+}
+</style>
