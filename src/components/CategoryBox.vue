@@ -5,7 +5,7 @@
       <router-link
         :to="{
           name: 'Products',
-          // params: { handle: category.handle },
+          query: { category: category.handle },
         }"
         class="inline-block mt-2 rounded-md"
       >

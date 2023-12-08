@@ -43,16 +43,16 @@
             >
               <img
                 :src="item.image"
-                alt=""
+                :alt="item.handle"
                 class="img_main rounded-lg hover:scale-125 transition-all"
               />
             </router-link>
           </div>
-          <div class="font-black text-gray_footer mb-3 min-h-24">
-            {{ item.title }}
-          </div>
           <div class="text-2xl font-bold text-primary mb-6">
             {{ numberToCurrencyVND(item.price) }}
+          </div>
+          <div class="font-black text-gray_footer mb-3 min-h-24">
+            {{ item.title }}
           </div>
         </div>
       </div>

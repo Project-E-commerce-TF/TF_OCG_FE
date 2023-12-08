@@ -60,7 +60,7 @@
   <!-- Product Description -->
   <div class="description my-20 mx-40 text-primary">
     <div class="font-bold text-xl mb-10">Detail Descriptions</div>
-    <div>{{ data.product?.description }}</div>
+    <div v-html="data.product?.description"></div>
   </div>
 
   <!-- Product Reviews-->

@@ -21,7 +21,7 @@
         </div>
         <div class="flex">
           <div class="row font-bold mb-2 mr-2">
-            Price: ${{ cart.variantDetail?.price ?? 0 }}
+            {{ numberToCurrencyVND(cart.variantDetail?.price) }}
           </div>
           <div class="row font-bold">
             SKU: {{ cart.productDetail.productId }}
@@ -49,7 +49,9 @@
         <button @click="increment" class="px-2 py-1 bg-gray-300">+</button>
       </div>
     </div>
-    <div class="col w-1/8 font-bold">Total: ${{ cart.totalPrice }}</div>
+    <div class="col w-1/8 font-bold">
+      Total: {{ numberToCurrencyVND(cart.totalPrice) }}
+    </div>
     <button
       @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
       class="col w-1/8 bg-grey_white h-full flex justify-center py-14"
@@ -66,6 +68,7 @@
 <script>
 import { ref, watch, onMounted } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
+import { numberToCurrencyVND } from "../utils/currencyVND.js";
 
 export default {
   props: {
@@ -124,7 +127,13 @@ export default {
 
     const fetchDataForComponent = async () => {};
 
-    return { quantity, decrement, increment, updateQuantity };
+    return {
+      quantity,
+      decrement,
+      increment,
+      updateQuantity,
+      numberToCurrencyVND,
+    };
   },
 };
 </script>

@@ -283,6 +283,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      // Nếu đã lưu vị trí cuộn, sử dụng nó
+      return savedPosition;
+    } else {
+      // Nếu không có vị trí cuộn lưu trước đó, cuộn lên đầu trang
+      return { top: 0 };
+    }
+  },
 });
 
 export default router;
