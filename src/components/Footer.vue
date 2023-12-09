@@ -25,11 +25,11 @@
             <div class="relative">
               <input
                 type="text"
-                class="border border-gray-300 pl-4 pr-10 py-2 focus:outline-none focus:border-primary w-full"
+                class="border border-gray-300 pl-4 pr-10 py-2 focus:outline-none focus:border-primary w-full rounded-xl"
                 placeholder="Email address"
               />
               <button
-                class="absolute right-0 top-0 bg-primary text-white px-4 py-2 rounded-lg"
+                class="absolute right-0 top-0 bg-primary text-white px-4 py-2 rounded-xl"
               >
                 Subscribe
               </button>

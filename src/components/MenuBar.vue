@@ -1,20 +1,22 @@
 MenuBar
 
 <template>
-  <div class="header flex justify-between items-center h-28">
+  <div
+    class="header bg-slate-200 flex justify-between items-center border-b-8 border-primary h-28 px-6"
+  >
     <div class="w-1/6 text-center">
       <router-link to="/">
         <img
           :src="require('@/assets/images/logo_header.png')"
           alt="logo_brand"
-          class="w-full object-cover"
+          class="w-full object-cover rounded-full my-1"
         />
       </router-link>
     </div>
     <div class="relative w-2/6 flex justify-center items-center">
       <input
         type="text"
-        class="border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-md"
+        class="border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-xl"
         placeholder="Search for product..."
         v-model="searchText"
       />
@@ -32,7 +34,7 @@ MenuBar
       </router-link>
     </div>
     <div class="text-center w-2/6 flex justify-end items-center gap-5 mr-4">
-      <router-link to="/profile">
+      <router-link to="/profile" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_user.png')"
@@ -40,8 +42,9 @@ MenuBar
             class="w-full h-full"
           />
         </button>
+        <div class="ml-2 font-bold">Profile</div>
       </router-link>
-      <router-link to="/map">
+      <router-link to="/map" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_location.png')"
@@ -49,8 +52,9 @@ MenuBar
             class="w-full h-full"
           />
         </button>
+        <div class="ml-2 font-bold">Map</div>
       </router-link>
-      <router-link to="/wishlist">
+      <router-link to="/wishlist" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_wishlist.png')"
@@ -58,8 +62,9 @@ MenuBar
             class="w-full h-full"
           />
         </button>
+        <div class="ml-2 font-bold">Wishlist</div>
       </router-link>
-      <router-link to="/cart">
+      <router-link to="/cart" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_cart.png')"
@@ -67,6 +72,7 @@ MenuBar
             class="w-full h-full"
           />
         </button>
+        <div class="ml-2 font-bold">Cart</div>
       </router-link>
     </div>
   </div>

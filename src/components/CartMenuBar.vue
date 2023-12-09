@@ -1,14 +1,14 @@
 CartMenuBar
 <template>
   <div
-    class="header flex justify-between items-center h-28 border-b-8 border-primary"
+    class="header flex bg-slate-200 justify-between items-center h-28 border-b-8 border-primary px-6"
   >
     <div class="w-1/6 text-center">
       <router-link to="/home">
         <img
           :src="require('@/assets/images/logo_header.png')"
           alt="logo_brand"
-          class="w-full object-cover"
+          class="w-full object-cover rounded-full my-1"
         />
       </router-link>
     </div>

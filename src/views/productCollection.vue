@@ -31,11 +31,11 @@
         </select>
       </div>
       <!-- item -->
-      <div class="flex flex-wrap mt-20 gap-6">
+      <div class="flex flex-wrap mt-20 gap-2 w-full">
         <div
           v-for="item in productList"
           :key="item.product_id"
-          class="product_item w-1/5 min-w-200 mx-0.5"
+          class="product_item w-1/5 min-w-[285px] mx-0.5 border-2 rounded-xl"
         >
           <div class="mb-2 overflow-hidden relative cursor-pointer">
             <router-link
@@ -44,18 +44,21 @@
               <img
                 :src="item.image"
                 :alt="item.handle"
-                class="img_main rounded-lg hover:scale-125 transition-all"
+                class="img_main hover:scale-125 transition-all rounded-xl"
               />
             </router-link>
           </div>
-          <div class="text-2xl font-bold text-primary mb-6">
-            {{ numberToCurrencyVND(item.price) }}
-          </div>
-          <div class="font-black text-gray_footer mb-3 min-h-24">
-            {{ item.title }}
+          <div class="bg-grey_white p-3">
+            <div class="text-2xl font-bold text-primary mb-6">
+              {{ numberToCurrencyVND(item.price) }} VND
+            </div>
+            <div class="font-black text-gray_footer">
+              <div class="clamp-2-lines">{{ item.title }}</div>
+            </div>
           </div>
         </div>
       </div>
+
       <!-- pagination -->
       <Pagination />
     </div>
@@ -103,6 +106,14 @@ watch(
 </script>
 
 <style scoped>
+.clamp-2-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  max-height: 3em;
+}
+
 @media only screen and (max-width: 480px) {
   .main {
     justify-content: center;

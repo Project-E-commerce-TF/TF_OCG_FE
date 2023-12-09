@@ -2,7 +2,7 @@
   <div class="father w-full">
     <div class="flex w-full son1">
       <!-- User Profile Section -->
-      <div class="col w-1/5">
+      <div class="prf1 col w-1/5">
         <div class="flex justify-around container mx-auto px-8 pt-20">
           <div class="flex">
             <div class="w-24 h-25 rounded-full overflow-hidden">
@@ -18,13 +18,13 @@
       </div>
 
       <!-- User Information Section -->
-      <div class="col w-4/5 h-[100%]">
+      <div class="prf2 col w-4/5 h-[100%]">
         <div class="container mx-auto py-8 pr-60">
           <!-- Membership Button -->
           <div class="grid grid-cols-1 py-3">
             <div class="col-span-1 w-full flex justify-end">
               <button
-                @click="showRankDetails = true"
+                @click="showRankDetails"
                 type="button"
                 class="text-black font-bold bg-slate-200 py-1 px-3 rounded-full"
               >
@@ -109,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div v-if="showRankDetails">
+    <div v-if="showRank">
       <!-- Dong Rank -->
       <div
         v-if="isDongRank"
@@ -122,11 +122,9 @@
           </div>
           <div class="col font-bold flex flex-col justify-between items-end">
             <div class="row">
-              <button @click="showRankDetails = false" class="font-bold">
-                Close Details
-              </button>
+              <button @click="closeRankDetails" class="font-bold">Close</button>
             </div>
-            <div class="row mt-4">ƯU đãi mỗi thứ hạng ></div>
+            <div class="row mt-4">Ưu đãi mỗi thứ hạng ></div>
           </div>
         </div>
         <div class="row border-2 m-4 rounded-2xl bg-white">
@@ -174,11 +172,9 @@
           </div>
           <div class="col font-bold flex flex-col justify-between items-end">
             <div class="row">
-              <button @click="showRankDetails = false" class="font-bold">
-                Close Details
-              </button>
+              <button @click="closeRankDetails" class="font-bold">Close</button>
             </div>
-            <div class="row mt-4">ƯU đãi mỗi thứ hạng ></div>
+            <div class="row mt-4">Ưu đãi mỗi thứ hạng ></div>
           </div>
         </div>
         <div class="row border-2 m-4 rounded-2xl bg-white">
@@ -227,11 +223,9 @@
           </div>
           <div class="col font-bold flex flex-col justify-between items-end">
             <div class="row">
-              <button @click="showRankDetails = false" class="font-bold">
-                Close Details
-              </button>
+              <button @click="closeRankDetails" class="font-bold">Close</button>
             </div>
-            <div class="row mt-4">ƯU đãi mỗi thứ hạng ></div>
+            <div class="row mt-4">Ưu đãi mỗi thứ hạng ></div>
           </div>
         </div>
         <div class="row border-2 m-4 rounded-2xl bg-white">
@@ -279,11 +273,9 @@
           </div>
           <div class="col font-bold flex flex-col justify-between items-end">
             <div class="row">
-              <button @click="showRankDetails = false" class="font-bold">
-                Close Details
-              </button>
+              <button @click="closeRankDetails" class="font-bold">Close</button>
             </div>
-            <div class="row mt-4">ƯU đãi mỗi thứ hạng ></div>
+            <div class="row mt-4">Ưu đãi mỗi thứ hạng ></div>
           </div>
         </div>
         <div class="row border-2 m-4 rounded-2xl bg-white">
@@ -329,7 +321,7 @@ import { onMounted, ref, computed } from "vue";
 
 const infoUser = getLocalStorage("infoUser");
 const user = ref();
-const showRankDetails = ref(false);
+const showRank = ref(false);
 
 const formattedTotalSpent = computed(() => {
   if (!user.value?.totalSpent) return "0 VND";
@@ -358,6 +350,18 @@ const isDongRank = computed(() => userRank.value === "Bronze");
 const isBacRank = computed(() => userRank.value === "Silver");
 const isVangRank = computed(() => userRank.value === "Gold");
 const isKimCuongRank = computed(() => userRank.value === "Diamond");
+
+const showRankDetails = () => {
+  showRank.value = true;
+  document.querySelector(".prf1").style.opacity = "0.1";
+  document.querySelector(".prf2").style.opacity = "0.1";
+};
+
+const closeRankDetails = () => {
+  showRank.value = false;
+  document.querySelector(".prf1").style.opacity = "1";
+  document.querySelector(".prf2").style.opacity = "1";
+};
 
 onMounted(async () => {
   try {

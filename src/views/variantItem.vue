@@ -1,131 +1,138 @@
 <template>
-  <div v-if="!loading" class="parent flex">
-    <!-- Slide Image -->
-    <div class="slideImg w-1/2 flex flex-col">
-      <div class="w-[70%] m-auto">
-        <img :src="data.product.image" class="w-full" />
-      </div>
-    </div>
-
-    <!-- Product Information -->
-    <div class="info w-1/2 p-10 flex flex-col gap-10">
-      <h2 class="text-primary text-xl font-bold">{{ data.product.title }}</h2>
-      <b class="text-3xl">{{ numberToCurrencyVND(variantPrice) }}</b>
-      <div>Count In Stock : {{ countInStock }}</div>
-      <div>
-        <div
-          class="my-3 flex text-primary font-bold"
-          v-for="option in data.optionProducts"
-          :key="option.optionType"
-        >
-          <span class="p-2 mr-2 bg-gray_sidebar rounded-lg w-1/5">{{
-            option.optionType
-          }}</span>
-          <select
-            v-model="selectedOptions[option.optionType]"
-            class="p-2 bg-gray_sidebar rounded-lg grow"
-          >
-            <option
-              :value="optionName.optionValueId"
-              v-for="optionName in option.optionValues"
-              :key="optionName.optionValueId"
-            >
-              {{ optionName.value }}
-            </option>
-          </select>
+  <div class="mx-6 border-2 rounded-xl">
+    <div v-if="!loading" class="parent flex">
+      <!-- Slide Image -->
+      <div class="slideImg w-1/3 flex flex-col">
+        <div class="w-[100%] m-auto">
+          <img :src="data.product.image" class="w-full rounded-xl" />
         </div>
       </div>
-      <div class="flex">
-        <input
-          type="number"
-          min="0"
-          v-model="quantity"
-          class="w-20 p-4 bg-gray_sidebar rounded-lg"
-        />
-        <button
-          class="add_button grow bg-primary text-white rounded-lg ml-2 font-bold"
-          @click="addToCart"
-        >
-          Add to cart
-        </button>
-      </div>
-    </div>
-    <div v-if="alertMessage" class="alert-message font-bold">
-      {{ alertMessage }}
-    </div>
-  </div>
 
-  <Loader2 class="animate-spin w-full mt-40" v-else />
-
-  <!-- Product Description -->
-  <div class="description my-20 mx-40 text-primary">
-    <div class="font-bold text-xl mb-10">Detail Descriptions</div>
-    <div v-html="data.product?.description"></div>
-  </div>
-
-  <!-- Product Reviews-->
-  <div class="reviews my-20 mx-40">
-    <div class="font-bold text-xl mb-5">Product Reviews</div>
-
-    <div v-if="data.reviews && data.reviews.length > 0">
+      <!-- Product Information -->
       <div
-        v-for="(review, index) in data.reviews"
-        :key="index"
-        class="review-item border-2 my-4 rounded-xl p-2"
+        class="info w-2/3 rounded-xl p-10 flex flex-col gap-10 bg-grey_white"
       >
-        <div class="items-center">
-          <div class="font-bold">Rate:</div>
-          <div class="font-bold mr-2 flex">
-            <img
-              v-for="(star, index) in review.rating"
-              :key="index"
-              :src="require('@/assets/images/star.png')"
-              alt="star"
-              class="star-icon"
-            />
-          </div>
-          <div class="text-gray-500 font-bold">
-            User Name: {{ review.user.userName }}
+        <h2 class="text-primary text-4xl font-bold">
+          {{ data.product.title }}
+        </h2>
+        <b class="text-3xl">{{ numberToCurrencyVND(variantPrice) }}</b>
+        <div>Count In Stock : {{ countInStock }}</div>
+        <div>
+          <div
+            class="my-3 flex text-primary font-bold"
+            v-for="option in data.optionProducts"
+            :key="option.optionType"
+          >
+            <span class="p-2 mr-2 bg-gray_sidebar rounded-lg w-1/5">{{
+              option.optionType
+            }}</span>
+            <select
+              v-model="selectedOptions[option.optionType]"
+              class="p-2 bg-gray_sidebar rounded-lg grow"
+            >
+              <option
+                :value="optionName.optionValueId"
+                v-for="optionName in option.optionValues"
+                :key="optionName.optionValueId"
+              >
+                {{ optionName.value }}
+              </option>
+            </select>
           </div>
         </div>
-        <div class="mb-2 font-bold text-blue-600">{{ review.comment }}</div>
+        <div class="flex">
+          <input
+            type="number"
+            min="0"
+            v-model="quantity"
+            class="w-20 p-4 bg-gray_sidebar rounded-lg"
+          />
+          <button
+            class="add_button grow bg-primary text-white rounded-lg ml-2 font-bold"
+            @click="addToCart"
+          >
+            Add to cart
+          </button>
+        </div>
+      </div>
+      <div v-if="alertMessage" class="alert-message font-bold">
+        {{ alertMessage }}
       </div>
     </div>
 
-    <div v-else>
-      <p>No reviews available for this product.</p>
+    <Loader2 class="animate-spin w-full mt-40" v-else />
+
+    <!-- Product Description -->
+    <div class="description py-20 px-40 text-primary">
+      <div class="font-bold text-4xl mb-10">Detail Descriptions</div>
+      <div v-html="data.product?.description"></div>
     </div>
-  </div>
-  <!-- Related Products -->
-  <div class="relate my-20 mx-40">
-    <div class="font-bold text-xl mb-10">Related products</div>
-    <swiper
-      :modules="modules"
-      :slides-per-view="4"
-      :space-between="5"
-      navigation
-    >
-      <swiper-slide v-for="product in relateProducts" :key="product.id">
-        <div class="bg-white shadow-2xl rounded-md max-w-[200px]">
-          <router-link
-            :to="{ name: 'Variant', params: { handle: product.handle } }"
-            class="inline-block mt-2 rounded-md"
-          >
-            <div class="aspect-w-16 aspect-h-9">
+
+    <!-- Product Reviews-->
+    <div class="reviews py-20 px-40 bg-grey_white rounded-xl">
+      <div class="font-bold text-4xl mb-5">Product Reviews</div>
+
+      <div v-if="data.reviews && data.reviews.length > 0">
+        <div
+          v-for="(review, index) in data.reviews"
+          :key="index"
+          class="review-item border-2 my-4 rounded-xl p-2"
+        >
+          <div class="items-center">
+            <div class="font-bold">Rate:</div>
+            <div class="font-bold mr-2 flex">
               <img
-                :src="product.image"
-                alt=""
-                class="object-cover w-full rounded-md"
+                v-for="(star, index) in review.rating"
+                :key="index"
+                :src="require('@/assets/images/star.png')"
+                alt="star"
+                class="star-icon"
               />
-              <div class="p-2 min-h-[120px]">{{ product.title }}</div>
             </div>
-          </router-link>
+            <div class="text-gray-500 font-bold">
+              User Name: {{ review.user.userName }}
+            </div>
+          </div>
+          <div class="mb-2 font-bold text-blue-600">{{ review.comment }}</div>
         </div>
-      </swiper-slide>
-    </swiper>
+      </div>
+
+      <div v-else>
+        <p>No reviews available for this product.</p>
+      </div>
+    </div>
+    <!-- Related Products -->
+    <div class="relate my-20 mx-40">
+      <div class="font-bold text-4xl mb-10">Related products</div>
+      <swiper :modules="modules" :slides-per-view="5" class="swiper-container">
+        <swiper-slide v-for="product in relateProducts" :key="product.id">
+          <div
+            class="relative overflow-hidden bg-white shadow-2xl rounded-md max-w-[200px]"
+          >
+            <router-link
+              :to="{ name: 'Variant', params: { handle: product.handle } }"
+            >
+              <div class="aspect-w-16 aspect-h-9">
+                <img
+                  :src="product.image"
+                  alt=""
+                  class="object-cover w-full h-full rounded-md transition-transform transform scale-100 hover:scale-105"
+                />
+              </div>
+              <div
+                class="absolute inset-0 p-2 bg-gradient-to-b from-transparent to-black flex items-end"
+              >
+                <div class="text-white font-bold line-clamp-2">
+                  {{ product.title }}
+                </div>
+              </div>
+            </router-link>
+          </div>
+        </swiper-slide>
+      </swiper>
+    </div>
   </div>
 </template>
-
 <script setup>
 // import { numberToCurrencyVND } from "@/utils/currencyVND";
 import { ref, watch, onBeforeUnmount, watchEffect } from "vue";
@@ -306,15 +313,51 @@ watch(
 .add_button:hover {
   font-size: 20px;
 }
-.swiper-button-next,
-.swiper-button-prev {
-  color: #000;
-  /* Add more styles as needed */
+.swiper-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
-.swiper-pagination-bullet {
-  background: #000;
-  /* Add more styles as needed */
+.swiper-button-next {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2; /* Number of lines to show */
+}
+
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+}
+
+.swiper-slide img {
+  flex-grow: 1;
+}
+
+.swiper-button-next:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.swiper-button-next {
+  right: 0;
 }
 .alert-message {
   position: fixed;
