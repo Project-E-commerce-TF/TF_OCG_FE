@@ -69,6 +69,6 @@ const { error, isPending, loginDashboard } = useLoginDashboard();
 
 async function onSubmit() {
   await loginDashboard(email.value, password.value);
-  if (!error.value) router.push({ name: "Dashboard" });
+  if (!error.value) router.push({ name: "UserDashboard" });
 }
 </script>

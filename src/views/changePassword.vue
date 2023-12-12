@@ -1,8 +1,8 @@
 <template>
   <div
-    class="p-10 font-bold text-3xl rounded-lg bg-gray_sidebar px-60 py-20 h-[100vh]"
+    class="p-10 font-bold text-3xl rounded-lg bg-gray_sidebar px-80 py-20 h-[100vh]"
   >
-    <div class="mb-20 text-primary">Change password</div>
+    <div class="mb-20 text-primary text-center">Change password</div>
     <div class="flex flex-col gap-4 mb-6">
       <label class="text-xl text-primary">New password</label>
       <input

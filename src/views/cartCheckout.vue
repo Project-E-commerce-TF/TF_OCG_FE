@@ -41,7 +41,9 @@
           <div class="col text-primary font-bold">
             Item Total ({{ totalItems }} items)
           </div>
-          <div class="col font-bold">{{ totalPrices }}</div>
+          <div class="col font-bold">
+            {{ numberToCurrencyVND(totalPrices) }}
+          </div>
         </div>
         <div
           class="row flex justify-between my-4"
@@ -76,7 +78,7 @@
           v-if="shippingFee !== null && shippingFee > 0"
           class="mt-2 text-primary font-bold"
         >
-          Shipping Fee: {{ shippingFee }}
+          Shipping Fee: {{ numberToCurrencyVND(shippingFee) }}
         </div>
         <div class="my-4">
           <input

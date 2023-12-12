@@ -9,6 +9,9 @@ export async function fetchData(
   headers = {}
 ) {
   try {
+    if (!(data instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
     const response = await axios({
       method: method,
       url: url,

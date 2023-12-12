@@ -12,7 +12,7 @@
                   <img
                     :src="require('@/assets/images/logo_header.png')"
                     alt="logo_brand"
-                    class="w-full h-full object-cover"
+                    class="w-full object-cover rounded-full my-1"
                   />
                 </button>
               </router-link>
@@ -29,7 +29,7 @@
                 placeholder="Email address"
               />
               <button
-                class="absolute right-0 top-0 bg-primary text-white px-4 py-2 rounded-xl"
+                class="h-full absolute right-0 top-0 bg-primary text-white px-4 py-2 rounded-r-xl"
               >
                 Subscribe
               </button>
@@ -75,14 +75,11 @@
               Categories
             </div>
             <div class="w-full h-full">
-              <div class="row h-full text-xl text-primary my-4">Books</div>
-              <div class="row h-full text-xl text-primary my-4">Stationery</div>
-              <div class="row h-full text-xl text-primary my-4">
-                Art & Craft
-              </div>
-              <div class="row h-full text-xl text-primary my-4">
-                Classroom & Supplies
-              </div>
+              <div class="row h-full text-xl text-primary my-4">Keyboard</div>
+              <div class="row h-full text-xl text-primary my-4">Switch</div>
+              <div class="row h-full text-xl text-primary my-4">Keycap</div>
+              <div class="row h-full text-xl text-primary my-4">Mouse</div>
+              <div class="row h-full text-xl text-primary my-4">Accessory</div>
             </div>
           </div>
           <div class="contact_container col h-full">
@@ -97,6 +94,7 @@
         </div>
       </div>
 
+      <hr class="bg-black w-full" />
       <div class="contact row flex my-9 justify-between w-5/6 h-1/5">
         <div class="col w-full">
           <div class="row text-primary font-bold text-2xl">

@@ -1,10 +1,8 @@
 <template>
-  <div
-    class="flex justify-center items-center h-[100vh] bg-[url(https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-a-conceptual-illustration-of-web-design-development-and-seo-optimization-in-image_13584944.png)]"
-  >
+  <div class="flex justify-center items-center h-[100vh] bg_image">
     <form
       @submit.prevent="submit"
-      class="product p-10 m-auto rounded-lg bg-purple-300 w-[60%] opacity-95 font-bold"
+      class="product p-10 rounded-lg bg-gray-200 w-[60%] opacity-95 font-bold"
     >
       <div class="w-[30%] m-auto text-center text-3xl font-bold pb-10">
         ADD DISCOUNT
@@ -163,4 +161,12 @@ const submit = async () => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.bg_image {
+  background: linear-gradient(
+    112deg,
+    rgba(6, 11, 38, 0.94) 59.3%,
+    rgba(26, 31, 55, 0) 100%
+  );
+}
+</style>

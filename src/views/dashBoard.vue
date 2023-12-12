@@ -1,5 +1,5 @@
 <template>
-  <div class="max-h-[100vh] overflow-auto flex">
+  <div class="bg_image max-h-[100vh] overflow-auto flex">
     <!-- Side bar -->
     <div class="bg_image w-[400px] bg-primary text-white" v-show="showSide">
       <div class="h-[50px] bg-black flex justify-start items-center">
@@ -94,13 +94,13 @@
     </div>
     <div class="w-full h-full bg-gray-400">
       <div
-        class="h-[50px] bg-gray-100 flex items-center shadow-sm px-[20px] w-full py-[10px] z-10 border-b"
+        class="h-[50px] bg_image flex items-center shadow-sm px-[20px] w-full py-[10px] z-10 border-b"
       >
         <div class="cursor-pointer w-[30px]" @click="toggleSideBar">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
-            class="w-[25px] h-[25px]"
+            class="w-[25px] h-[25px] bg-gray-50 rounded-lg p-[6px]"
           >
             <path
               d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
@@ -166,7 +166,9 @@
           </div>
         </div>
       </div>
-      <div class="bg-gray-50 p-[20px] overflow-auto max-h-[calc(100vh-50px)]">
+      <div
+        class="bg_image bg-gray-50 p-[20px] overflow-auto max-h-[calc(100vh-50px)] text-white"
+      >
         <div class="border border-gray-300 rounded-md p-[20px]">
           <router-view></router-view>
         </div>
@@ -190,15 +192,16 @@ const toggleDrop = () => {
 };
 </script>
 
-<style>
+<style scoped>
 .active {
   background-color: #e5e7eb;
   color: #1f2937;
 }
 .bg_image {
-  background-image: url("https://i.pinimg.com/736x/a2/94/b5/a294b593769b6bf61b55c152032e7459.jpg?fbclid=IwAR3L0pyAy11YqFUzfOt2Bw_UNfWRxwROJOqRP6dTePsehjkz7IIj_E6f08E");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: -500px;
+  background: linear-gradient(
+    112deg,
+    rgba(6, 11, 38, 0.94) 59.3%,
+    rgba(26, 31, 55, 0) 100%
+  );
 }
 </style>

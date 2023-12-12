@@ -16,7 +16,7 @@ MenuBar
     <div class="relative w-2/6 flex justify-center items-center">
       <input
         type="text"
-        class="border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-xl"
+        class="p-2 border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-xl"
         placeholder="Search for product..."
         v-model="searchText"
       />

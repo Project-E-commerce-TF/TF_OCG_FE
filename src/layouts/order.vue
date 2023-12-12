@@ -1,8 +1,8 @@
 <template>
-  <menu-bar />
+  <menu-bar-for-profile />
   <div class="flex">
     <rectangle-info />
-    <div class="w-full m-14">
+    <div class="w-full p-14">
       <status-order />
       <slot />
     </div>
@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import MenuBar from "@/components/MenuBar.vue";
+import MenuBarForProfile from "@/components/MenuBarForProfile.vue";
 import Footer from "@/components/Footer.vue";
 import Rectangle from "@/components/Rectangle.vue";
 import StatusOrder from "@/components/StatusOrder.vue";
 export default {
   components: {
-    MenuBar,
     FooterInfo: Footer,
     RectangleInfo: Rectangle,
     StatusOrder,
+    MenuBarForProfile,
   },
 };
 </script>

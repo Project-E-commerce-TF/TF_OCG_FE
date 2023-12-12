@@ -28,7 +28,7 @@
           <div class="col flex flex-col justify-center items-end">
             <div class="row font-bold text-right">Total</div>
             <div class="row font-bold text-2xl text-right">
-              {{ order.totalPrice.toFixed(2) }} VND
+              {{ numberToCurrencyVND(order.totalPrice) }} VND
             </div>
             <div v-if="order.status === 'order being delivered'">
               <div
@@ -150,6 +150,7 @@
 <script>
 import { ref, watch, computed } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 export default {
   props: {
@@ -351,6 +352,7 @@ export default {
       selectedVariant,
       fetchVariants,
       closeReviewForm,
+      numberToCurrencyVND,
     };
   },
 };

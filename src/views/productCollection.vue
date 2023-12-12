@@ -44,7 +44,7 @@
               <img
                 :src="item.image"
                 :alt="item.handle"
-                class="img_main hover:scale-125 transition-all rounded-xl"
+                class="img_main hover:scale-125 transition-all rounded-xl w-full"
               />
             </router-link>
           </div>

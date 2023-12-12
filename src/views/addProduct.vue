@@ -1,11 +1,11 @@
 <template>
   <div
-    class="overflow-y-auto flex justify-center items-center h-[100vh] bg-[url(https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-a-conceptual-illustration-of-web-design-development-and-seo-optimization-in-image_13584944.png)]"
+    class="overflow-y-auto flex justify-center items-center h-[100vh] bg_image py-10"
   >
     <!-- product START -->
     <form
       v-if="!disabledAddProduct"
-      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
+      class="product m-auto rounded-lg bg-gray-200 w-[60%] p-10 opacity-95 font-bold"
       @submit.prevent="submitProduct"
     >
       <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
@@ -43,10 +43,11 @@
       <div class="flex my-5 items-center">
         <label for="imageAddress" class="min-w-[120px]">Image Address</label>
         <input
-          type="text"
+          type="file"
           id="imageAddress"
           class="grow rounded-md border border-solid p-2"
-          v-model="imageAddress"
+          accept="image/*"
+          @change="handleFileUpload"
         />
       </div>
       <div class="flex my-5 items-center">
@@ -268,8 +269,9 @@ const router = useRouter();
 const optionSet = ref([]);
 const selectedOptionValues = ref({});
 
+const file = ref(null);
 const imgAddress = ref("");
-const imageAddress = ref("");
+// const imageAddress = ref("");
 const amount = ref(0);
 const priceVariant = ref(0);
 const categoryList = ref([]);
@@ -290,6 +292,26 @@ const successMess = ref("");
 
 const inputValue = ref("");
 const itemList = ref([]);
+
+const handleFileUpload = (event) => {
+  file.value = event.target.files[0];
+  const validTypes = ["image/jpeg", "image/png", "image/gif"];
+  const maxSize = 1000000;
+
+  if (file.value.length === 0) {
+    error.value = "No file selected";
+    return;
+  } else if (!validTypes.includes(file.value.type)) {
+    error.value = "Invalid file type";
+    return;
+  } else if (file.value.size > maxSize) {
+    error.value = "File is too large";
+    return;
+  } else {
+    error.value = "";
+  }
+};
+
 const addItem = () => {
   if (inputValue.value.trim() !== "") {
     itemList.value.push(inputValue.value.trim());
@@ -331,23 +353,39 @@ onMounted(async () => {
 
 const submitProduct = async () => {
   try {
-    if (!title.value || !description.value || !price.value || !category.value) {
+    if (
+      !title.value ||
+      !description.value ||
+      !price.value ||
+      !category.value ||
+      !file.value
+    ) {
       error.value = "Please fill all fields";
       return;
     }
+    const formData = new FormData();
+    formData.append("imageFile", file.value);
+    formData.append("description", description.value);
+    formData.append("title", title.value);
+    formData.append("price", Number(price.value));
+    formData.append("categoryID", category.value);
+    const imageFile = formData.get("imageFile");
+
     const body = {
       title: title.value,
       description: description.value,
       price: Number(price.value),
-      image: imageAddress.value,
+      image: imageFile,
       categoryID: category.value,
     };
+    console.log(body);
+
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/product`,
       "POST",
-      body
+      formData
     );
-    console.log(body);
+
     error.value = "";
     product.value = res;
     disabledAddProduct.value = true;
@@ -469,6 +507,13 @@ const continueToVariant = async () => {
 </script>
 
 <style scoped>
+.bg_image {
+  background: linear-gradient(
+    112deg,
+    rgba(6, 11, 38, 0.94) 59.3%,
+    rgba(26, 31, 55, 0) 100%
+  );
+}
 @media (min-width: 1024px) {
   #sample {
     display: flex;

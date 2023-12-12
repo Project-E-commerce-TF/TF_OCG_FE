@@ -1,7 +1,7 @@
 <template>
   <div v-if="table" class="flex items-center py-4">
     <Input
-      class="max-w-sm"
+      class="max-w-sm text-black"
       placeholder="Filter emails..."
       :model-value="table.getColumn('email')?.getFilterValue()"
       @update:model-value="table.getColumn('email')?.setFilterValue($event)"

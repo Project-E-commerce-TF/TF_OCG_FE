@@ -1,36 +1,26 @@
 <template>
   <div class="bg-gray_rectangle w-1/4 py-10 ml-6 flex flex-col items-center">
-    <router-link
-      to="/"
-      class="row py-10 text-6xl w-full text-center"
-      :class="{ 'text-blue-500': $route.path === '/' }"
-    >
+    <router-link to="/profile" class="row py-10 text-4xl w-full text-center">
       Profile
     </router-link>
     <router-link
       to="/profile"
-      class="row py-5 text-2xl w-full text-center"
-      :class="{
-        'font-bold text-white bg-gray-500': $route.path === '/profile',
-      }"
+      class="row py-5 text-xl w-full text-center"
+      active-class="bg-gray-500 text-white rounded-lg"
     >
       Overview
     </router-link>
     <router-link
       to="/pending"
-      class="row py-5 text-2xl w-full text-center"
-      :class="{
-        'font-bold text-white bg-gray-500': $route.path === '/pending',
-      }"
+      class="row py-5 text-xl w-full text-center"
+      active-class="bg-gray-500 text-white rounded-lg"
     >
       Orders
     </router-link>
     <router-link
       to="/wishlist"
-      class="row py-5 text-2xl w-full text-center"
-      :class="{
-        'font-bold text-white bg-gray-500': $route.path === '/wishlist',
-      }"
+      class="row py-5 text-xl w-full text-center"
+      active-class="bg-gray-500 text-white rounded-lg"
     >
       Wishlist
     </router-link>
