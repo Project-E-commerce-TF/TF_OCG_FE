@@ -53,7 +53,7 @@
               {{ numberToCurrencyVND(item.price) }} VND
             </div>
             <div class="font-black text-gray_footer">
-              <div class="clamp-2-lines">{{ item.title }}</div>
+              <div class="clamp-2-lines text-sm">{{ item.title }}</div>
             </div>
           </div>
         </div>

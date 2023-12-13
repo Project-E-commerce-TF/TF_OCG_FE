@@ -1,14 +1,16 @@
 <template>
   <div
-    class="cart-item w-full border-2 rounded-xl flex justify-between items-center my-10 h-28"
+    class="cart-item w-full border-2 rounded-xl flex justify-between items-center my-10 h-[150px]"
   >
-    <div class="flex w-1/2 h-full">
-      <img
-        :src="cart.variantDetail.image"
-        alt="Variant Image"
-        class="w-28 h-full mr-4"
-      />
-      <div class="col">
+    <div class="flex w-1/2 h-full items-center">
+      <div class="w-full h-full">
+        <img
+          :src="cart.variantDetail.image"
+          alt="Variant Image"
+          class="w-full h-full object-cover object-center"
+        />
+      </div>
+      <div class="col ml-4">
         <div class="row font-bold mb-2">{{ cart.productDetail.title }}</div>
         <div class="flex border-2 option_type p-1 rounded-xl">
           <div class="row mr-1 font-bold text-gray_footer">
@@ -52,16 +54,18 @@
     <div class="col w-1/8 font-bold">
       Total: {{ numberToCurrencyVND(cart.totalPrice) }}
     </div>
-    <button
-      @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
-      class="col w-1/8 bg-grey_white h-full flex justify-center py-14"
-    >
-      <img
-        :src="require('@/assets/images/x.png')"
-        alt="logo_brand"
-        class="w-1/2 object-cover"
-      />
-    </button>
+    <div class="h-[100%] bg-grey_white flex items-center rounded-e-xl">
+      <button
+        @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
+        class="col w-1/8 flex justify-center"
+      >
+        <img
+          :src="require('@/assets/images/x.png')"
+          alt="logo_brand"
+          class="w-1/2 h-full object-cover"
+        />
+      </button>
+    </div>
   </div>
 </template>
 

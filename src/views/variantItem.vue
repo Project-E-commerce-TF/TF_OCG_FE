@@ -1,16 +1,16 @@
 <template>
-  <div class="mx-6 border-2 rounded-xl">
+  <div class="px-32 py-5 bg-bg_color">
     <div v-if="!loading" class="parent flex">
       <!-- Slide Image -->
       <div class="slideImg w-1/3 flex flex-col">
-        <div class="w-[100%] m-auto">
-          <img :src="data.product.image" class="w-full rounded-xl" />
+        <div class="w-[100%] h-full m-auto">
+          <img :src="data.product.image" class="w-full h-full rounded-s-xl" />
         </div>
       </div>
 
       <!-- Product Information -->
       <div
-        class="info w-2/3 rounded-xl p-10 flex flex-col gap-10 bg-grey_white"
+        class="info w-2/3 p-10 flex flex-col gap-10 bg-gray-200 rounded-e-xl"
       >
         <h2 class="text-primary text-4xl font-bold">
           {{ data.product.title }}
@@ -63,13 +63,13 @@
     <Loader2 class="animate-spin w-full mt-40" v-else />
 
     <!-- Product Description -->
-    <div class="description py-20 px-40 text-primary">
+    <div class="description my-4 py-20 px-40 text-primary bg-white rounded-xl">
       <div class="font-bold text-4xl mb-10">Detail Descriptions</div>
       <div v-html="data.product?.description"></div>
     </div>
 
     <!-- Product Reviews-->
-    <div class="reviews py-20 px-40 bg-grey_white rounded-xl">
+    <div class="reviews py-20 px-40 bg-gray-200 rounded-xl">
       <div class="font-bold text-4xl mb-5">Product Reviews</div>
 
       <div v-if="data.reviews && data.reviews.length > 0">
@@ -102,9 +102,9 @@
       </div>
     </div>
     <!-- Related Products -->
-    <div class="relate my-20 mx-40">
+    <div class="relate py-20 px-40 bg-white rounded-xl mt-4">
       <div class="font-bold text-4xl mb-10">Related products</div>
-      <swiper :modules="modules" :slides-per-view="5" class="swiper-container">
+      <swiper :modules="modules" :slides-per-view="4" class="swiper-container">
         <swiper-slide v-for="product in relateProducts" :key="product.id">
           <div
             class="relative overflow-hidden bg-white shadow-2xl rounded-md max-w-[200px]"

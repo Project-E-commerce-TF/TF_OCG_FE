@@ -13,6 +13,7 @@ export default {
         gray_sidebar: "#f9f9fb",
         grand_totle: "#29367C",
         save: "#64A759",
+        bg_color: "#f5f5f5",
       },
     },
     height: {

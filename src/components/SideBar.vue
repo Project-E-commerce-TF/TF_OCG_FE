@@ -2,7 +2,7 @@
   <section>
     <!-- category -->
     <div class="category px-6 py-8 bg-gray_sidebar rounded-lg">
-      <div class="mb-10 font-bold text-primary">Category</div>
+      <div class="mb-10 font-bold text-3xl text-primary">Category</div>
       <div>
         <div v-for="category in data" :key="category.id">
           <input
