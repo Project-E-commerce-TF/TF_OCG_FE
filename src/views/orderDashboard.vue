@@ -23,10 +23,17 @@
             :data-state="row.getIsSelected() ? 'selected' : undefined"
           >
             <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-              <FlexRender
-                :render="cell.column.columnDef.cell"
-                :props="cell.getContext()"
-              />
+              <router-link
+                :to="{
+                  name: 'OrderEdit',
+                  params: { id: row.original.orderId },
+                }"
+              >
+                <FlexRender
+                  :render="cell.column.columnDef.cell"
+                  :props="cell.getContext()"
+                />
+              </router-link>
             </TableCell>
           </TableRow>
         </template>
@@ -61,6 +68,7 @@ import {
 } from "@tanstack/vue-table";
 import { ArrowUpDown } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
 const sorting = ref([]);
@@ -87,6 +95,10 @@ const columns = [
   {
     accessorKey: "grandTotal",
     header: "Total",
+    cell: ({ row }) => {
+      const formattedPrice = numberToCurrencyVND(row.getValue("grandTotal"));
+      return h("div", { class: "lowercase" }, formattedPrice);
+    },
   },
   {
     accessorKey: "createdAt",

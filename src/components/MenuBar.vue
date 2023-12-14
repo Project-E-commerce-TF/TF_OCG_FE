@@ -1,19 +1,17 @@
-MenuBar
-
 <template>
   <div
-    class="header bg-slate-200 flex justify-between items-center border-b-8 border-primary h-28 px-6"
+    class="header bg-slate-200 flex justify-between items-center border-b-8 border-primary h-[86px] px-6"
   >
     <div class="w-1/6 text-center">
       <router-link to="/">
         <img
           :src="require('@/assets/images/logo_header.png')"
           alt="logo_brand"
-          class="w-full object-cover rounded-full my-1"
+          class="w-full object-cover rounded-2xl my-1"
         />
       </router-link>
     </div>
-    <div class="relative w-2/6 flex justify-center items-center">
+    <div class="relative w-2/6 flex justify-center items-center my-4">
       <input
         type="text"
         class="p-2 border border-gray-300 pl-10 focus:outline-none focus:border-blue-500 w-full rounded-xl"
@@ -42,7 +40,7 @@ MenuBar
             class="w-full h-full"
           />
         </button>
-        <div class="ml-2 font-bold">Profile</div>
+        <div class="ml-2 font-bold">{{ authen ? "Profile" : "Login" }}</div>
       </router-link>
       <router-link to="/map" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
@@ -79,14 +77,18 @@ MenuBar
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index.js";
 
+const Cookies = require("js-cookie");
 const router = useRouter();
 const route = useRoute();
 const searchText = ref("");
-
+const authen = ref(false);
+onMounted(() => {
+  Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
+});
 watch(searchText, async () => {
   console.log(1);
   const currentQuery = route.query;

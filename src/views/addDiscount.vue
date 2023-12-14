@@ -1,10 +1,10 @@
 <template>
-  <div class="flex justify-center items-center h-[100vh] bg_image">
+  <div class="flex justify-center items-center h-[100vh] text-black">
     <form
       @submit.prevent="submit"
       class="product p-10 rounded-lg bg-gray-200 w-[60%] opacity-95 font-bold"
     >
-      <div class="w-[30%] m-auto text-center text-3xl font-bold pb-10">
+      <div class="w-[40%] m-auto text-center text-3xl font-bold pb-2">
         ADD DISCOUNT
       </div>
       <div class="flex my-5 items-center">
@@ -161,12 +161,4 @@ const submit = async () => {
 };
 </script>
 
-<style scoped>
-.bg_image {
-  background: linear-gradient(
-    112deg,
-    rgba(6, 11, 38, 0.94) 59.3%,
-    rgba(26, 31, 55, 0) 100%
-  );
-}
-</style>
+<style scoped></style>

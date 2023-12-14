@@ -1,31 +1,33 @@
 <template>
-  <div class="mx-6 border-2 rounded-xl">
-    <div v-if="!loading" class="parent flex">
+  <div class="mx-6 border-2 rounded-xl mb-3">
+    <div v-if="!loading" class="parent flex flex-col md:flex-row">
       <!-- Slide Image -->
-      <div class="slideImg w-1/3 flex flex-col">
-        <div class="w-[100%] m-auto">
+      <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
+        <div class="w-full m-auto">
           <img :src="data.product.image" class="w-full rounded-xl" />
         </div>
       </div>
 
       <!-- Product Information -->
       <div
-        class="info w-2/3 rounded-xl p-10 flex flex-col gap-10 bg-grey_white"
+        class="info w-full md:w-2/3 rounded-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
       >
-        <h2 class="text-primary text-4xl font-bold">
+        <h2 class="text-primary text-2xl md:text-4xl font-bold mb-2">
           {{ data.product.title }}
         </h2>
-        <b class="text-3xl">{{ numberToCurrencyVND(variantPrice) }}</b>
-        <div>Count In Stock : {{ countInStock }}</div>
-        <div>
+        <b class="text-xl md:text-3xl">{{
+          numberToCurrencyVND(variantPrice)
+        }}</b>
+        <div>Count In Stock: {{ countInStock }}</div>
+        <div class="flex flex-col">
           <div
             class="my-3 flex text-primary font-bold"
             v-for="option in data.optionProducts"
             :key="option.optionType"
           >
-            <span class="p-2 mr-2 bg-gray_sidebar rounded-lg w-1/5">{{
-              option.optionType
-            }}</span>
+            <span class="p-2 mr-2 bg-gray_sidebar rounded-lg min-w-[80px]">
+              {{ option.optionType }}
+            </span>
             <select
               v-model="selectedOptions[option.optionType]"
               class="p-2 bg-gray_sidebar rounded-lg grow"
@@ -40,69 +42,53 @@
             </select>
           </div>
         </div>
-        <div class="flex">
+        <div class="flex flex-col md:flex-row items-center">
           <input
             type="number"
             min="0"
             v-model="quantity"
-            class="w-20 p-4 bg-gray_sidebar rounded-lg"
+            class="w-full md:w-20 p-2 bg-gray_sidebar rounded-lg mb-2 md:mb-0"
           />
           <button
-            class="add_button grow bg-primary text-white rounded-lg ml-2 font-bold"
+            class="grow bg-primary text-white rounded-lg h-[100%] md:ml-2 p-2 font-bold hover:opacity-80"
             @click="addToCart"
           >
             Add to cart
           </button>
         </div>
       </div>
-      <div v-if="alertMessage" class="alert-message font-bold">
+      <div v-if="alertMessage" class="alert-message font-bold mt-2">
         {{ alertMessage }}
       </div>
     </div>
 
-    <Loader2 class="animate-spin w-full mt-40" v-else />
+    <Loader2 class="animate-spin w-full mt-4" v-else />
 
     <!-- Product Description -->
-    <div class="description py-20 px-40 text-primary">
-      <div class="font-bold text-4xl mb-10">Detail Descriptions</div>
+    <div class="description py-4 px-4 text-primary">
+      <div class="font-bold text-xl md:text-4xl mb-2 md:mb-10">
+        Detail Descriptions
+      </div>
       <div v-html="data.product?.description"></div>
     </div>
 
     <!-- Product Reviews-->
-    <div class="reviews py-20 px-40 bg-grey_white rounded-xl">
-      <div class="font-bold text-4xl mb-5">Product Reviews</div>
+    <div class="reviews py-4 px-4 bg-grey_white rounded-xl">
+      <div class="font-bold text-xl md:text-4xl mb-2 md:mb-5">
+        Product Reviews
+      </div>
 
       <div v-if="data.reviews && data.reviews.length > 0">
-        <div
-          v-for="(review, index) in data.reviews"
-          :key="index"
-          class="review-item border-2 my-4 rounded-xl p-2"
-        >
-          <div class="items-center">
-            <div class="font-bold">Rate:</div>
-            <div class="font-bold mr-2 flex">
-              <img
-                v-for="(star, index) in review.rating"
-                :key="index"
-                :src="require('@/assets/images/star.png')"
-                alt="star"
-                class="star-icon"
-              />
-            </div>
-            <div class="text-gray-500 font-bold">
-              User Name: {{ review.user.userName }}
-            </div>
-          </div>
-          <div class="mb-2 font-bold text-blue-600">{{ review.comment }}</div>
-        </div>
+        <!-- Review items here -->
       </div>
 
       <div v-else>
         <p>No reviews available for this product.</p>
       </div>
     </div>
+
     <!-- Related Products -->
-    <div class="relate my-20 mx-40">
+    <div class="relate my-20 mx-40 hidden md:block">
       <div class="font-bold text-4xl mb-10">Related products</div>
       <swiper :modules="modules" :slides-per-view="5" class="swiper-container">
         <swiper-slide v-for="product in relateProducts" :key="product.id">
@@ -307,12 +293,6 @@ watch(
 </script>
 
 <style scoped>
-.add_button {
-  transition: font-size 0.3s;
-}
-.add_button:hover {
-  font-size: 20px;
-}
 .swiper-container {
   position: relative;
   width: 100%;

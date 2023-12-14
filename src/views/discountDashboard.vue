@@ -90,6 +90,10 @@ const columns = [
     header: "Value",
   },
   {
+    accessorKey: "discountType",
+    header: "Type",
+  },
+  {
     accessorKey: "availableQuantity",
     header: "Amount",
   },

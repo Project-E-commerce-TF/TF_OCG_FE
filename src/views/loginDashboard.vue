@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-8">
-    <div class="container mx-auto px-8">
+  <div class="mt-8 w-full sm:w-[50%] m-auto">
+    <div class="container mx-auto px-4 sm:px-8">
       <!-- Start Form -->
       <form
         class="flex flex-col justify-start space-y-6"
@@ -11,7 +11,7 @@
             <span class="font-semibold">Email Address</span>
             <input
               id="email"
-              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
               type="email"
               placeholder="abc@gmail.com"
               autocomplete="username"
@@ -24,7 +24,7 @@
             <span class="font-semibold">Password</span>
             <input
               id="password"
-              class="px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
               type="password"
               placeholder="Example"
               autocomplete="current-password"

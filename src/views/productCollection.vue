@@ -44,7 +44,7 @@
               <img
                 :src="item.image"
                 :alt="item.handle"
-                class="img_main hover:scale-125 transition-all rounded-xl w-full"
+                class="img_main hover:scale-125 transition-all rounded-xl w-full max-w-[283px] max-h-[283px] object-contain m-auto"
               />
             </router-link>
           </div>
@@ -126,7 +126,6 @@ watch(
   }
   .product_item {
     width: 100%;
-    padding: 0 15px;
   }
   .img_main {
     width: 100%;

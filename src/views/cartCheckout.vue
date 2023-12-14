@@ -1,7 +1,10 @@
 <template>
   <div class="flex">
-    <div v-if="cartItems && cartItems.length > 0" class="cart p-6 w-full flex">
-      <div class="cart p-6 w-3/5">
+    <div
+      v-if="cartItems && cartItems.length > 0"
+      class="cart p-6 w-full flex md:flex-row flex-col"
+    >
+      <div class="cart p-6 md:w-3/5 w-full">
         <div class="w-full flex justify-between">
           <div class="col w-1/2 font-bold">Product</div>
           <div class="col w-1/4 flex justify-center pr-6 font-bold">
@@ -23,7 +26,7 @@
           <div>Loading...</div>
         </div>
       </div>
-      <div class="py-6 px-16 bg-gray_rectangle w-2/5">
+      <div class="py-6 px-16 bg-gray_rectangle md:w-2/5 w-full">
         <div class="row text-right border-b-4 border-primary font-bold pb-2">
           Order Summary
         </div>

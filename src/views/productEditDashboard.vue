@@ -1,21 +1,25 @@
 <template>
   <div>
-    <form class="flex flex-col" @submit.prevent="submitProduct">
+    <form
+      v-if="product.product"
+      class="flex flex-col"
+      @submit.prevent="submitProduct"
+    >
       <div class="flex my-5 items-center">
         <label for="title" class="min-w-[100px]">Title</label>
         <input
           type="text"
           id="title"
-          class="grow rounded-md border border-solid p-2"
-          v-model="product.title"
+          class="grow rounded-md border border-solid p-2 text-black"
+          v-model="product.product.title"
         />
       </div>
       <div class="flex my-5 items-center">
         <label for="desc" class="min-w-[100px]">Description</label>
         <textarea
           id="desc"
-          class="grow rounded-md border border-solid p-2"
-          v-model="product.description"
+          class="grow rounded-md border border-solid p-2 text-black"
+          v-model="product.product.description"
         ></textarea>
       </div>
       <div class="flex my-5 items-center">
@@ -23,12 +27,74 @@
         <input
           type="text"
           id="price"
-          class="grow rounded-md border border-solid p-2"
-          v-model="product.price"
+          class="grow rounded-md border border-solid p-2 text-black"
+          v-model="product.product.price"
         />
       </div>
-      <div class="bg-green-700">{{ successMessage }}</div>
-      <div class="flex justify-center gap-10">
+      <div class="flex my-5 items-center">
+        <label class="min-w-[100px]">Option</label>
+        <div class="grow flex gap-2">
+          <ul
+            v-for="option in product.optionProducts"
+            :key="option.optionProductId"
+            class="grow w-[50%]"
+          >
+            <div class="text-center p-2 bg-gray-600 rounded-lg mb-4">
+              {{ option.optionType }}
+            </div>
+            <li
+              v-for="op in option.optionValues"
+              :key="op.optionValueId"
+              class="my-2"
+            >
+              {{ op.value }}
+            </li>
+            <button
+              v-if="!toggleMoreValue[option.optionProductId]"
+              type="button"
+              class="p-2 bg-gray-400 rounded-lg hover:opacity-80"
+              @click="toggleOptionValue(option.optionProductId)"
+            >
+              More Value
+            </button>
+            <div
+              v-if="toggleMoreValue[option.optionProductId]"
+              class="flex flex-col gap-1"
+            >
+              <input
+                type="text"
+                v-model="moreValue[option.optionProductId]"
+                class="grow rounded-md border border-solid p-2 text-black"
+              />
+              <button
+                type="button"
+                class="p-2 bg-gray-400 rounded-lg hover:opacity-80"
+                @click="
+                  submitOptionValue(
+                    option.optionProductId,
+                    moreValue[option.optionProductId]
+                  )
+                "
+              >
+                Submit Value
+              </button>
+            </div>
+          </ul>
+          <!-- <div
+            v-for="option in product.optionProducts"
+            :key="option.optionProductId"
+            class="grow"
+          >
+            <div>{{ option.optionType }}</div>
+            <div v-for="op in option.optionValues" :key="op.optionValueId">
+              {{ op.value }}
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <div class="text-green-700">{{ successMessage }}</div>
+      <div class="text-rose-700">{{ errorMessage }}</div>
+      <div class="flex justify-center gap-10 mt-2">
         <button
           @click="backToDashboard"
           type="button"
@@ -56,17 +122,61 @@ const route = useRoute();
 const router = useRouter();
 const product = ref({});
 const successMessage = ref("");
+const errorMessage = ref("");
+const moreValue = ref({});
+const toggleMoreValue = ref({});
+
+const toggleOptionValue = (optionProductId) => {
+  toggleMoreValue.value[optionProductId] =
+    !toggleMoreValue.value[optionProductId];
+};
+
+const submitOptionValue = async (optionProductId, value) => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/option-value`,
+    "POST",
+    {
+      optionProductId,
+      value,
+    }
+  );
+  if (res) {
+    toggleMoreValue.value[optionProductId] = false;
+    moreValue.value[optionProductId] = "";
+    const res = await fetchData(
+      `${process.env.VUE_APP_URL}/product/${route.params.id}`
+    );
+    if (res && res.product.productId > 0) {
+      product.value = res;
+    }
+  }
+};
 
 onMounted(async () => {
   const res = await fetchData(
     `${process.env.VUE_APP_URL}/product/${route.params.id}`
   );
-  if (res && res.productId > 0) {
+  if (res && res.product.productId > 0) {
     product.value = res;
+    console.log(product.value);
   }
 });
 
 const submitProduct = async () => {
+  console.log(product.value);
+  console.log(product.value.title);
+  console.log(product.value.description);
+  console.log(product.value.price);
+
+  if (
+    !product.value.product.title ||
+    !product.value.product.description ||
+    !product.value.product.price
+  ) {
+    errorMessage.value = "Please fill all fields";
+    return;
+  }
+  errorMessage.value = "";
   const body = {
     title: product.value.title,
     description: product.value.description,

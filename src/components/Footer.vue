@@ -4,15 +4,15 @@
       class="info_company w-full h-full bg-grey_white flex flex-col items-center justify-center"
     >
       <div class="w-5/6 mt-9 h-4/5">
-        <div class="contact row flex h-full w-full justify-between">
+        <div class="contact row flex h-full w-full justify-between gap-10">
           <div class="contact_container col h-full">
-            <div class="row my-2">
+            <div class="row my-2 text-center">
               <router-link to="/">
                 <button class="w-38 h-12 border-none bg-transparent">
                   <img
                     :src="require('@/assets/images/logo_header.png')"
                     alt="logo_brand"
-                    class="w-full object-cover rounded-full my-1"
+                    class="w-full object-cover rounded-2xl my-1"
                   />
                 </button>
               </router-link>

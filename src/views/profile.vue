@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLogin" class="father w-full">
+  <div class="father w-full">
     <div class="flex w-full son1">
       <!-- User Profile Section -->
       <div class="prf1 col w-1/5">
@@ -312,13 +312,6 @@
       </div>
     </div>
   </div>
-  <div v-else class="text-3xl m-auto">
-    You have to
-    <router-link :to="{ name: `Login` }">
-      <b>Login</b>
-    </router-link>
-    to see your profile
-  </div>
 </template>
 
 <script setup>
@@ -326,11 +319,12 @@ import { getLocalStorage } from "@/utils/localStorage";
 import { fetchData } from "@/utils/axiosFetchApi";
 import { onMounted, ref, computed } from "vue";
 import Cookies from "js-cookie";
+import { useRouter } from "vue-router";
 
 const infoUser = getLocalStorage("infoUser");
 const user = ref();
 const showRank = ref(false);
-const isLogin = ref(false);
+const router = useRouter();
 
 const formattedTotalSpent = computed(() => {
   if (!user.value?.totalSpent) return "0 VND";
@@ -375,11 +369,8 @@ const closeRankDetails = () => {
 onMounted(async () => {
   try {
     if (!Cookies.get("accessToken")) {
-      console.log(Cookies.get("accessToken"));
-      isLogin.value = false;
+      router.push({ name: "Login" });
       return;
-    } else {
-      isLogin.value = true;
     }
     const response = await fetchData(
       `${process.env.VUE_APP_URL}/users/${infoUser.userID}`,

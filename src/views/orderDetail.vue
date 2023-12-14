@@ -15,10 +15,11 @@
       <div class="row flex justify-between my-2" v-if="currentOrder">
         <div class="col flex flex-col justify-between">
           <div class="row font-bold">
-            Total: VND {{ currentOrder?.grandTotal.toFixed(2) }}
+            Total: VND {{ numberToCurrencyVND(currentOrder?.grandTotal) }}
           </div>
           <div class="row font-bold text-save">
-            You Saved VND {{ currentOrder?.discountAmount.toFixed(2) }}
+            You Saved VND
+            {{ numberToCurrencyVND(currentOrder?.discountAmount) }}
           </div>
         </div>
         <div class="col">
@@ -71,6 +72,7 @@ import { useRoute } from "vue-router";
 import { fetchData } from "@/utils/axiosFetchApi";
 import OrderDetailBox from "@/components/OrderDetailBox.vue";
 import Modal from "@/components/Modal.vue";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const route = useRoute();
 const currentOrder = ref(null);

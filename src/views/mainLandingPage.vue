@@ -16,53 +16,49 @@
         </div>
       </div>
       <div class="swiper-pagination"></div>
-      <div id="swiper-button-next" class="swiper-button-next"></div>
-      <div id="swiper-button-prev" class="swiper-button-prev"></div>
+      <div id="swiper-button-next" class="swiper-button-next !hidden"></div>
+      <div id="swiper-button-prev" class="swiper-button-prev !hidden"></div>
     </div>
 
     <div class="mx-6 border-2">
-      <div class="w-full h-[500px] bg-gray-50">
-        <div class="row text-center font-bold text-4xl mt-24">
+      <div class="w-full bg-gray-50">
+        <div class="text-center font-bold text-2xl md:text-4xl mt-8 md:mt-24">
           Shopping made easy!
         </div>
-        <div class="row text-center text-2xl mt-7">
+        <div class="text-center text-xl md:text-2xl mt-4 md:mt-7">
           Now shop at our store with complete convenience
         </div>
-        <div class="row flex justify-around mx-20 mt-11">
-          <div class="col flex flex-col items-center w-1/3">
-            <div class="row w-64 h-40">
-              <img
-                :src="require('@/assets/images/img_se1.png')"
-                alt="icon_search"
-                class="w-full h-40"
-              />
-            </div>
-            <div class="row font-bold">Free and Fast delivery</div>
-            <div class="row text-center w-2/3">Applies to UAE and Oman</div>
+        <div
+          class="flex flex-col md:flex-row justify-around md:mx-20 mt-6 md:mt-11"
+        >
+          <div class="flex flex-col items-center mb-8 md:w-1/3">
+            <img
+              :src="require('@/assets/images/img_se1.png')"
+              alt="icon_search"
+              class="w-32 md:w-64 h-auto md:h-40"
+            />
+            <div class="font-bold mt-2">Free and Fast delivery</div>
+            <div class="text-center mt-2 md:w-2/3">Applies to UAE and Oman</div>
           </div>
-          <div class="col flex flex-col items-center w-1/3">
-            <div class="row w-64 h-40">
-              <img
-                :src="require('@/assets/images/img_se2.png')"
-                alt="icon_search"
-                class="w-full h-40"
-              />
-            </div>
-            <div class="row font-bold">Different payment options</div>
-            <div class="row text-center w-2/3">
+          <div class="flex flex-col items-center mb-8 md:w-1/3">
+            <img
+              :src="require('@/assets/images/img_se2.png')"
+              alt="icon_search"
+              class="w-32 md:w-64 h-auto md:h-40"
+            />
+            <div class="font-bold mt-2">Different payment options</div>
+            <div class="text-center mt-2 md:w-2/3">
               We are now accepting payment through cash, card, or bank transfer
             </div>
           </div>
-          <div class="col flex flex-col items-center w-1/3">
-            <div class="row w-64 h-40">
-              <img
-                :src="require('@/assets/images/img_se3.png')"
-                alt="icon_search"
-                class="w-full h-40"
-              />
-            </div>
-            <div class="row font-bold">Click and collect</div>
-            <div class="row text-center w-2/3">
+          <div class="flex flex-col items-center md:w-1/3">
+            <img
+              :src="require('@/assets/images/img_se3.png')"
+              alt="icon_search"
+              class="w-32 md:w-64 h-auto md:h-40"
+            />
+            <div class="font-bold mt-2">Click and collect</div>
+            <div class="text-center mt-2 md:w-2/3">
               Order products from our website and collect them in our store
             </div>
           </div>
@@ -71,16 +67,13 @@
 
       <!-- Categories -->
       <div class="custom-width">
-        <div
-          class="row font-bold text-center text-4xl"
-          aria-label="Shop by category"
-        >
+        <div class="text-center font-bold text-2xl md:text-4xl mt-8">
           Shop by category
         </div>
-        <div class="row text-center text-2xl mt-7">
+        <div class="text-center text-xl md:text-2xl mt-4">
           Pick the category you are looking for and start shopping now!
         </div>
-        <div class="category-list mb-10">
+        <div class="category-list mt-6">
           <CategoryBox
             v-for="cate in category"
             :key="cate.categoryId"

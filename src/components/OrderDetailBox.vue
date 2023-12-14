@@ -14,14 +14,16 @@
             {{ orderDetail.product.title }}
           </div>
           <div class="row font-bold text-xl">
-            AED {{ orderDetail.variant.price }}
+            {{ numberToCurrencyVND(orderDetail.variant.price) }}
           </div>
           <div class="row font-bold">QTY: {{ orderDetail.quantity }}</div>
         </div>
       </div>
       <div class="col flex flex-col justify-center pr-5">
         <div class="row font-bold text-xl text-right">Total:</div>
-        <div class="row font-bold text-xl">AED {{ orderDetail.price }}</div>
+        <div class="row font-bold text-xl">
+          {{ numberToCurrencyVND(orderDetail.price) }}
+        </div>
       </div>
     </div>
 
@@ -69,10 +71,13 @@
 </template>
 
 <script>
+import { numberToCurrencyVND } from "@/utils/currencyVND.js";
+
 export default {
   data() {
     return {
       showDetails: false,
+      numberToCurrencyVND,
     };
   },
   methods: {

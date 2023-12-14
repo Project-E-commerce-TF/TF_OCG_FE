@@ -8,7 +8,9 @@
       class="product m-auto rounded-lg bg-gray-200 w-[60%] p-10 opacity-95 font-bold"
       @submit.prevent="submitProduct"
     >
-      <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
+      <div
+        class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-4"
+      >
         Product
       </div>
       <div class="flex my-5 items-center">
@@ -75,7 +77,7 @@
         >
           Continue ->
         </button>
-        <router-link :to="{ name: `Dashboard` }">
+        <router-link :to="{ name: `ProductDashboard` }">
           <button
             class="font-bold text-primary text-xl py-4 px-6 rounded-lg bg-white border-primary border-solid border hover:opacity-80 min-w-[190px]"
           >
@@ -85,116 +87,92 @@
       </div>
     </form>
     <!-- product END -->
-    <!-- option START -->
-    <form
-      v-if="!disabledAddOption"
-      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
-      @submit.prevent="submitOptionProduct"
-    >
-      <div
-        class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-3"
+    <div class="w-[60%]" v-if="!disabledAddOptionValue">
+      <!-- option value START -->
+      <form
+        @submit.prevent="submitOptionValue"
+        class="product m-auto rounded-lg bg-purple-300 p-10 opacity-95 font-bold"
       >
-        Option
-      </div>
-      <div>
-        <div>Product {{ product?.title }}</div>
+        <div
+          class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-4"
+        >
+          Option
+        </div>
+        <div>
+          <div>Product {{ product?.title }}</div>
+          <div class="flex my-5 items-center">
+            <label for="" class="min-w-[105px]">Option Type</label>
+            <input
+              type="text"
+              class="grow rounded-md border border-solid p-2"
+              v-model="optionProductInput"
+            />
+          </div>
+        </div>
+
         <div class="flex my-5 items-center">
-          <label for="" class="min-w-[100px]">Option</label>
+          <label for="" class="min-w-[105px]">Option Value</label>
           <input
             type="text"
             class="grow rounded-md border border-solid p-2"
-            v-model="optionProductInput"
+            v-model="inputValue"
           />
+          <button
+            type="button"
+            @click="addItem"
+            class="bg-primary p-2 text-white rounded-lg ml-2"
+          >
+            Add
+          </button>
         </div>
-        <div class="text-rose-700">{{ error }}</div>
-      </div>
-      <div class="flex justify-around mt-10">
-        <button
-          type="submit"
-          class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
-        >
-          Continue ->
-        </button>
-      </div>
-    </form>
-    <!-- option END -->
-    <!-- option value START -->
-    <form
-      v-if="!disabledAddOptionValue"
-      @submit.prevent="submitOptionValue"
-      class="product m-auto rounded-lg bg-purple-300 w-[60%] p-10 opacity-95 font-bold"
-    >
-      <div class="w-[30%] m-auto text-center text-3xl font-bold text-primary">
-        Value
-      </div>
-      <div>Option {{ optionProduct }}</div>
-
-      <div class="flex my-5 items-center">
-        <label for="" class="min-w-[100px]">Value</label>
-        <input
-          type="text"
-          class="grow rounded-md border border-solid p-2"
-          v-model="inputValue"
-        />
-        <button
-          type="button"
-          @click="addItem"
-          class="bg-primary p-2 text-white rounded-lg ml-2"
-        >
-          Add
-        </button>
-      </div>
-      <div>
-        <div class="text-green-700">{{ successMess }}</div>
-        <ul>
-          <li v-for="(item, index) in itemList" :key="index" class="flex m-2">
-            <div class="m-3 min-w-[50px]">{{ item }}</div>
-            <button
-              type="button"
-              @click="removeItem(index)"
-              class="bg-rose-700 p-2 text-white rounded-lg ml-2"
-            >
-              Remove
-            </button>
-          </li>
-        </ul>
-        <div class="text-rose-700">{{ error }}</div>
-        <div class="flex justify-around">
-          <div class="flex justify-around mt-10">
-            <button
-              type="button"
-              class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
-              @click="backToOption"
-            >
-              Back to option
-            </button>
-          </div>
-          <div class="flex justify-around mt-10">
-            <button
-              type="submit"
-              class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
-            >
-              Submit List
-            </button>
-          </div>
-          <div class="flex justify-around mt-10">
-            <button
-              type="button"
-              class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
-              @click="continueToVariant"
-            >
-              Continue ->
-            </button>
+        <div>
+          <div class="text-green-700">{{ successMess }}</div>
+          <ul>
+            <li v-for="(item, index) in itemList" :key="index" class="flex m-2">
+              <div class="m-3 min-w-[50px]">{{ item }}</div>
+              <button
+                type="button"
+                @click="removeItem(index)"
+                class="bg-rose-700 p-2 text-white rounded-lg ml-2"
+              >
+                Remove
+              </button>
+            </li>
+          </ul>
+          <div class="text-rose-700">{{ error }}</div>
+          <div class="flex justify-around">
+            <div class="flex justify-around mt-10">
+              <button
+                type="submit"
+                class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
+              >
+                Submit List
+              </button>
+            </div>
+            <div class="flex justify-around mt-10">
+              <button
+                type="button"
+                class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
+                @click="continueToVariant"
+              >
+                Continue ->
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
-    <!-- option value END -->
-    <!-- price and count in stock START -->
+      </form>
+      <!-- option value END -->
+    </div>
+    <!-- Variant START -->
     <form
       v-if="!disabledAddVariant"
       class="product m-auto rounded-lg bg-purple-300 w-[90%] p-10 opacity-95 font-bold"
     >
+      <div
+        class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-4"
+      >
+        Variant
+      </div>
       <div class="flex gap-5 items-center">
         <div
           v-for="option in optionSet"
@@ -255,7 +233,7 @@
         </button>
       </div>
     </form>
-    <!-- price and count in stock END -->
+    <!-- Variant END -->
   </div>
 </template>
 
@@ -271,7 +249,6 @@ const selectedOptionValues = ref({});
 
 const file = ref(null);
 const imgAddress = ref("");
-// const imageAddress = ref("");
 const amount = ref(0);
 const priceVariant = ref(0);
 const categoryList = ref([]);
@@ -369,16 +346,6 @@ const submitProduct = async () => {
     formData.append("title", title.value);
     formData.append("price", Number(price.value));
     formData.append("categoryID", category.value);
-    const imageFile = formData.get("imageFile");
-
-    const body = {
-      title: title.value,
-      description: description.value,
-      price: Number(price.value),
-      image: imageFile,
-      categoryID: category.value,
-    };
-    console.log(body);
 
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/product`,
@@ -390,19 +357,25 @@ const submitProduct = async () => {
     product.value = res;
     disabledAddProduct.value = true;
     disabledAddOption.value = false;
+    disabledAddOptionValue.value = false;
   } catch (err) {
     console.log(err);
     error.value = err.response.data.error;
   }
 };
 
-const submitOptionProduct = async () => {
+const submitOptionValue = async () => {
   try {
     if (!optionProductInput.value) {
       error.value = "Please fill all fields";
       return;
     }
-    const body = {
+    if (itemList.value.length === 0) {
+      error.value = "Please fill all fields";
+      return;
+    }
+    let body = {};
+    body = {
       optionType: optionProductInput.value,
       productId: product.value.productId,
     };
@@ -414,22 +387,8 @@ const submitOptionProduct = async () => {
     if (res) {
       optionProduct.value = res.optionType;
       optionProductId.value = res.optionProductId;
-      disabledAddOption.value = true;
-      disabledAddOptionValue.value = false;
     }
-  } catch (err) {
-    console.log(err);
-    error.value = err.response.data.error;
-  }
-};
-
-const submitOptionValue = async () => {
-  try {
-    if (itemList.value.length === 0) {
-      error.value = "Please fill all fields";
-      return;
-    }
-    let body = {};
+    body = {};
     itemList.value.forEach(async (value) => {
       body.optionProductId = optionProductId.value;
       body.value = value;
@@ -437,8 +396,10 @@ const submitOptionValue = async () => {
       await fetchData(`${process.env.VUE_APP_URL}/option-value`, "POST", body);
     });
     itemList.value = [];
+    optionProductInput.value = "";
     successMess.value = "Add option value success";
     disabledAddOptionValue.value = false;
+    disabledAddOption.value = false;
     disabledAddVariant.value = true;
   } catch (err) {
     console.log(err);
@@ -483,15 +444,8 @@ const submitVariant = async () => {
   }
 };
 
-const backToOption = () => {
-  disabledAddOption.value = false;
-  disabledAddOptionValue.value = true;
-  successMess.value = "";
-  error.value = "";
-};
-
 const backToDashboard = () => {
-  router.push({ name: "Dashboard" });
+  router.push({ name: "ProductDashboard" });
 };
 
 const continueToVariant = async () => {

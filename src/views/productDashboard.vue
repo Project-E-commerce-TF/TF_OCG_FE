@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-end mb-2 text-white">
     <router-link :to="{ name: 'AddProduct' }">
-      <Button>Add product</Button>
+      <Button class="bg-gray-400">Add product</Button>
     </router-link>
   </div>
   <div v-if="table" class="border rounded-md">
@@ -84,6 +84,7 @@ import {
   getPaginationRowModel,
 } from "@tanstack/vue-table";
 import DropdownAction from "@/components/ui/DataTableDropDown.vue";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
 const columns = [
@@ -98,6 +99,10 @@ const columns = [
   {
     accessorKey: "price",
     header: "Price",
+    cell: ({ row }) => {
+      const formattedPrice = numberToCurrencyVND(row.getValue("price"));
+      return h("div", { class: "lowercase" }, formattedPrice);
+    },
   },
   {
     accessorKey: "image",

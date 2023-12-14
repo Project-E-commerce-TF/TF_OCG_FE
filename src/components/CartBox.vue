@@ -1,8 +1,11 @@
 <template>
   <div
-    class="cart-item w-full border-2 rounded-xl flex justify-between items-center my-10 h-28"
+    :class="[
+      'cart-item w-full border-2 rounded-xl flex  items-center my-10 h-28',
+      checkIfMobile ? 'flex-wrap' : 'justify-between',
+    ]"
   >
-    <div class="flex w-1/2 h-full">
+    <div :class="['flex h-full', checkIfMobile ? 'w-full' : ' w-1/2']">
       <img
         :src="cart.variantDetail.image"
         alt="Variant Image"
@@ -30,8 +33,13 @@
       </div>
     </div>
 
-    <div class="item-details w-1/4 flex justify-center">
-      <div class="quantity-input flex items-center">
+    <div
+      :class="[
+        'item-details flex',
+        checkIfMobile ? 'ml-2 justify-start w-1/3' : 'w-1/4 justify-center',
+      ]"
+    >
+      <div :class="['quantity-input flex items-center']">
         <button
           @click="decrement"
           :disabled="quantity === 1"
@@ -49,26 +57,41 @@
         <button @click="increment" class="px-2 py-1 bg-gray-300">+</button>
       </div>
     </div>
-    <div class="col w-1/8 font-bold">
+    <div
+      :class="['col  font-bold', checkIfMobile ? 'w-[60%] m-auto' : 'w-1/8']"
+    >
       Total: {{ numberToCurrencyVND(cart.totalPrice) }}
     </div>
     <button
       @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
-      class="col w-1/8 bg-grey_white h-full flex justify-center py-14"
+      :class="[
+        'col  bg-grey_white h-full flex justify-center',
+        checkIfMobile ? 'w-full mt-10 py-2' : ' py-14 w-1/8',
+      ]"
     >
-      <img
-        :src="require('@/assets/images/x.png')"
-        alt="logo_brand"
-        class="w-1/2 object-cover"
-      />
+      X
     </button>
   </div>
+  <!-- <button
+    @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
+    class="bg-grey_white h-full flex justify-center py-14"
+  >
+    <img
+      :src="require('@/assets/images/x.png')"
+      alt="logo_brand"
+      class="w-1/2 object-cover"
+    />
+  </button> -->
 </template>
 
 <script>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, computed } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
 import { numberToCurrencyVND } from "../utils/currencyVND.js";
+
+const checkIfMobile = computed(() => {
+  return window.innerWidth < 1024;
+});
 
 export default {
   props: {
@@ -132,6 +155,7 @@ export default {
       decrement,
       increment,
       updateQuantity,
+      checkIfMobile,
       numberToCurrencyVND,
     };
   },

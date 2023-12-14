@@ -205,6 +205,22 @@ const routes = [
         },
         component: () => import("../views/productEditDashboard.vue"),
       },
+      {
+        path: "order/edit/:id",
+        name: "OrderEdit",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/OrderEditDashboard.vue"),
+      },
+      {
+        path: "/add-discount",
+        name: "AddDiscount",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/addDiscount.vue"),
+      },
     ],
     component: () => import("../views/dashBoard.vue"),
   },
@@ -216,14 +232,7 @@ const routes = [
     },
     component: () => import("../views/addProduct.vue"),
   },
-  {
-    path: "/dashboard/add-discount",
-    name: "AddDiscount",
-    meta: {
-      layout: "default",
-    },
-    component: () => import("../views/addDiscount.vue"),
-  },
+
   {
     path: "/phone-number",
     name: "PhoneNumber",

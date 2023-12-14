@@ -124,7 +124,7 @@
                 src="https://yt3.ggpht.com/hqsxh-Vnbw9OK0_X4DAWh6RkmEUVnL-82SRCyh-IKr9fIXR8zhUCRdBEwgWWL_14q_L8Piod=s108-c-k-c0x00ffffff-no-rj"
                 alt=""
               />
-              <div class="font-semibold dark:text-black text-left">
+              <div class="font-semibold dark:text-white text-left">
                 <div>Setting</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">
                   Admin
@@ -199,7 +199,7 @@ const toggleDrop = () => {
 }
 .bg_image {
   background: linear-gradient(
-    112deg,
+    -120deg,
     rgba(6, 11, 38, 0.94) 59.3%,
     rgba(26, 31, 55, 0) 100%
   );
