@@ -9,6 +9,7 @@
             :id="category.categoryId"
             type="checkbox"
             :value="category.handle"
+            v-model="b[category.handle]"
             class="mr-2 mb-2.5"
             @change="handleChecked($event, category.handle)"
           />
@@ -28,20 +29,38 @@
 <script setup>
 import { useRouter, useRoute } from "vue-router";
 import CustomMinMaxSlider from "./CustomMinMaxSlider.vue";
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import store from "../store/index.js";
 import { fetchData } from "@/utils/axiosFetchApi";
 
 const router = useRouter();
 const route = useRoute();
-const cateList = ref([]);
+let cateList = ref([]);
 const data = ref([]);
 
 onMounted(async () => {
+  const currentQuery = route.query;
+  if (currentQuery.category.length > 0) {
+    const a = currentQuery.category.split(",");
+    for (let value of a) {
+      cateList.value.push(value);
+    }
+  }
   const res = await fetchData(`${process.env.VUE_APP_URL}/category`);
   if (res) {
     data.value = res.categories;
   }
+});
+const b = computed(() => {
+  let categoriesOp = {};
+  const currentQuery = route.query;
+  if (currentQuery.category.length > 0) {
+    const a = currentQuery.category.split(",");
+    for (let value of a) {
+      categoriesOp[value] = true;
+    }
+  }
+  return categoriesOp;
 });
 
 const handleChecked = (e, value) => {
@@ -54,6 +73,7 @@ watch(
   cateList,
   async () => {
     const currentQuery = route.query;
+    console.log(currentQuery);
     await router.push({
       path: "/products",
       query: { ...currentQuery, category: cateList.value.join() },
