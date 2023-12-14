@@ -234,7 +234,7 @@ const updateCart = async () => {
     const response = await fetchData(
       `${process.env.VUE_APP_URL}/cart/view-cart`
     );
-    if (response && response.cartItems && response.summary) {
+    if (response && response.summary) {
       cartItems.value = response.cartItems;
       totalItems.value = response.summary.totalProducts;
       totalPrices.value = response.summary.totalPrice;
