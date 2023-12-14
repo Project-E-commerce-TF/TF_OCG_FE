@@ -1,41 +1,47 @@
 <template>
-  <div class="">
-    <div class="flex">
-      <div
-        v-if="cartItems && cartItems.length > 0"
-        class="cart p-6 w-full flex"
-      >
-        <div class="cart p-6 w-3/5">
-          <div class="w-full flex justify-between">
-            <div class="col w-1/2 font-bold">Product</div>
-            <div class="col w-1/4 flex justify-center pr-6 font-bold">
-              Quantity
-            </div>
-            <div class="col w-1/8 flex justify-center mr-24 font-bold">
-              Total
-            </div>
+  <div class="flex">
+    <div v-if="cartItems && cartItems.length > 0" class="cart p-6 w-full flex">
+      <div class="cart p-6 w-3/5">
+        <div class="w-full flex justify-between">
+          <div class="col w-1/2 font-bold">Product</div>
+          <div class="col w-1/4 flex justify-center pr-6 font-bold">
+            Quantity
           </div>
-          <div v-if="cartItems && cartItems.length > 0">
-            <CartBox
-              v-for="item in cartItems"
-              :key="item.cartId"
-              :cart="item"
-              @quantity-updated="updateCart"
-              @remove-from-cart="handleRemoveFromCart"
-            />
-          </div>
-          <div v-else>
-            <div>Your cart is empty.</div>
-            <div>Loading...</div>
+          <div class="col w-1/8 flex justify-center mr-24 font-bold">Total</div>
+        </div>
+        <div v-if="cartItems && cartItems.length > 0">
+          <CartBox
+            v-for="item in cartItems"
+            :key="item.cartId"
+            :cart="item"
+            @quantity-updated="updateCart"
+            @remove-from-cart="handleRemoveFromCart"
+          />
+        </div>
+        <div v-else>
+          <div>Your cart is empty.</div>
+          <div>Loading...</div>
+        </div>
+      </div>
+      <div class="py-6 px-16 bg-gray_rectangle w-2/5">
+        <div class="row text-right border-b-4 border-primary font-bold pb-2">
+          Order Summary
+        </div>
+        <div class="row flex items-center my-4">
+          <img
+            :src="require('@/assets/images/oto.png')"
+            alt="oto"
+            class="w-10 h-full mx-3 object-cover"
+          />
+          <div class="col font-bold">
+            Yay! Free shipping available on this order.
           </div>
         </div>
-        <div class="py-6 px-16 bg-gray_rectangle w-2/5">
-          <div class="row text-right border-b-4 border-primary font-bold pb-2">
-            Order Summary
+        <div class="row flex justify-between my-4">
+          <div class="col text-primary font-bold">
+            Item Total ({{ totalItems }} items)
           </div>
-          <div class="col font-bold">
-            {{ numberToCurrencyVND(totalPrices) }}
-          </div>
+          <div class="col font-bold">{{ totalPrices }}</div>
         </div>
         <div
           class="row flex justify-between my-4"
@@ -45,108 +51,99 @@
           <div class="col font-bold">
             {{ formattedDiscount }}
           </div>
+        </div>
 
-          <div class="col mt-4">Your Province</div>
-          <div class="flex items-stretch mb-4 mt-2">
-            <select
-              name=""
-              id=""
-              class="text-lg rounded-lg w-full h-2 p-1 text-primary border-gray_footer border-solid border"
-              v-model="selectedProvince"
-            >
-              <option value="" disabled selected>Please Choose...</option>
-              <option
-                v-for="province in provinces"
-                :value="province.provinceId"
-                :key="province.provinceId"
-                class="text-lg w-full text-primary"
-              >
-                {{ province.provinceName }}
-              </option>
-            </select>
-          </div>
-          <div class="col">Specific Address</div>
-          <div class="mb-4 mt-2">
-            <input
-              v-model="shippingAddress"
-              type="text"
-              class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
-              placeholder="Input location"
-            />
-          </div>
-          <div
-            v-if="shippingFee !== null && shippingFee > 0"
-            class="mt-2 text-primary font-bold"
+        <div class="col">Your Location</div>
+        <div class="flex items-stretch">
+          <select
+            name=""
+            id=""
+            class="text-lg rounded-lg w-full h-2 p-1 text-primary border-gray_footer border-solid border"
+            v-model="selectedProvince"
           >
-            Shipping Fee: {{ numberToCurrencyVND(shippingFee) }}
-          </div>
-          <div class="col mt-4">PhoneNumber</div>
-          <div class="mb-4 mt-2">
-            <input
-              type="text"
-              class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
-              placeholder="Input phone number"
-            />
-          </div>
-          <div class="relative my-4">
-            <input
-              v-model="discountCode"
-              type="text"
-              class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
-              placeholder="Coupon code"
-            />
-            <button
-              @click="applyDiscount"
-              class="absolute right-0 top-0 bg-primary text-white px-8 py-2 rounded-lg font-bold"
+            <option value="" disabled selected>Please Choose...</option>
+            <option
+              v-for="province in provinces"
+              :value="province.provinceId"
+              :key="province.provinceId"
+              class="text-lg w-full text-primary"
             >
-              Apply
-            </button>
-          </div>
-          <div v-if="discountCodeError" class="text-red-500">
-            {{ discountCodeError }}
-          </div>
-          <div class="row my-4 flex justify-between">
-            <div class="col">
-              <div class="row font-bold text-grand_totle text-xl">
-                Grand Total
-              </div>
-              <div class="row font-bold text-grand_totle text-xl">
-                (Inclusive of Taxes)
-              </div>
+              {{ province.provinceName }}
+            </option>
+          </select>
+        </div>
+        <div
+          v-if="shippingFee !== null && shippingFee > 0"
+          class="mt-2 text-primary font-bold"
+        >
+          Shipping Fee: {{ shippingFee }}
+        </div>
+        <div class="my-4">
+          <input
+            v-model="shippingAddress"
+            type="text"
+            class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
+            placeholder="Input location"
+          />
+        </div>
+        <div class="relative my-4">
+          <input
+            v-model="discountCode"
+            type="text"
+            class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
+            placeholder="Coupon code"
+          />
+          <button
+            @click="applyDiscount"
+            class="absolute right-0 top-0 bg-primary text-white px-8 py-2 rounded-lg font-bold"
+          >
+            Apply
+          </button>
+        </div>
+        <div v-if="discountCodeError" class="text-red-500">
+          {{ discountCodeError }}
+        </div>
+        <div class="row my-4 flex justify-between">
+          <div class="col">
+            <div class="row font-bold text-grand_totle text-xl">
+              Grand Total
             </div>
-            <div class="col">
-              <div class="row text-right text-xl font-bold">
-                {{ numberToCurrencyVND(calculateTotalPrice) }}
-              </div>
-              <div class="row text-right text-sm text-save">
-                You Saved {{ numberToCurrencyVND(calculateSavings) }}
-              </div>
+            <div class="row font-bold text-grand_totle text-xl">
+              (Inclusive of Taxes)
             </div>
           </div>
-          <div v-if="showWarningMessage" class="text-red-500 my-2">
-            Please enter your address and select province/city.
-          </div>
-          <div class="flex justify-center">
-            <button
-              @click="handlePay"
-              class="bg-blue-500 text-white px-8 py-2 rounded font-bold w-full"
-            >
-              Click here to pay
-            </button>
-          </div>
-          <div class="mt-4">
-            <div id="paypal-button-container"></div>
-            <p id="result-message"></p>
+          <div class="col">
+            <div class="row text-right text-xl font-bold">
+              {{ numberToCurrencyVND(calculateTotalPrice) }}
+            </div>
+            <div class="row text-right text-sm text-save">
+              You Saved {{ numberToCurrencyVND(calculateSavings) }}
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else class="w-full">
-        <cart-empty></cart-empty>
+        <div v-if="showWarningMessage" class="text-red-500 my-2">
+          Please enter your address and select province/city.
+        </div>
+        <div class="flex justify-center">
+          <button
+            @click="handlePay"
+            class="bg-blue-500 text-white px-8 py-2 rounded font-bold"
+          >
+            Pay
+          </button>
+        </div>
+        <div class="mt-4">
+          <div id="paypal-button-container"></div>
+          <p id="result-message"></p>
+        </div>
       </div>
     </div>
-    <div v-if="alertMessage" class="alert-message font-bold">
-      {{ alertMessage }}
+    <div v-else class="w-full">
+      <cart-empty></cart-empty>
     </div>
+  </div>
+  <div v-if="alertMessage" class="alert-message font-bold">
+    {{ alertMessage }}
   </div>
 </template>
 
