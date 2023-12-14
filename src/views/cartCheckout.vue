@@ -41,7 +41,9 @@
           <div class="col text-primary font-bold">
             Item Total ({{ totalItems }} items)
           </div>
-          <div class="col font-bold">{{ totalPrices }}</div>
+          <div class="col font-bold">
+            {{ numberToCurrencyVND(totalPrices) }} VND
+          </div>
         </div>
         <div
           class="row flex justify-between my-4"
@@ -53,7 +55,7 @@
           </div>
         </div>
 
-        <div class="col">Your Location</div>
+        <div class="col">Your Province</div>
         <div class="flex items-stretch">
           <select
             name=""
@@ -78,12 +80,21 @@
         >
           Shipping Fee: {{ shippingFee }}
         </div>
-        <div class="my-4">
+        <div class="col mt-4">Your Location</div>
+        <div class="">
           <input
             v-model="shippingAddress"
             type="text"
             class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
             placeholder="Input location"
+          />
+        </div>
+        <div class="col mt-4">Phone Number</div>
+        <div class="">
+          <input
+            type="text"
+            class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
+            placeholder="Input phone number"
           />
         </div>
         <div class="relative my-4">
@@ -127,7 +138,7 @@
         <div class="flex justify-center">
           <button
             @click="handlePay"
-            class="bg-blue-500 text-white px-8 py-2 rounded font-bold"
+            class="bg-blue-500 w-full text-white px-8 py-2 rounded font-bold"
           >
             Pay
           </button>
