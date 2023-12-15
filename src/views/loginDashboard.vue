@@ -1,6 +1,9 @@
 <template>
-  <div class="mt-8 w-full sm:w-[50%] m-auto">
-    <div class="container mx-auto px-4 sm:px-8">
+  <div class="h-[100vh] flex bg_image text-white">
+    <div class="container w-full md:w-[60%] px-4 sm:px-8 m-auto bg">
+      <h1 class="m-auto w-[50%] text-center text-2xl font-bold mb-20">
+        Admin Dashboard
+      </h1>
       <!-- Start Form -->
       <form
         class="flex flex-col justify-start space-y-6"
@@ -11,7 +14,7 @@
             <span class="font-semibold">Email Address</span>
             <input
               id="email"
-              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white text-black"
               type="email"
               placeholder="abc@gmail.com"
               autocomplete="username"
@@ -24,7 +27,7 @@
             <span class="font-semibold">Password</span>
             <input
               id="password"
-              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white"
+              class="px-2 sm:px-4 py-3 rounded-lg border border-gray-100 mt-1 bg-grey_white text-black"
               type="password"
               placeholder="Example"
               autocomplete="current-password"
@@ -72,3 +75,12 @@ async function onSubmit() {
   if (!error.value) router.push({ name: "UserDashboard" });
 }
 </script>
+<style scoped>
+.bg_image {
+  background: linear-gradient(
+    112deg,
+    rgba(6, 11, 38, 0.94) 59.3%,
+    rgba(26, 31, 55, 0) 100%
+  );
+}
+</style>
