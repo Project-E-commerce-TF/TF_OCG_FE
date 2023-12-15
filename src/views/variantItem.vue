@@ -1,16 +1,16 @@
 <template>
-  <div class="mx-6 border-2 rounded-xl mb-3">
+  <div class="px-32 bg-gray-200 py-8">
     <div v-if="!loading" class="parent flex flex-col md:flex-row relative mb-3">
       <!-- Slide Image -->
       <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
         <div class="w-[100%] h-full m-auto">
-          <img :src="data.product.image" class="w-full rounded-s-xl" />
+          <img :src="data.product.image" class="w-full h-full rounded-s-xl" />
         </div>
       </div>
 
       <!-- Product Information -->
       <div
-        class="info w-full md:w-2/3 bg-gray-200 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
+        class="info w-full h-full md:w-2/3 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
       >
         <h2 class="text-primary text-2xl md:text-4xl font-bold mb-2">
           {{ data.product.title }}
@@ -65,7 +65,9 @@
     <Loader2 class="animate-spin w-full mt-4" v-else />
 
     <!-- Product Description -->
-    <div class="description py-4 px-4 text-primary bg-white rounded-x">
+    <div
+      class="description my-6 p-10 text-primary rounded-xl bg-white rounded-x"
+    >
       <div class="font-bold text-xl md:text-4xl mb-2 md:mb-10">
         Detail Descriptions
       </div>
@@ -73,13 +75,32 @@
     </div>
 
     <!-- Product Reviews-->
-    <div class="reviews py-4 px-4 bg-grey_white rounded-xl">
-      <div class="font-bold text-xl md:text-4xl mb-2 md:mb-5">
-        Product Reviews
-      </div>
+    <div class="reviews bg-grey_white my-6 p-10 rounded-xl">
+      <div class="font-bold text-xl mb-5">Product Reviews</div>
 
       <div v-if="data.reviews && data.reviews.length > 0">
-        <!-- Review items here -->
+        <div
+          v-for="(review, index) in data.reviews"
+          :key="index"
+          class="review-item border-2 my-4 rounded-xl p-2 bg-white"
+        >
+          <div class="items-center">
+            <div class="font-bold">Rate:</div>
+            <div class="font-bold mr-2 flex">
+              <img
+                v-for="(star, index) in review.rating"
+                :key="index"
+                :src="require('@/assets/images/star.png')"
+                alt="star"
+                class="star-icon"
+              />
+            </div>
+            <div class="text-gray-500 font-bold">
+              User Name: {{ review.user.userName }}
+            </div>
+          </div>
+          <div class="mb-2 font-bold text-blue-600">{{ review.comment }}</div>
+        </div>
       </div>
 
       <div v-else>
@@ -88,9 +109,9 @@
     </div>
 
     <!-- Related Products -->
-    <div class="relate py-20 px-40 bg-white rounded-xl mt-4">
+    <div class="relate bg-white rounded-xl my-6 p-10">
       <div class="font-bold text-4xl mb-10">Related products</div>
-      <swiper :modules="modules" :slides-per-view="4" class="swiper-container">
+      <swiper :modules="modules" :slides-per-view="5" class="swiper-container">
         <swiper-slide v-for="product in relateProducts" :key="product.id">
           <div
             class="relative overflow-hidden bg-white shadow-2xl rounded-md max-w-[200px]"
