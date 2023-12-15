@@ -263,7 +263,7 @@ const routes = [
     meta: {
       layout: "personal",
     },
-    component: () => import("../views/orderDetail.vue"),
+    component: () => import("../views/OrderDetail.vue"),
   },
   {
     path: "/wishlist",
