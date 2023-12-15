@@ -1,6 +1,6 @@
 <template>
   <div class="mx-6 border-2 rounded-xl mb-3">
-    <div v-if="!loading" class="parent flex flex-col md:flex-row">
+    <div v-if="!loading" class="parent flex flex-col md:flex-row relative mb-3">
       <!-- Slide Image -->
       <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
         <div class="w-full m-auto">
@@ -127,6 +127,7 @@ import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/swiper-bundle.css";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
+import store from "../store/index.js";
 
 const route = useRoute();
 const data = ref([]);
@@ -156,7 +157,6 @@ const updateSwiper = () => {
 
 const addToCart = async () => {
   try {
-    console.log("selectedOptions:", selectedOptions.value);
     const keys = Object.keys(selectedOptions.value);
 
     const body = {
@@ -164,8 +164,6 @@ const addToCart = async () => {
       optionValue1: selectedOptions.value[keys[0]],
       optionValue2: selectedOptions.value[keys[1]],
     };
-
-    console.log("Request body:", body);
 
     const variantResponse = await fetchData(
       `${process.env.VUE_APP_URL}/variant/get-variant-id`,
@@ -186,6 +184,8 @@ const addToCart = async () => {
       );
 
       if (cartResponse !== null) {
+        await store.dispatch("fetchCartList");
+
         alertMessage.value = "Product added to cart successfully!";
       } else {
         console.error(
@@ -251,7 +251,7 @@ watch(
 watchEffect(() => {
   if (data.value.optionProducts) {
     selectedOptions.value = data.value.optionProducts.reduce((acc, option) => {
-      acc[option.optionType] = option.optionValues[0]?.optionValueId || null;
+      acc[option?.optionType] = option.optionValues?.[0]?.optionValueId || null;
       return acc;
     }, {});
   }
@@ -341,7 +341,7 @@ watch(
 }
 .alert-message {
   position: fixed;
-  top: 50%;
+  bottom: -5%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;

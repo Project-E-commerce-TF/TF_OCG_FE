@@ -26,9 +26,6 @@
           <div class="row font-bold mb-2 mr-2">
             {{ numberToCurrencyVND(cart.variantDetail?.price) }}
           </div>
-          <div class="row font-bold">
-            SKU: {{ cart.productDetail.productId }}
-          </div>
         </div>
       </div>
     </div>
@@ -43,7 +40,7 @@
         <button
           @click="decrement"
           :disabled="quantity === 1"
-          class="px-2 py-1 bg-gray-300"
+          class="px-2 bg-gray-300 rounded-lg"
         >
           -
         </button>
@@ -54,22 +51,22 @@
           class="w-12 text-center"
           @input="updateQuantity"
         />
-        <button @click="increment" class="px-2 py-1 bg-gray-300">+</button>
+        <button @click="increment" class="px-2 bg-gray-300 rounded-lg">
+          +
+        </button>
       </div>
     </div>
-    <div
-      :class="['col  font-bold', checkIfMobile ? 'w-[60%] m-auto' : 'w-1/8']"
-    >
+    <div :class="['col  font-bold', checkIfMobile ? 'm-auto' : 'w-1/8']">
       Total: {{ numberToCurrencyVND(cart.totalPrice) }}
     </div>
     <button
       @click="() => $emit('remove-from-cart', cart.variantDetail.variantId)"
       :class="[
-        'col  bg-grey_white h-full flex justify-center',
-        checkIfMobile ? 'w-full mt-10 py-2' : ' py-14 w-1/8',
+        'col  bg-grey_white h-full flex justify-center  font-bold',
+        checkIfMobile ? 'w-full mt-10 py-2 px-6' : ' py-16 w-1/8 px-2',
       ]"
     >
-      X
+      x
     </button>
   </div>
   <!-- <button

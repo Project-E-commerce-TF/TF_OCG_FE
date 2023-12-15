@@ -18,7 +18,10 @@
         <input
           type="text"
           id="title"
-          class="grow rounded-md border border-solid p-2"
+          :class="[
+            { 'input-error': isInputError },
+            'grow rounded-md border border-solid p-2',
+          ]"
           v-model="title"
         />
       </div>
@@ -43,14 +46,19 @@
         />
       </div>
       <div class="flex my-5 items-center">
-        <label for="imageAddress" class="min-w-[120px]">Image Address</label>
+        <label
+          for="imageAddress"
+          class="min-w-[120px] border border-gray-500 rounded-lg p-1"
+          >Choose image</label
+        >
         <input
           type="file"
           id="imageAddress"
-          class="grow rounded-md border border-solid p-2"
+          class="grow rounded-md border border-solid p-2 hidden"
           accept="image/*"
           @change="handleFileUpload"
         />
+        <div class="overflow-hidden">{{ file?.name }}</div>
       </div>
       <div class="flex my-5 items-center">
         <label for="category" class="min-w-[120px]">Category</label>
@@ -266,6 +274,7 @@ const optionProductInput = ref("");
 const optionProduct = ref("");
 const optionProductId = ref(0);
 const successMess = ref("");
+const isInputError = ref(false);
 
 const inputValue = ref("");
 const itemList = ref([]);
@@ -275,13 +284,13 @@ const handleFileUpload = (event) => {
   const validTypes = ["image/jpeg", "image/png", "image/gif"];
   const maxSize = 1000000;
 
-  if (file.value.length === 0) {
+  if (file?.value?.length === 0) {
     error.value = "No file selected";
     return;
-  } else if (!validTypes.includes(file.value.type)) {
+  } else if (!validTypes.includes(file?.value?.type)) {
     error.value = "Invalid file type";
     return;
-  } else if (file.value.size > maxSize) {
+  } else if (file?.value?.size > maxSize) {
     error.value = "File is too large";
     return;
   } else {
@@ -461,6 +470,9 @@ const continueToVariant = async () => {
 </script>
 
 <style scoped>
+.input-error {
+  border: 1px solid red;
+}
 .bg_image {
   background: linear-gradient(
     112deg,

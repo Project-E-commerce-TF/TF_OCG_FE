@@ -63,12 +63,17 @@
         <div class="ml-2 font-bold">Wishlist</div>
       </router-link>
       <router-link to="/cart" class="flex">
-        <button class="w-5 h-6 bg-transparent border-none">
+        <button class="w-5 h-6 bg-transparent border-none relative">
           <img
             :src="require('@/assets/images/icon_cart.png')"
             alt="icon_search"
             class="w-full h-full"
           />
+          <div
+            class="absolute bg-rose-600 text-white rounded-full text-xs px-1 top-[-10px] right-[-10px]"
+          >
+            {{ cartListNoti?.length }}
+          </div>
         </button>
         <div class="ml-2 font-bold">Cart</div>
       </router-link>
@@ -77,7 +82,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index.js";
 
@@ -86,8 +91,11 @@ const router = useRouter();
 const route = useRoute();
 const searchText = ref("");
 const authen = ref(false);
-onMounted(() => {
+const cartListNoti = computed(() => store.state.cartList);
+
+onMounted(async () => {
   Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
+  await store.dispatch("fetchCartList");
 });
 watch(searchText, async () => {
   console.log(1);

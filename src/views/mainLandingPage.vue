@@ -20,7 +20,7 @@
       <div id="swiper-button-prev" class="swiper-button-prev !hidden"></div>
     </div>
 
-    <div class="mx-6 border-2">
+    <div class="mx-6 border-2 rounded-xl mb-20">
       <div class="w-full bg-gray-50">
         <div class="text-center font-bold text-2xl md:text-4xl mt-8 md:mt-24">
           Shopping made easy!
@@ -166,6 +166,7 @@ onMounted(async () => {
 .custom-width {
   max-width: 100%;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 .swiper-slide {

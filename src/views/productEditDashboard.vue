@@ -16,11 +16,12 @@
       </div>
       <div class="flex my-5 items-center">
         <label for="desc" class="min-w-[100px]">Description</label>
-        <textarea
-          id="desc"
-          class="grow rounded-md border border-solid p-2 text-black"
+        <Editor
+          class="grow"
+          style="width: 100%"
           v-model="product.product.description"
-        ></textarea>
+          api-key="5yuek9t1m6nvx7xnjxyglscjopwcnhtaam641fk7o7uvz8ri"
+        />
       </div>
       <div class="flex my-5 items-center">
         <label for="price" class="min-w-[100px]">Price</label>
@@ -117,6 +118,7 @@
 import { fetchData } from "@/utils/axiosFetchApi";
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Editor from "@tinymce/tinymce-vue";
 
 const route = useRoute();
 const router = useRouter();

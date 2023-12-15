@@ -4,9 +4,6 @@
     <rectangle-info />
     <slot />
   </div>
-  <h1 v-else class="text-4xl font-bold text-center m-40 text-rose-700">
-    <router-link :to="{ name: `Login` }"> You have to Login </router-link>
-  </h1>
   <footer-info />
 </template>
 
@@ -15,6 +12,11 @@ import MenuBarForProfile from "@/components/MenuBarForProfile.vue";
 import Footer from "@/components/Footer.vue";
 import Rectangle from "@/components/Rectangle.vue";
 import { getLocalStorage } from "@/utils/localStorage";
+// import { computed } from "vue";
+
+// const checkIfMobile = computed(() => {
+//   return window.innerWidth < 1024;
+// });
 
 const infoUser = getLocalStorage("infoUser");
 export default {

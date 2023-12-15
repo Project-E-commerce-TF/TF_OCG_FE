@@ -36,28 +36,29 @@ axios.interceptors.response.use(
       originalRequest._retry = true;
       const refreshToken = Cookies.get("refreshToken");
       originalRequest.headers["Authorization"] = `Bearer ${refreshToken}`;
-      try {
-        // Make an API call to refresh the access token
-        const response = await axios.post(
-          "http://localhost:8080/refreshToken",
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${refreshToken}`,
-            },
-          }
-        );
+      router.push("/login");
+      // try {
+      //   // Make an API call to refresh the access token
+      //   const response = await axios.post(
+      //     "http://localhost:8080/refreshToken",
+      //     {},
+      //     {
+      //       headers: {
+      //         Authorization: `Bearer ${refreshToken}`,
+      //       },
+      //     }
+      //   );
 
-        // If the API call is successful, update the access token in the original request and retry it
-        if (response.status === 200) {
-          const newAccessToken = response.data.accessToken;
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return axios(originalRequest);
-        }
-      } catch (err) {
-        // Handle the error from the API call
-        console.error(err);
-      }
+      //   // If the API call is successful, update the access token in the original request and retry it
+      //   if (response.status === 200) {
+      //     const newAccessToken = response.data.accessToken;
+      //     originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+      //     return axios(originalRequest);
+      //   }
+      // } catch (err) {
+      //   // Handle the error from the API call
+      //   console.error(err);
+      // }
     }
     return Promise.reject(error);
   }
