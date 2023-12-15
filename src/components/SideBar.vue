@@ -2,7 +2,7 @@
   <section>
     <!-- category -->
     <div class="category px-6 py-8 bg-gray_sidebar rounded-lg">
-      <div class="mb-10 font-bold text-primary">Category</div>
+      <div class="mb-10 font-bold text-3xl text-primary">Category</div>
       <div>
         <div v-for="category in data" :key="category.id">
           <input
@@ -40,7 +40,7 @@ const data = ref([]);
 
 onMounted(async () => {
   const currentQuery = route.query;
-  if (currentQuery.category.length > 0) {
+  if (currentQuery?.category?.length > 0) {
     const a = currentQuery.category.split(",");
     for (let value of a) {
       cateList.value.push(value);
@@ -54,7 +54,7 @@ onMounted(async () => {
 const b = computed(() => {
   let categoriesOp = {};
   const currentQuery = route.query;
-  if (currentQuery.category.length > 0) {
+  if (currentQuery.category?.length > 0) {
     const a = currentQuery.category.split(",");
     for (let value of a) {
       categoriesOp[value] = true;

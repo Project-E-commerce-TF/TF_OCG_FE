@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div class="overflow-hidden">
     <!-- Slide show for images -->
-    <div class="swiper-container image-slider" ref="imageSwiper">
+    <div
+      class="swiper-container image-slider w-[100vw] overflow-hidden"
+      ref="imageSwiper"
+    >
+      <!-- ... (unchanged) ... -->
       <div class="swiper-wrapper">
         <div
           v-for="(image, index) in slideshowImages"
@@ -21,7 +25,7 @@
     </div>
 
     <div class="mx-6 border-2">
-      <div class="w-full bg-gray-50">
+      <div class="w-full bg-gray-50 overflow-hidden">
         <div class="text-center font-bold text-2xl md:text-4xl mt-8 md:mt-24">
           Shopping made easy!
         </div>
@@ -160,7 +164,8 @@ onMounted(async () => {
 
 <style scoped>
 .image-slide {
-  max-height: 650px;
+  object-fit: cover;
+  height: 90vh;
 }
 
 .custom-width {

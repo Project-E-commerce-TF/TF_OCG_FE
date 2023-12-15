@@ -1,16 +1,16 @@
 <template>
-  <div class="mx-6 border-2 rounded-xl mb-3">
+  <div class="px-32 py-5 bg-bg_color">
     <div v-if="!loading" class="parent flex flex-col md:flex-row">
       <!-- Slide Image -->
       <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
-        <div class="w-full m-auto">
-          <img :src="data.product.image" class="w-full rounded-xl" />
+        <div class="w-[100%] h-full m-auto">
+          <img :src="data.product.image" class="w-full rounded-s-xl" />
         </div>
       </div>
 
       <!-- Product Information -->
       <div
-        class="info w-full md:w-2/3 rounded-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
+        class="info w-full md:w-2/3 bg-gray-200 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
       >
         <h2 class="text-primary text-2xl md:text-4xl font-bold mb-2">
           {{ data.product.title }}
@@ -65,7 +65,7 @@
     <Loader2 class="animate-spin w-full mt-4" v-else />
 
     <!-- Product Description -->
-    <div class="description py-4 px-4 text-primary">
+    <div class="description py-4 px-4 text-primary bg-white rounded-x">
       <div class="font-bold text-xl md:text-4xl mb-2 md:mb-10">
         Detail Descriptions
       </div>
@@ -88,9 +88,9 @@
     </div>
 
     <!-- Related Products -->
-    <div class="relate my-20 mx-40 hidden md:block">
+    <div class="relate py-20 px-40 bg-white rounded-xl mt-4">
       <div class="font-bold text-4xl mb-10">Related products</div>
-      <swiper :modules="modules" :slides-per-view="5" class="swiper-container">
+      <swiper :modules="modules" :slides-per-view="4" class="swiper-container">
         <swiper-slide v-for="product in relateProducts" :key="product.id">
           <div
             class="relative overflow-hidden bg-white shadow-2xl rounded-md max-w-[200px]"
@@ -156,38 +156,67 @@ const updateSwiper = () => {
 
 const addToCart = async () => {
   try {
+    // Step 1: Log selectedOptions and build the request body
     console.log("selectedOptions:", selectedOptions.value);
     const keys = Object.keys(selectedOptions.value);
-
     const body = {
       productID: data.value.product.productId,
       optionValue1: selectedOptions.value[keys[0]],
       optionValue2: selectedOptions.value[keys[1]],
     };
-
     console.log("Request body:", body);
 
+    // Step 2: Fetch variant ID
     const variantResponse = await fetchData(
       `${process.env.VUE_APP_URL}/variant/get-variant-id`,
       "POST",
       body
     );
 
+    // Step 3: Check if variant ID is received successfully
     if (variantResponse.variantId) {
+      // Step 4: Build payload for adding to cart
       const payload = {
         variantId: variantResponse.variantId,
         quantity: quantity.value, // Use the quantity from the body
       };
 
+      // Step 5: Make request to add to cart
       const cartResponse = await fetchData(
         `${process.env.VUE_APP_URL}/cart/add-to-cart`,
         "POST",
         payload
       );
-
+      console.log(cartResponse);
+      // Step 6: Handle the cart response
       if (cartResponse !== null) {
-        alertMessage.value = "Product added to cart successfully!";
+        if (cartResponse.error) {
+          // Step 7: Handle specific error messages
+          console.error(
+            "Failed to add product to cart. Server returned:",
+            cartResponse.error
+          );
+
+          if (
+            cartResponse.error ===
+            "Invalid quantity. Quantity exceeds available stock."
+          ) {
+            alertMessage.value =
+              "Invalid quantity. Quantity exceeds available stock.";
+          } else if (cartResponse.error === "Invalid quantity") {
+            alertMessage.value =
+              "Invalid quantity. Please choose a smaller quantity.";
+          } else {
+            alertMessage.value =
+              cartResponse.error ||
+              "Failed to add product to cart. Please try again.";
+          }
+        } else {
+          // Step 8: Show success message
+          alertMessage.value = "Product added to cart successfully!";
+        }
       } else {
+        // Step 9: Handle null response
         console.error(
           "Failed to add product to cart. Server returned:",
           cartResponse
@@ -195,10 +224,12 @@ const addToCart = async () => {
         alertMessage.value = "Failed to add product to cart. Please try again.";
       }
 
+      // Step 10: Clear the alert message after 2 seconds
       setTimeout(() => {
         alertMessage.value = null;
       }, 2000);
     } else {
+      // Step 11: Handle failure to get variant ID
       console.error(
         "Failed to get variant ID from the server:",
         variantResponse
@@ -206,9 +237,10 @@ const addToCart = async () => {
       alertMessage.value = "Failed to get variant ID. Please try again.";
     }
   } catch (error) {
+    // Step 12: Handle unexpected errors
     console.error("Error adding product to cart:", error);
     alertMessage.value =
-      "An error occurred while adding the product to the cart.";
+      "An error occurred while adding the product to the cart. Please try again.";
   }
 };
 
@@ -264,7 +296,7 @@ watch(
       const handle = newParams.handle;
       if (handle) {
         const res = await fetchData(
-          `${process.env.VUE_APP_URL}/product/find-product/handle?handle=${route.params.handle}`
+          `${process.env.VUE_APP_URL}/product/find-product/handle?handle=${route.params?.handle}`
         );
         data.value = res;
         loading.value = false;
