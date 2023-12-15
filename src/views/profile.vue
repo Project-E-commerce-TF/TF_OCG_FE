@@ -105,6 +105,13 @@
                 </button>
               </router-link>
             </div>
+            <button
+              type="button"
+              @click="logout"
+              class="bg-white text-red-500 border-4 text-center px-9 py-3 font-bold rounded-lg"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </div>
@@ -325,6 +332,13 @@ const infoUser = getLocalStorage("infoUser");
 const user = ref();
 const showRank = ref(false);
 const router = useRouter();
+
+const logout = () => {
+  Cookies.remove("accessToken");
+  Cookies.remove("refreshToken");
+  localStorage.removeItem("infoUser");
+  router.push({ name: "Login" });
+};
 
 const formattedTotalSpent = computed(() => {
   if (!user.value?.totalSpent) return "0 VND";
