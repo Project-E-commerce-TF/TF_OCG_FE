@@ -8,7 +8,7 @@ const routes = [
       layout: "main",
     },
     component: () =>
-      import(/* webpackChunkName: "home" */ "../views/mainLandingPage.vue"),
+      import(/* webpackChunkName: "home" */ "../views/MainLandingPage.vue"),
   },
   {
     path: "/register",
@@ -17,7 +17,7 @@ const routes = [
       layout: "auth",
     },
     component: () =>
-      import(/* webpackChunkName: "register" */ "../views/register.vue"),
+      import(/* webpackChunkName: "register" */ "../views/Register.vue"),
   },
   {
     path: "/login",
@@ -26,7 +26,7 @@ const routes = [
       layout: "auth",
     },
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/login.vue"),
+      import(/* webpackChunkName: "login" */ "../views/Login.vue"),
   },
   {
     path: "/login-dashboard",
@@ -35,7 +35,7 @@ const routes = [
       layout: "auth",
     },
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/loginDashboard.vue"),
+      import(/* webpackChunkName: "login" */ "../views/LoginDashboard.vue"),
   },
   {
     path: "/profile",
@@ -44,7 +44,7 @@ const routes = [
       layout: "personal",
     },
     component: () =>
-      import(/* webpackChunkName: "Profile" */ "../views/profile.vue"),
+      import(/* webpackChunkName: "Profile" */ "../views/Profile.vue"),
   },
   {
     path: "/home",
@@ -54,7 +54,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "Landing page" */ "../views/mainLandingPage.vue"
+        /* webpackChunkName: "Landing page" */ "../views/MainLandingPage.vue"
       ),
   },
   {
@@ -64,7 +64,7 @@ const routes = [
       layout: "cart",
     },
     component: () =>
-      import(/* webpackChunkName: "CartEmpty" */ "../views/cartCheckout.vue"),
+      import(/* webpackChunkName: "CartEmpty" */ "../views/CartCheckout.vue"),
   },
   {
     path: "/category/:handle",
@@ -83,7 +83,7 @@ const routes = [
     },
     component: () =>
       import(
-        /* webpackChunkName: "product" */ "../views/productCollection.vue"
+        /* webpackChunkName: "product" */ "../views/ProductCollection.vue"
       ),
   },
   {
@@ -92,7 +92,7 @@ const routes = [
     meta: {
       layout: "main",
     },
-    component: () => import("../views/variantItem.vue"),
+    component: () => import("../views/VariantItem.vue"),
   },
   {
     path: "/phone",
@@ -100,7 +100,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/addPhoneNumber.vue"),
+    component: () => import("../views/AddPhoneNumber.vue"),
   },
   {
     path: "/pending",
@@ -108,7 +108,7 @@ const routes = [
     meta: {
       layout: "order",
     },
-    component: () => import("../views/pending.vue"),
+    component: () => import("../views/Pending.vue"),
   },
   {
     path: "/order-being-delivered",
@@ -116,7 +116,7 @@ const routes = [
     meta: {
       layout: "order",
     },
-    component: () => import("../views/orderBeingDelivered.vue"),
+    component: () => import("../views/OrderBeingDelivered.vue"),
   },
   {
     path: "/complete-the-order",
@@ -124,7 +124,7 @@ const routes = [
     meta: {
       layout: "order",
     },
-    component: () => import("../views/completeTheOrder.vue"),
+    component: () => import("../views/CompleteTheOrder.vue"),
   },
   {
     path: "/request-to-cancel-order",
@@ -132,7 +132,7 @@ const routes = [
     meta: {
       layout: "order",
     },
-    component: () => import("../views/requestToCancelOrder.vue"),
+    component: () => import("../views/RequestToCancelOrder.vue"),
   },
   {
     path: "/cancelled",
@@ -140,7 +140,7 @@ const routes = [
     meta: {
       layout: "order",
     },
-    component: () => import("../views/cancelled.vue"),
+    component: () => import("../views/Cancelled.vue"),
   },
   {
     path: "/cart",
@@ -148,7 +148,7 @@ const routes = [
     meta: {
       layout: "cart",
     },
-    component: () => import("../views/cartCheckout.vue"),
+    component: () => import("../views/CartCheckout.vue"),
   },
   {
     path: "/dashboard",
@@ -163,7 +163,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/userDashboard.vue"),
+        component: () => import("../views/UserDashboard.vue"),
       },
       {
         path: "product",
@@ -171,7 +171,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/productDashboard.vue"),
+        component: () => import("../views/ProductDashboard.vue"),
       },
       {
         path: "order",
@@ -179,7 +179,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/orderDashboard.vue"),
+        component: () => import("../views/OrderDashboard.vue"),
       },
       {
         path: "variant",
@@ -187,7 +187,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/variantDashboard.vue"),
+        component: () => import("../views/VariantDashboard.vue"),
       },
       {
         path: "discount",
@@ -195,7 +195,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/discountDashboard.vue"),
+        component: () => import("../views/DiscountDashboard.vue"),
       },
       {
         path: "product/edit/:id",
@@ -203,7 +203,7 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/productEditDashboard.vue"),
+        component: () => import("../views/ProductEditDashboard.vue"),
       },
       {
         path: "order/edit/:id",
@@ -219,10 +219,10 @@ const routes = [
         meta: {
           layout: "default",
         },
-        component: () => import("../views/addDiscount.vue"),
+        component: () => import("../views/AddDiscount.vue"),
       },
     ],
-    component: () => import("../views/dashBoard.vue"),
+    component: () => import("../views/DashBoard.vue"),
   },
   {
     path: "/dashboard/add-product",
@@ -230,7 +230,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/addProduct.vue"),
+    component: () => import("../views/AddProduct.vue"),
   },
 
   {
@@ -239,7 +239,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/addPhoneNumber.vue"),
+    component: () => import("../views/AddPhoneNumber.vue"),
   },
   {
     path: "/change-password",
@@ -247,7 +247,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/changePassword.vue"),
+    component: () => import("../views/ChangePassword.vue"),
   },
   {
     path: "/map",
@@ -255,7 +255,7 @@ const routes = [
     meta: {
       layout: "main",
     },
-    component: () => import("../views/map.vue"),
+    component: () => import("../views/Map.vue"),
   },
   {
     path: "/orderdetail/:orderId",
@@ -271,7 +271,7 @@ const routes = [
     meta: {
       layout: "personal",
     },
-    component: () => import("../views/wishlist.vue"),
+    component: () => import("../views/Wishlist.vue"),
   },
   {
     path: "/forgot-password",
@@ -279,7 +279,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/forgotPassword.vue"),
+    component: () => import("../views/ForgotPassword.vue"),
   },
   {
     path: "/reset-password",
@@ -287,7 +287,7 @@ const routes = [
     meta: {
       layout: "default",
     },
-    component: () => import("../views/resetPassword.vue"),
+    component: () => import("../views/ResetPassword.vue"),
   },
 
   // {
