@@ -76,7 +76,7 @@
 
     <!-- Product Reviews-->
     <div class="reviews bg-grey_white my-6 p-10 rounded-xl">
-      <div class="font-bold text-xl mb-5">Product Reviews</div>
+      <div class="font-bold text-4xl mb-5">Product Reviews</div>
 
       <div v-if="data.reviews && data.reviews.length > 0">
         <div
