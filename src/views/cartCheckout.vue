@@ -26,7 +26,7 @@
           <div>Loading...</div>
         </div>
       </div>
-      <div class="py-6 px-16 bg-gray_rectangle md:w-2/5 w-full">
+      <div class="py-6 px-16 bg-gray_rectangle md:w-2/5 w-full rounded-xl">
         <div class="row text-right border-b-4 border-primary font-bold pb-2">
           Order Summary
         </div>
@@ -109,7 +109,7 @@
           />
           <button
             @click="applyDiscount"
-            class="absolute right-0 top-0 bg-primary text-white px-8 py-2 rounded-lg font-bold"
+            class="h-full absolute right-0 top-0 bg-primary text-white px-8 py-2 rounded-lg font-bold"
           >
             Apply
           </button>

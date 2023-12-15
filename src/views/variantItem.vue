@@ -1,6 +1,6 @@
 <template>
-  <div class="px-32 py-5 bg-bg_color">
-    <div v-if="!loading" class="parent flex flex-col md:flex-row">
+  <div class="mx-6 border-2 rounded-xl mb-3">
+    <div v-if="!loading" class="parent flex flex-col md:flex-row relative mb-3">
       <!-- Slide Image -->
       <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
         <div class="w-[100%] h-full m-auto">
@@ -127,6 +127,7 @@ import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/swiper-bundle.css";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
+import store from "../store/index.js";
 
 const route = useRoute();
 const data = ref([]);
@@ -156,17 +157,13 @@ const updateSwiper = () => {
 
 const addToCart = async () => {
   try {
-    // Step 1: Log selectedOptions and build the request body
-    console.log("selectedOptions:", selectedOptions.value);
     const keys = Object.keys(selectedOptions.value);
     const body = {
       productID: data.value.product.productId,
       optionValue1: selectedOptions.value[keys[0]],
       optionValue2: selectedOptions.value[keys[1]],
     };
-    console.log("Request body:", body);
 
-    // Step 2: Fetch variant ID
     const variantResponse = await fetchData(
       `${process.env.VUE_APP_URL}/variant/get-variant-id`,
       "POST",
@@ -190,31 +187,9 @@ const addToCart = async () => {
       console.log(cartResponse);
       // Step 6: Handle the cart response
       if (cartResponse !== null) {
-        if (cartResponse.error) {
-          // Step 7: Handle specific error messages
-          console.error(
-            "Failed to add product to cart. Server returned:",
-            cartResponse.error
-          );
+        await store.dispatch("fetchCartList");
 
-          if (
-            cartResponse.error ===
-            "Invalid quantity. Quantity exceeds available stock."
-          ) {
-            alertMessage.value =
-              "Invalid quantity. Quantity exceeds available stock.";
-          } else if (cartResponse.error === "Invalid quantity") {
-            alertMessage.value =
-              "Invalid quantity. Please choose a smaller quantity.";
-          } else {
-            alertMessage.value =
-              cartResponse.error ||
-              "Failed to add product to cart. Please try again.";
-          }
-        } else {
-          // Step 8: Show success message
-          alertMessage.value = "Product added to cart successfully!";
-        }
+        alertMessage.value = "Product added to cart successfully!";
       } else {
         // Step 9: Handle null response
         console.error(
@@ -283,7 +258,7 @@ watch(
 watchEffect(() => {
   if (data.value.optionProducts) {
     selectedOptions.value = data.value.optionProducts.reduce((acc, option) => {
-      acc[option.optionType] = option.optionValues[0]?.optionValueId || null;
+      acc[option?.optionType] = option.optionValues?.[0]?.optionValueId || null;
       return acc;
     }, {});
   }
@@ -373,7 +348,7 @@ watch(
 }
 .alert-message {
   position: fixed;
-  top: 50%;
+  bottom: -5%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;

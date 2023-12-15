@@ -42,7 +42,10 @@
               :to="{ name: `Variant`, params: { handle: item.handle } }"
             >
               <img
-                :src="item.image"
+                :src="
+                  item.image ||
+                  'https://akko.vn/wp-content/uploads/2023/08/ban-phim-khong-day-akko-mx108-01-247x247.png'
+                "
                 :alt="item.handle"
                 class="img_main hover:scale-125 transition-all rounded-xl w-full max-w-[283px] max-h-[283px] object-contain m-auto"
               />

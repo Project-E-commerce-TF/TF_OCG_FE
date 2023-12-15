@@ -1,5 +1,5 @@
 <template>
-  <div class="row w-full flex justify-around bg-grey_white">
+  <div class="row w-full flex justify-around">
     <router-link
       to="/pending"
       active-class="active-link"

@@ -18,15 +18,20 @@
         <input
           type="text"
           id="title"
-          class="grow rounded-md border border-solid p-2"
+          :class="[
+            { 'input-error': isInputError.title },
+            'grow rounded-md border border-solid p-2',
+          ]"
           v-model="title"
         />
       </div>
       <div class="flex my-5 items-center">
         <label for="desc" class="min-w-[120px]">Description</label>
-        <div id="sample">
+        <div
+          id="sample"
+          :class="[{ 'input-error': isInputError.description }, 'grow']"
+        >
           <Editor
-            class="grow"
             style="width: 100%"
             v-model="description"
             api-key="5yuek9t1m6nvx7xnjxyglscjopwcnhtaam641fk7o7uvz8ri"
@@ -36,27 +41,41 @@
       <div class="flex my-5 items-center">
         <label for="price" class="min-w-[120px]">Price</label>
         <input
-          type="text"
+          type="number"
           id="price"
-          class="grow rounded-md border border-solid p-2"
+          :class="[
+            { 'input-error': isInputError.price },
+            'grow rounded-md border border-solid p-2',
+          ]"
           v-model="price"
         />
       </div>
       <div class="flex my-5 items-center">
-        <label for="imageAddress" class="min-w-[120px]">Image Address</label>
+        <label
+          for="imageAddress"
+          :class="[
+            { 'input-error': isInputError.file },
+            'min-w-[120px] border border-gray-500 rounded-lg p-1',
+          ]"
+          >Choose image</label
+        >
         <input
           type="file"
           id="imageAddress"
-          class="grow rounded-md border border-solid p-2"
+          class="grow rounded-md border border-solid p-2 hidden"
           accept="image/*"
           @change="handleFileUpload"
         />
+        <div class="overflow-hidden">{{ file?.name }}</div>
       </div>
       <div class="flex my-5 items-center">
         <label for="category" class="min-w-[120px]">Category</label>
         <select
           id="category"
-          class="grow rounded-md border border-solid p-2"
+          :class="[
+            { 'input-error': isInputError.category },
+            'grow rounded-md border border-solid p-2',
+          ]"
           v-model="category"
         >
           <option disabled value="">Choose category</option>
@@ -91,7 +110,7 @@
       <!-- option value START -->
       <form
         @submit.prevent="submitOptionValue"
-        class="product m-auto rounded-lg bg-purple-300 p-10 opacity-95 font-bold"
+        class="product m-auto rounded-lg bg-gray-200 p-10 opacity-95 font-bold"
       >
         <div
           class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-4"
@@ -166,7 +185,7 @@
     <!-- Variant START -->
     <form
       v-if="!disabledAddVariant"
-      class="product m-auto rounded-lg bg-purple-300 w-[90%] p-10 opacity-95 font-bold"
+      class="product m-auto rounded-lg bg-gray-200 w-[90%] p-10 opacity-95 font-bold"
     >
       <div
         class="w-[30%] m-auto text-center text-3xl font-bold text-primary mb-4"
@@ -266,6 +285,13 @@ const optionProductInput = ref("");
 const optionProduct = ref("");
 const optionProductId = ref(0);
 const successMess = ref("");
+const isInputError = ref({
+  title: false,
+  description: false,
+  price: false,
+  category: false,
+  file: false,
+});
 
 const inputValue = ref("");
 const itemList = ref([]);
@@ -275,16 +301,17 @@ const handleFileUpload = (event) => {
   const validTypes = ["image/jpeg", "image/png", "image/gif"];
   const maxSize = 1000000;
 
-  if (file.value.length === 0) {
+  if (file?.value?.length === 0) {
     error.value = "No file selected";
     return;
-  } else if (!validTypes.includes(file.value.type)) {
+  } else if (!validTypes.includes(file?.value?.type)) {
     error.value = "Invalid file type";
     return;
-  } else if (file.value.size > maxSize) {
+  } else if (file?.value?.size > maxSize) {
     error.value = "File is too large";
     return;
   } else {
+    isInputError.value.file = false;
     error.value = "";
   }
 };
@@ -330,16 +357,42 @@ onMounted(async () => {
 
 const submitProduct = async () => {
   try {
-    if (
-      !title.value ||
-      !description.value ||
-      !price.value ||
-      !category.value ||
-      !file.value
-    ) {
+    if (!title.value) {
+      isInputError.value.title = true;
       error.value = "Please fill all fields";
       return;
     }
+    isInputError.value.title = false;
+
+    if (!description.value) {
+      isInputError.value.description = true;
+      error.value = "Please fill all fields";
+      console.log(isInputError.value.description);
+      return;
+    }
+    isInputError.value.description = false;
+
+    if (!price.value) {
+      isInputError.value.price = true;
+      error.value = "Please fill all fields";
+      return;
+    }
+    isInputError.value.price = false;
+
+    if (!file.value) {
+      isInputError.value.file = true;
+      error.value = "Please fill all fields";
+      return;
+    }
+    isInputError.value.file = false;
+
+    if (!category.value) {
+      isInputError.value.category = true;
+      error.value = "Please fill all fields";
+      return;
+    }
+    isInputError.value.category = false;
+
     const formData = new FormData();
     formData.append("imageFile", file.value);
     formData.append("description", description.value);
@@ -461,6 +514,9 @@ const continueToVariant = async () => {
 </script>
 
 <style scoped>
+.input-error {
+  border: 1px solid red;
+}
 .bg_image {
   background: linear-gradient(
     112deg,
