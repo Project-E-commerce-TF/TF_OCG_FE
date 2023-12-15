@@ -16,9 +16,9 @@
         <div class="row flex justify-between mt-4">
           <div class="col flex">
             <img
-              :src="require('@/assets/images/image_order.png')"
-              alt="logo_brand"
-              class="w-full h-full mr-4 object-cover"
+              :src="order.orderDetails[0].variantImage"
+              alt="variant-image"
+              class="w-24 h-24 object-cover mr-2 rounded-xl"
             />
             <div class="col flex flex-col justify-center h-full w-full">
               <div class="row font-bold">Item Total</div>
