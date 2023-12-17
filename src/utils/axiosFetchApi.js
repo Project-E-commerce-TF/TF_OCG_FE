@@ -39,7 +39,7 @@ export async function refreshAccessToken() {
         },
       }
     );
-    return response.data.access_token;
+    return response.data.accessToken;
   } catch (error) {
     console.log(error);
     throw error;

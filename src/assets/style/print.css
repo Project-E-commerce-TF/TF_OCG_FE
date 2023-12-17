@@ -1,0 +1,13 @@
+/* Áp dụng cho trang in */
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+
+/* Áp dụng cho chế độ xem màn hình */
+@media screen {
+  .no-print {
+    display: block !important;
+  }
+}

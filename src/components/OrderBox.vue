@@ -18,7 +18,7 @@
             <img
               :src="order.orderDetails[0].variantImage"
               alt="variant-image"
-              class="w-24 h-24 object-cover mr-2 rounded-xl"
+              class="w-32 h-32 object-cover mr-2 rounded-xl"
             />
             <div class="col flex flex-col justify-center h-full w-full">
               <div class="row font-bold">Item Total</div>
@@ -30,40 +30,42 @@
             <div class="row font-bold text-2xl text-right">
               {{ numberToCurrencyVND(order.totalPrice) }} VND
             </div>
-            <div v-if="order.status === 'order being delivered'">
-              <div
-                class="border-2 rounded-xl p-2 font-bold text-white bg-primary text-center w-fit"
-              >
-                <button @click="completeOrder(order.orderId)">
-                  Complete the Order
-                </button>
-              </div>
-            </div>
-
-            <div v-else-if="order.status === 'complete the order'">
-              <div
-                class="border-2 rounded-xl p-2 font-bold text-white bg-primary"
-              >
-                <template v-if="!isReviewed">
-                  <button
-                    @click="addReviews"
-                    :class="{ 'btn-disabled': isReviewed.value }"
-                  >
-                    Add Reviews
+            <div class="text-sm">
+              <div v-if="order.status === 'order being delivered'">
+                <div
+                  class="border-2 rounded-xl p-2 font-bold text-white bg-primary text-center w-fit"
+                >
+                  <button @click="completeOrder(order.orderId)">
+                    Complete the Order
                   </button>
-                </template>
-                <template v-else>
-                  <div class="text-gray-400">Reviewed</div>
-                </template>
+                </div>
               </div>
-            </div>
-            <div v-else-if="order.status === 'pending'">
-              <div
-                class="border-2 rounded-xl p-2 font-bold text-white bg-primary text-center w-fit"
-              >
-                <button @click="cancelOrder(order.orderId)">
-                  Cancel Order
-                </button>
+
+              <div v-else-if="order.status === 'complete the order'">
+                <div
+                  class="border-2 rounded-xl p-2 font-bold text-white bg-primary"
+                >
+                  <template v-if="!isReviewed">
+                    <button
+                      @click="addReviews"
+                      :class="{ 'btn-disabled': isReviewed.value }"
+                    >
+                      Add Reviews
+                    </button>
+                  </template>
+                  <template v-else>
+                    <div class="text-gray-400">Reviewed</div>
+                  </template>
+                </div>
+              </div>
+              <div v-else-if="order.status === 'pending'">
+                <div
+                  class="border-2 rounded-xl p-2 font-bold text-white bg-primary text-center w-fit"
+                >
+                  <button @click="cancelOrder(order.orderId)">
+                    Cancel Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -160,6 +160,8 @@ const countInStock = ref(0);
 const selectedOptions = ref({});
 const quantity = ref(1);
 const variantPrice = ref(0);
+const authen = ref(false);
+const Cookies = require("js-cookie");
 
 const updateSwiper = () => {
   // Calculate the number of slides based on the window width or any other logic you want
@@ -176,8 +178,24 @@ const updateSwiper = () => {
   console.log(mySwiperRef);
 };
 
+const showAlert = (message) => {
+  alertMessage.value = `${message}`;
+  setTimeout(() => {
+    alertMessage.value = null;
+  }, 2000);
+};
+
 const addToCart = async () => {
   try {
+    Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
+    if (authen.value) {
+      await store.dispatch("fetchCartList");
+    }
+    if (!authen.value) {
+      showAlert("Please log in to add the product to the cart.");
+      return;
+    }
+
     const keys = Object.keys(selectedOptions.value);
     const body = {
       productID: data.value.product.productId,
@@ -191,52 +209,56 @@ const addToCart = async () => {
       body
     );
 
-    // Step 3: Check if variant ID is received successfully
     if (variantResponse.variantId) {
-      // Step 4: Build payload for adding to cart
       const payload = {
         variantId: variantResponse.variantId,
-        quantity: quantity.value, // Use the quantity from the body
+        quantity: quantity.value,
       };
 
-      // Step 5: Make request to add to cart
       const cartResponse = await fetchData(
         `${process.env.VUE_APP_URL}/cart/add-to-cart`,
         "POST",
         payload
       );
       console.log(cartResponse);
-      // Step 6: Handle the cart response
-      if (cartResponse !== null) {
-        await store.dispatch("fetchCartList");
-
-        alertMessage.value = "Product added to cart successfully!";
+      if (
+        cartResponse !== null &&
+        cartResponse?.error !==
+          "Invalid quantity. Quantity exceeds available stock."
+      ) {
+        if (authen.value) {
+          await store.dispatch("fetchCartList");
+        }
+        showAlert("Product added to the cart successfully.");
       } else {
-        // Step 9: Handle null response
-        console.error(
-          "Failed to add product to cart. Server returned:",
-          cartResponse
-        );
-        alertMessage.value = "Failed to add product to cart. Please try again.";
+        const errorMessage = cartResponse?.error;
+        if (
+          errorMessage === "Invalid quantity. Quantity exceeds available stock."
+        ) {
+          showAlert(
+            "Invalid quantity. Quantity exceeds available stock.",
+            "red"
+          );
+        } else {
+          console.error(
+            "Failed to add the product to the cart. Server returned:",
+            cartResponse
+          );
+          showAlert("Failed to add the product to the cart. Please try again.");
+        }
       }
-
-      // Step 10: Clear the alert message after 2 seconds
-      setTimeout(() => {
-        alertMessage.value = null;
-      }, 2000);
     } else {
-      // Step 11: Handle failure to get variant ID
       console.error(
-        "Failed to get variant ID from the server:",
+        "Failed to get the variant ID from the server:",
         variantResponse
       );
-      alertMessage.value = "Failed to get variant ID. Please try again.";
+      showAlert("Failed to get the variant ID. Please try again.");
     }
   } catch (error) {
-    // Step 12: Handle unexpected errors
-    console.error("Error adding product to cart:", error);
-    alertMessage.value =
-      "An error occurred while adding the product to the cart. Please try again.";
+    console.error("Error adding the product to the cart:", error);
+    showAlert(
+      "An error occurred while adding the product to the cart. Please try again."
+    );
   }
 };
 
@@ -369,7 +391,7 @@ watch(
 }
 .alert-message {
   position: fixed;
-  bottom: -5%;
+  top: 11%;
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 20px;

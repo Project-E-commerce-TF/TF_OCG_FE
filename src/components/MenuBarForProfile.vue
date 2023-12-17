@@ -75,7 +75,9 @@ const route = useRoute();
 const searchText = ref("");
 onMounted(async () => {
   Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
-  await store.dispatch("fetchCartList");
+  if (authen.value) {
+    await store.dispatch("fetchCartList");
+  }
 });
 
 watch(searchText, async () => {
@@ -88,6 +90,9 @@ watch(searchText, async () => {
 
   const updateCurrentQuery = route.query;
   await store.dispatch("fetchProductList", updateCurrentQuery);
+  if (authen.value) {
+    await store.dispatch("fetchCartList");
+  }
 });
 </script>
 

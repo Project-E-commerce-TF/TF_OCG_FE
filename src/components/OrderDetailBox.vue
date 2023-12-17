@@ -28,7 +28,9 @@
     </div>
 
     <div class="row flex justify-between py-3 px-5">
-      <div class="col text-save text-xl">Arrived on 4 Jun 2022</div>
+      <div class="col text-save text-xl">
+        {{ getStatusMessage() }} {{ formatDate(updateTime) }}
+      </div>
       <button class="col transition-transform transform" @click="toggleDetails">
         <img
           :src="require('@/assets/images/chevron-down.png')"
@@ -52,7 +54,7 @@
           <div class="col font-bold mr-1">{{ orderDetail.user.userName }}</div>
           <div class="col font-bold mx-1">|</div>
           <div class="col font-bold mx-1">
-            {{ orderDetail.user.phoneNumber }}
+            {{ phoneOrder }}
           </div>
         </div>
         <div class="row font-bold mb-2 flex">
@@ -72,6 +74,7 @@
 
 <script>
 import { numberToCurrencyVND } from "@/utils/currencyVND.js";
+import { toRefs } from "vue";
 
 export default {
   data() {
@@ -98,10 +101,48 @@ export default {
       type: String,
       required: true,
     },
+    updateTime: {
+      type: Date,
+      required: true,
+    },
+    status: {
+      type: String,
+      required: true,
+    },
+    phoneOrder: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const formatDate = (dateString) => {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      const date = new Date(dateString);
+      return date.toLocaleDateString("en-US", options);
+    };
+
+    const getStatusMessage = () => {
+      if (props.status === "pending") {
+        return "Order has been placed, awaiting confirmation";
+      } else if (props.status === "order being delivered") {
+        return "The goods have been delivered to the shipping unit";
+      } else if (props.status === "complete the order") {
+        return "The order has been delivered successfully";
+      } else if (props.status === "cancelled") {
+        return "Cancel order successfully";
+      } else {
+        return "N/A";
+      }
+    };
+
+    return {
+      formatDate,
+      getStatusMessage,
+      ...toRefs(props),
+    };
   },
 };
 </script>
-
 <style scoped>
 .transition-transform {
   transition-property: transform;

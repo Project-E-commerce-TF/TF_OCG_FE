@@ -71,27 +71,33 @@ export default {
 </script>
 
 <style lang="css">
-/* Add the required styles for the pagination */
 .pagination {
   display: flex;
   list-style: none;
-  padding: 0;
+  padding: 10px;
 }
 
 .page-item {
   cursor: pointer;
   margin-right: 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.page-item a {
+  display: block;
   padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 3px;
 }
 
 .page-item.active {
-  background-color: #007bff;
+  background-color: #1a3856;
   color: white;
+  border-color: #1a3856;
 }
 
 .page-item.disabled {
   cursor: not-allowed;
+  opacity: 0.6;
 }
 </style>

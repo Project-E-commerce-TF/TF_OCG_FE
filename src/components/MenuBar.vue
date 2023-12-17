@@ -32,7 +32,7 @@
       </router-link>
     </div>
     <div class="text-center w-2/6 flex justify-end items-center gap-5 mr-4">
-      <router-link to="/profile" class="flex">
+      <router-link v-if="authen" to="/profile" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_user.png')"
@@ -40,7 +40,17 @@
             class="w-full h-full"
           />
         </button>
-        <div class="ml-2 font-bold">{{ authen ? "Profile" : "Login" }}</div>
+        <div class="ml-2 font-bold">Profile</div>
+      </router-link>
+      <router-link v-else to="/login" class="flex">
+        <button class="w-5 h-6 bg-transparent border-none">
+          <img
+            :src="require('@/assets/images/icon_user.png')"
+            alt="icon_search"
+            class="w-full h-full"
+          />
+        </button>
+        <div class="ml-2 font-bold">Login</div>
       </router-link>
       <router-link to="/map" class="flex">
         <button class="w-5 h-6 bg-transparent border-none">
@@ -62,8 +72,8 @@
         </button>
         <div class="ml-2 font-bold">Wishlist</div>
       </router-link>
-      <router-link to="/cart" class="flex">
-        <button class="w-5 h-6 bg-transparent border-none relative">
+      <button class="flex" @click="handleCartLinkClick">
+        <div class="w-5 h-6 bg-transparent border-none relative">
           <img
             :src="require('@/assets/images/icon_cart.png')"
             alt="icon_search"
@@ -74,10 +84,13 @@
           >
             {{ cartListNoti?.length }}
           </div>
-        </button>
+        </div>
         <div class="ml-2 font-bold">Cart</div>
-      </router-link>
+      </button>
     </div>
+  </div>
+  <div v-if="alertMessage" class="alert-message font-bold mt-2">
+    {{ alertMessage }}
   </div>
 </template>
 
@@ -91,13 +104,19 @@ const router = useRouter();
 const route = useRoute();
 const searchText = ref("");
 const authen = ref(false);
+const alertMessage = ref(null);
 const cartListNoti = computed(() => store.state.cartList);
 
 onMounted(async () => {
   Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
-  await store.dispatch("fetchCartList");
+  if (authen.value) {
+    await store.dispatch("fetchCartList");
+  }
 });
 watch(searchText, async () => {
+  if (authen.value) {
+    await store.dispatch("fetchCartList");
+  }
   console.log(1);
   const currentQuery = route.query;
   await router.push({
@@ -108,9 +127,42 @@ watch(searchText, async () => {
   const updateCurrentQuery = route.query;
   await store.dispatch("fetchProductList", updateCurrentQuery);
 });
+
+const showAlert = (message) => {
+  alertMessage.value = `${message}`;
+  setTimeout(() => {
+    alertMessage.value = null;
+  }, 2000);
+};
+
+const handleCartLinkClick = () => {
+  if (!authen.value) {
+    showAlert("Please log in to view your cart.");
+  } else {
+    // Navigate to the cart page
+    router.push("/cart");
+  }
+};
 </script>
 
-<style>
+<style scoped>
+.alert-message {
+  position: fixed;
+  top: 11%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: rgba(0, 37, 68, 0.8);
+  color: white;
+  border-radius: 5px;
+  z-index: 1000;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.alert-message.hide {
+  opacity: 0;
+}
+
 @media screen and (max-width: 480px) {
   .header {
     flex-direction: column;

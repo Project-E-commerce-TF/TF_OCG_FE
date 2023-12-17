@@ -95,10 +95,18 @@
         <div class="col mt-4">Phone Number</div>
         <div class="">
           <input
+            v-model="phoneOrder"
+            @blur="validatePhoneNumber"
             type="text"
             class="border border-gray-300 pl-4 rounded-lg pr-10 py-2 focus:outline-none focus:border-primary w-full font-bold"
             placeholder="Input phone number"
           />
+          <div
+            v-if="!isValidPhoneNumber && phoneOrder.length > 0"
+            class="text-red-500 mt-2"
+          >
+            Please enter a valid phone number.
+          </div>
         </div>
         <div class="relative my-4">
           <input
@@ -136,7 +144,7 @@
           </div>
         </div>
         <div v-if="showWarningMessage" class="text-red-500 my-2">
-          Please enter your address and select province/city.
+          Please enter your address, phone number and select province/city.
         </div>
         <div class="flex justify-center">
           <button
@@ -148,7 +156,6 @@
         </div>
         <div class="mt-4">
           <div id="paypal-button-container"></div>
-          <p id="result-message"></p>
         </div>
       </div>
     </div>
@@ -179,9 +186,11 @@ const discountCode = ref("");
 const appliedDiscount = ref(null);
 const initialTotalPrices = ref(0);
 const shippingAddress = ref("");
+const phoneOrder = ref("");
 const discountedTotalPrices = ref(0);
 const discountCodeError = ref(null);
 const showWarningMessage = ref(false);
+const isValidPhoneNumber = ref(true);
 const alertMessage = ref(null);
 
 watch([totalPrices, shippingFee], () => {
@@ -193,6 +202,11 @@ const calculateTotalPrice = computed(() => {
     ? discountedTotalPrices.value + shippingFee.value
     : discountedTotalPrices.value;
 });
+
+const validatePhoneNumber = () => {
+  const phoneNumberRegex = /^[0-9]{10}$/;
+  isValidPhoneNumber.value = phoneNumberRegex.test(phoneOrder.value);
+};
 
 const calculateSavings = computed(() => {
   const discount = appliedDiscount.value;
@@ -329,7 +343,11 @@ const applyDiscount = async () => {
 };
 
 const handlePay = async () => {
-  if (shippingAddress.value === "" || selectedProvince.value === null) {
+  if (
+    shippingAddress.value === "" ||
+    phoneOrder.value === "" ||
+    selectedProvince.value === null
+  ) {
     showWarningMessage.value = true;
     return;
   }
@@ -343,6 +361,7 @@ const handleCheckout = async (paypalOrderID, status, discountCode1) => {
   try {
     const payload = {
       shippingAddress: shippingAddress.value,
+      phoneOrder: phoneOrder.value,
       provinceId: selectedProvince.value,
       totalQuantity: totalItems.value,
       totalPrice: totalPrices.value,

@@ -36,7 +36,7 @@ axios.interceptors.response.use(
       originalRequest._retry = true;
       const refreshToken = Cookies.get("refreshToken");
       originalRequest.headers["Authorization"] = `Bearer ${refreshToken}`;
-      router.push("/login");
+      // router.push("/login");
       // try {
       //   // Make an API call to refresh the access token
       //   const response = await axios.post(
