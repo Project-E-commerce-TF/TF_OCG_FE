@@ -184,7 +184,7 @@
     </div>
     <!-- Variant START -->
     <form
-      v-if="!disabledAddVariant"
+      v-if="disabledAddVariant"
       class="product m-auto rounded-lg bg-gray-200 w-[90%] p-10 opacity-95 font-bold"
     >
       <div
@@ -192,11 +192,11 @@
       >
         Variant
       </div>
-      <div class="flex gap-5 items-center">
+      <div class="flex flex-col gap-5 items-center">
         <div
           v-for="option in optionSet"
           :key="option.optionProductId"
-          class="flex gap-5 items-center grow"
+          class="flex gap-5 items-center"
         >
           <label>{{ option.optionType }}</label>
           <select
@@ -212,27 +212,32 @@
             </option>
           </select>
         </div>
-        <label>Price</label>
-        <input
-          type="number"
-          v-model="priceVariant"
-          placeholder="Price"
-          class="grow rounded-md border border-solid p-2"
-        />
-        <label>Amount</label>
-        <input
-          type="number"
-          v-model="amount"
-          placeholder="Amount"
-          class="grow rounded-md border border-solid p-2"
-        />
-        <label>Image Address</label>
-        <input
-          v-model="imgAddress"
-          placeholder="Image Address"
-          class="grow rounded-md border border-solid p-2"
-        />
-
+        <div class="flex gap-5 items-center justify-start">
+          <label>Price</label>
+          <input
+            type="number"
+            v-model="priceVariant"
+            placeholder="Price"
+            class="grow rounded-md border border-solid p-2"
+          />
+        </div>
+        <div class="flex gap-5 items-center">
+          <label>Amount</label>
+          <input
+            type="number"
+            v-model="amount"
+            placeholder="Amount"
+            class="grow rounded-md border border-solid p-2"
+          />
+        </div>
+        <div class="flex gap-5 items-center">
+          <label>Image Address</label>
+          <input
+            v-model="imgAddress"
+            placeholder="Image Address"
+            class="grow rounded-md border border-solid p-2"
+          />
+        </div>
         <button
           @click.prevent="submitVariant"
           class="bg-primary text-white p-2 rounded-lg"

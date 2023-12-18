@@ -1,6 +1,6 @@
 <template>
   <div class="h-[100vh] flex bg_image text-white">
-    <div class="container w-full md:w-[60%] px-4 sm:px-8 m-auto bg">
+    <div class="container w-full md:w-[45%] px-4 sm:px-8 m-auto bg">
       <h1 class="m-auto w-[50%] text-center text-2xl font-bold mb-20">
         Admin Dashboard
       </h1>
