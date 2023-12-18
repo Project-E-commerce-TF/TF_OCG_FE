@@ -649,7 +649,7 @@ const submitProduct = async () => {
   }
   errorMessage.value = "";
   const body = {
-    productId: route.params.id,
+    productId: Number(route.params.id),
     title: product.value.product.title,
     description: product.value.product.description,
     price: Number(product.value.product.price),
