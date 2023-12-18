@@ -1,5 +1,41 @@
 <template>
   <div v-if="table" class="border rounded-md">
+    <div class="flex justify-between ml-4">
+      <div class="flex items-center justify-end py-4 space-x-2 mr-2">
+        <label>Status</label>
+        <select
+          v-model="status"
+          @change="onChangeStatus"
+          class="text-black p-2 rounded-lg text-sm font-bold"
+        >
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="onBeingDelivered">On Being Delivered</option>
+          <option value="completeTheOrder">Complete</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <!-- ...other code... -->
+      </div>
+      <div class="flex items-center justify-end py-4 space-x-2 mr-2">
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="pageIndex == 1"
+          @click="handlePreviousPage"
+        >
+          Previous
+        </Button>
+        <div class="w-20px px-5">{{ pageIndex }}</div>
+        <Button
+          variant="outline"
+          size="sm"
+          :disabled="data.length < pageSize"
+          @click="handleNextPage"
+        >
+          Next
+        </Button>
+      </div>
+    </div>
     <Table>
       <TableHeader>
         <TableRow
@@ -72,7 +108,10 @@ import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
 const sorting = ref([]);
-
+const pageIndex = ref(1);
+const pageSize = ref(10);
+const table = ref(null);
+const status = ref("");
 function valueUpdater(updaterOrValue, ref) {
   ref.value =
     typeof updaterOrValue === "function"
@@ -120,9 +159,18 @@ const columns = [
   },
 ];
 
-const table = ref(null);
 onMounted(async () => {
-  const res = await fetchData(`${process.env.VUE_APP_URL}/order`);
+  await fetchDataAndUpdateTable();
+});
+
+const onChangeStatus = async () => {
+  pageIndex.value = 1;
+  await fetchDataAndUpdateTable();
+};
+const fetchDataAndUpdateTable = async () => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/order?page=${pageIndex.value}&pageSize=${pageSize.value}&status=${status.value}`
+  );
   if (res) {
     data.value = res;
   }
@@ -138,7 +186,16 @@ onMounted(async () => {
       },
     },
   });
-});
+};
+
+const handlePreviousPage = () => {
+  pageIndex.value--;
+  fetchDataAndUpdateTable();
+};
+const handleNextPage = () => {
+  pageIndex.value++;
+  fetchDataAndUpdateTable();
+};
 </script>
 
 <style scoped></style>

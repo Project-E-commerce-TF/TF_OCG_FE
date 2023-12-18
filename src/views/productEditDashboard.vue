@@ -650,9 +650,9 @@ const submitProduct = async () => {
   errorMessage.value = "";
   const body = {
     productId: route.params.id,
-    title: product.value.title,
-    description: product.value.description,
-    price: Number(product.value.price),
+    title: product.value.product.title,
+    description: product.value.product.description,
+    price: Number(product.value.product.price),
   };
   const res = await fetchData(
     `${process.env.VUE_APP_URL}/product`,
