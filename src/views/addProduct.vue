@@ -424,9 +424,13 @@ const submitProduct = async () => {
 
     error.value = "";
     product.value = res;
-    disabledAddProduct.value = true;
-    disabledAddOption.value = false;
-    disabledAddOptionValue.value = false;
+    if (res) {
+      disabledAddProduct.value = true;
+      disabledAddOption.value = false;
+      disabledAddOptionValue.value = false;
+    } else {
+      error.value = "Add product failed, title is existed";
+    }
   } catch (err) {
     console.log(err);
     error.value = err.response.data.error;

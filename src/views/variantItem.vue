@@ -10,7 +10,7 @@
 
       <!-- Product Information -->
       <div
-        class="info w-full h-full md:w-1/2 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
+        class="info w-full h-auto md:w-1/2 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
       >
         <h2 class="text-primary text-2xl md:text-4xl font-bold mb-2">
           {{ data.product.title }}
