@@ -154,7 +154,6 @@ const route = useRoute();
 const data = ref([]);
 const loading = ref(true);
 const relateProducts = ref([]);
-const modules = {};
 const alertMessage = ref(null);
 const countInStock = ref(0);
 const selectedOptions = ref({});
@@ -188,31 +187,31 @@ const showAlert = (message) => {
 
 const addToCart = async () => {
   try {
-    Cookies.get("accessToken") ? (authen.value = true) : (authen.value = false);
+    const accessToken = Cookies.get("accessToken");
+    authen.value = !!accessToken;
+
     if (authen.value) {
       await store.dispatch("fetchCartList");
     }
+
     if (!authen.value) {
       showAlert("Please log in to add the product to the cart.");
       return;
     }
 
     const keys = Object.keys(selectedOptions.value);
-    const body = {
-      productID: data.value.product.productId,
-      optionValue1: selectedOptions.value[keys[0]],
-      optionValue2: selectedOptions.value[keys[1]],
-    };
 
-    const variantResponse = await fetchData(
-      `${process.env.VUE_APP_URL}/variant/get-variant-id`,
-      "POST",
-      body
+    // Tìm variant trong danh sách variants của sản phẩm
+    const matchedVariant = data.value.variants.find((variant) =>
+      keys.every(
+        (key, index) =>
+          variant[`optionValue${index + 1}`] === selectedOptions.value[key]
+      )
     );
 
-    if (variantResponse.variantId) {
+    if (matchedVariant) {
       const payload = {
-        variantId: variantResponse.variantId,
+        variantId: matchedVariant.variantId,
         quantity: quantity.value,
       };
 
@@ -221,7 +220,7 @@ const addToCart = async () => {
         "POST",
         payload
       );
-      console.log(cartResponse);
+
       if (
         cartResponse !== null &&
         cartResponse?.error !==
@@ -249,11 +248,8 @@ const addToCart = async () => {
         }
       }
     } else {
-      console.error(
-        "Failed to get the variant ID from the server:",
-        variantResponse
-      );
-      showAlert("Failed to get the variant ID. Please try again.");
+      console.error("Variant not found for the selected options.");
+      showAlert("Failed to add the product to the cart. Please try again.");
     }
   } catch (error) {
     console.error("Error adding the product to the cart:", error);
@@ -272,24 +268,22 @@ watch(
   async (newVal) => {
     try {
       const keys = Object.keys(newVal.value);
-      const body = {
-        productID: data.value.product.productId,
-        optionValue1: newVal.value[keys[0]],
-        optionValue2: newVal.value[keys[1]] || 0,
-      };
 
-      const resVariantByOp = await fetchData(
-        `${process.env.VUE_APP_URL}/variant/get-variant-id`,
-        "POST",
-        body
+      // Tìm variant trong danh sách variants của sản phẩm
+      const matchedVariant = data.value.variants.find((variant) =>
+        keys.every(
+          (key, index) =>
+            variant[`optionValue${index + 1}`] === newVal.value[key]
+        )
       );
-      const resVariantById = await fetchData(
-        `${process.env.VUE_APP_URL}/variant/get-variant/${resVariantByOp.variantId}`
-      );
-      if (resVariantById && resVariantById.countInStock) {
-        variantImg.value = resVariantById.image;
-        countInStock.value = resVariantById.countInStock;
-        variantPrice.value = resVariantById.price;
+
+      if (matchedVariant) {
+        // Sử dụng thông tin variant đã tìm thấy
+        variantImg.value = matchedVariant.image;
+        countInStock.value = matchedVariant.countInStock;
+        variantPrice.value = matchedVariant.price;
+      } else {
+        console.error("Variant not found for the selected options.");
       }
     } catch (error) {
       console.error("Failed to update countInStock:", error);
