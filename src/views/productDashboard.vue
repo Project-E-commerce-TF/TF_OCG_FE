@@ -24,6 +24,7 @@
       >
         Previous
       </Button>
+      <div class="w-20px px-5">{{ pageIndex }}</div>
       <Button
         variant="outline"
         size="sm"
@@ -73,8 +74,6 @@
         </template>
       </TableBody>
     </Table>
-
-    <div>{{ pageIndex }}</div>
   </div>
 </template>
 
@@ -102,6 +101,7 @@ import DropdownAction from "@/components/ui/DataTableDropDown.vue";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
+const table = ref(null);
 const pageIndex = ref(1);
 const pageSize = ref(10);
 const columnFilters = ref([]);
@@ -137,6 +137,7 @@ const columns = [
         { class: "relative" },
         h(DropdownAction, {
           product,
+          onProductDeleted: () => fetchDataAndUpdateTable(),
         })
       );
     },
@@ -145,24 +146,25 @@ const columns = [
 const searchValue = ref("");
 
 const debouncedSearch = debounce(async (newValue) => {
-  console.log(newValue);
+  pageIndex.value = 1;
   await fetchDataAndUpdateTable(newValue);
 }, 1000); // 300ms delay
 watch(searchValue, debouncedSearch);
 
-const table = ref(null);
 onMounted(async () => {
   await fetchDataAndUpdateTable();
 });
+
 function valueUpdater(updaterOrValue, ref) {
   ref.value =
     typeof updaterOrValue === "function"
       ? updaterOrValue(ref.value)
       : updaterOrValue;
 }
+
 const fetchDataAndUpdateTable = async (search = "") => {
   const res = await fetchData(
-    `${process.env.VUE_APP_URL}/product/search/list?page=${pageIndex.value}&pageSize=${pageSize.value}}&searchText=${search}`
+    `${process.env.VUE_APP_URL}/product/search/list?page=${pageIndex.value}&pageSize=${pageSize.value}&searchText=${search}`
   );
   if (res) {
     data.value = res.products;
@@ -188,6 +190,7 @@ const handlePreviousPage = () => {
 };
 const handleNextPage = () => {
   pageIndex.value++;
+  console.log(pageIndex.value);
   fetchDataAndUpdateTable();
 };
 </script>

@@ -121,7 +121,6 @@
             >
               <img
                 class="w-10 h-10 rounded-full border-2 border-gray-50"
-                src="https://yt3.ggpht.com/hqsxh-Vnbw9OK0_X4DAWh6RkmEUVnL-82SRCyh-IKr9fIXR8zhUCRdBEwgWWL_14q_L8Piod=s108-c-k-c0x00ffffff-no-rj"
                 alt=""
               />
               <div class="font-semibold dark:text-white text-left">

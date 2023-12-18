@@ -17,6 +17,7 @@ import { fetchData } from "@/utils/axiosFetchApi";
 const router = useRouter();
 const props = defineProps({
   product: Object,
+  onProductDeleted: Function,
 });
 
 function copy(id) {
@@ -37,6 +38,7 @@ async function remove(product) {
     `${process.env.VUE_APP_URL}/product/${product.productId}`,
     "DELETE"
   );
+  props.onProductDeleted();
 }
 </script>
 

@@ -1,13 +1,32 @@
 <template>
-  <div v-if="table" class="flex items-center py-4">
-    <Input
-      class="max-w-sm text-black"
-      placeholder="Filter emails..."
-      :model-value="table.getColumn('email')?.getFilterValue()"
-      @update:model-value="table.getColumn('email')?.setFilterValue($event)"
+  <div v-if="table" class="grow items-center py-4 mr-3">
+    <input
+      type="text"
+      v-model="searchValue"
+      class="text-black p-2 rounded-lg w-full"
+      placeholder="Filter title..."
     />
   </div>
   <div v-if="table" class="border rounded-md">
+    <div class="flex items-center justify-end py-4 space-x-2 mr-2">
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="pageIndex == 1"
+        @click="handlePreviousPage"
+      >
+        Previous
+      </Button>
+      <div class="w-20px px-5">{{ pageIndex }}</div>
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="data.length < pageSize"
+        @click="handleNextPage"
+      >
+        Next
+      </Button>
+    </div>
     <Table>
       <TableHeader>
         <TableRow
@@ -52,8 +71,9 @@
 
 <script setup>
 import { fetchData } from "@/utils/axiosFetchApi";
-import { onMounted, ref } from "vue";
-import { Input } from "@/components/ui/input";
+import { onMounted, ref, watch } from "vue";
+import { debounce } from "lodash";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -68,6 +88,11 @@ import {
   useVueTable,
   getFilteredRowModel,
 } from "@tanstack/vue-table";
+
+const table = ref(null);
+const searchValue = ref("");
+const pageIndex = ref(1);
+const pageSize = ref(10);
 const data = ref([]);
 const columnFilters = ref([]);
 const columns = [
@@ -88,15 +113,21 @@ const columns = [
     header: "Phone Number",
   },
 ];
-function valueUpdater(updaterOrValue, ref) {
-  ref.value =
-    typeof updaterOrValue === "function"
-      ? updaterOrValue(ref.value)
-      : updaterOrValue;
-}
-const table = ref(null);
+
 onMounted(async () => {
-  const res = await fetchData(`${process.env.VUE_APP_URL}/users`);
+  await fetchDataAndUpdateTable();
+});
+
+const debouncedSearch = debounce(async (newValue) => {
+  pageIndex.value = 1;
+  await fetchDataAndUpdateTable(newValue);
+}, 1000); // 300ms delay
+watch(searchValue, debouncedSearch);
+
+const fetchDataAndUpdateTable = async (search = "") => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/users/filter/search-user?page=${pageIndex.value}&pageSize=${pageSize.value}}&searchText=${search}`
+  );
   if (res) {
     data.value = res;
   }
@@ -113,7 +144,23 @@ onMounted(async () => {
       },
     },
   });
-});
+};
+
+function valueUpdater(updaterOrValue, ref) {
+  ref.value =
+    typeof updaterOrValue === "function"
+      ? updaterOrValue(ref.value)
+      : updaterOrValue;
+}
+
+const handlePreviousPage = () => {
+  pageIndex.value--;
+  fetchDataAndUpdateTable();
+};
+const handleNextPage = () => {
+  pageIndex.value++;
+  fetchDataAndUpdateTable();
+};
 </script>
 
 <style scoped></style>

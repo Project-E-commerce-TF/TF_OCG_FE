@@ -507,7 +507,7 @@ watch(
           return option.optionValueId == product.value.variants[i].optionValue1;
         }
       );
-      let option2 = product.value.optionProducts[1].optionValues.find(
+      let option2 = product.value.optionProducts[1]?.optionValues.find(
         (option) => {
           return option.optionValueId == product.value.variants[i].optionValue2;
         }
@@ -649,16 +649,20 @@ const submitProduct = async () => {
   }
   errorMessage.value = "";
   const body = {
+    productId: route.params.id,
     title: product.value.title,
     description: product.value.description,
     price: Number(product.value.price),
   };
-  await fetchData(
-    `${process.env.VUE_APP_URL}/product/${route.params.id}`,
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/product`,
     "PUT",
     body
   );
-  successMessage.value = "Product updated successfully";
+  if (res) {
+    successMessage.value = "Product updated successfully";
+  }
+  error.value = "Update product failed";
 };
 
 const backToDashboard = () => {
