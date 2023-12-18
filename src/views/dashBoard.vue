@@ -1,7 +1,7 @@
 <template>
   <div class="bg_image max-h-[100vh] overflow-auto flex">
     <!-- Side bar -->
-    <div class="bg_image w-[400px] bg-primary text-white" v-show="showSide">
+    <div class="bg_image w-[20%] bg-primary text-white" v-show="showSide">
       <div class="h-[50px] bg-black flex justify-start items-center">
         <div class="px-[20px]">
           <h3 class="font-bold text-xl">Admin Dashboard</h3>
@@ -92,7 +92,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full h-full bg-gray-400">
+    <div class="w-[80%] h-full bg-gray-400">
       <div
         class="h-[50px] bg_image flex items-center shadow-sm px-[20px] w-full py-[10px] z-10 border-b"
       >

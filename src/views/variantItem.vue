@@ -4,7 +4,7 @@
       <!-- Slide Image -->
       <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
         <div class="w-[100%] h-full m-auto">
-          <img :src="data.product.image" class="w-full h-full rounded-s-xl" />
+          <img :src="variantImg" class="w-full h-full rounded-s-xl" />
         </div>
       </div>
 
@@ -162,6 +162,7 @@ const quantity = ref(1);
 const variantPrice = ref(0);
 const authen = ref(false);
 const Cookies = require("js-cookie");
+const variantImg = ref("");
 
 const updateSwiper = () => {
   // Calculate the number of slides based on the window width or any other logic you want
@@ -286,6 +287,7 @@ watch(
         `${process.env.VUE_APP_URL}/variant/get-variant/${resVariantByOp.variantId}`
       );
       if (resVariantById && resVariantById.countInStock) {
+        variantImg.value = resVariantById.image;
         countInStock.value = resVariantById.countInStock;
         variantPrice.value = resVariantById.price;
       }

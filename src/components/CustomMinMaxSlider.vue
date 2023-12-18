@@ -2,6 +2,7 @@
   <div class="mb-12 font-bold text-primary">Price</div>
   <Slider
     v-model="value"
+    :format="format"
     :min="min"
     :max="max"
     :classes="{
@@ -19,12 +20,17 @@ import Slider from "@vueform/slider";
 import { ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import store from "../store/index.js";
+import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const router = useRouter();
 const route = useRoute();
 const value = ref([route.query.priceFrom || 0, route.query.priceTo || 2500000]);
 const min = 0;
 const max = 5000000;
+
+const format = (value) => {
+  return numberToCurrencyVND(value);
+};
 
 const handleChange = (newValue) => {
   value.value = newValue;
