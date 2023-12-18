@@ -1,10 +1,38 @@
 <template>
-  <div class="flex justify-end mb-2 text-white">
-    <router-link :to="{ name: 'AddProduct' }">
-      <Button class="bg-gray-400">Add product</Button>
-    </router-link>
+  <div class="flex items-center">
+    <div v-if="table" class="grow items-center py-4 mr-3">
+      <input
+        type="text"
+        v-model="searchValue"
+        class="text-black p-2 rounded-lg w-full"
+        placeholder="Filter title..."
+      />
+    </div>
+    <div class="text-white">
+      <router-link :to="{ name: 'AddProduct' }">
+        <Button class="bg-gray-400">Add product</Button>
+      </router-link>
+    </div>
   </div>
   <div v-if="table" class="border rounded-md">
+    <div class="flex items-center justify-end py-4 space-x-2 mr-2">
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="pageIndex == 1"
+        @click="handlePreviousPage"
+      >
+        Previous
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="data.length < pageSize"
+        @click="handleNextPage"
+      >
+        Next
+      </Button>
+    </div>
     <Table>
       <TableHeader>
         <TableRow
@@ -23,6 +51,7 @@
       <TableBody>
         <template v-if="table.getRowModel().rows?.length">
           <TableRow
+            class="h-[95px] max-h-[95px] overflow-hidden"
             v-for="row in table.getRowModel().rows"
             :key="row.id"
             :data-state="row.getIsSelected() ? 'selected' : undefined"
@@ -44,31 +73,17 @@
         </template>
       </TableBody>
     </Table>
-    <div class="flex items-center justify-end py-4 space-x-2">
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanPreviousPage()"
-        @click="table.previousPage()"
-      >
-        Previous
-      </Button>
-      <Button
-        variant="outline"
-        size="sm"
-        :disabled="!table.getCanNextPage()"
-        @click="table.nextPage()"
-      >
-        Next
-      </Button>
-    </div>
+
+    <div>{{ pageIndex }}</div>
   </div>
 </template>
 
 <script setup>
 import { fetchData } from "@/utils/axiosFetchApi";
-import { h, onMounted, ref } from "vue";
+import { h, onMounted, ref, watch } from "vue";
 import { Button } from "@/components/ui/button";
+import { debounce } from "lodash";
+
 import {
   Table,
   TableBody,
@@ -81,12 +96,15 @@ import {
   FlexRender,
   getCoreRowModel,
   useVueTable,
-  getPaginationRowModel,
+  getFilteredRowModel,
 } from "@tanstack/vue-table";
 import DropdownAction from "@/components/ui/DataTableDropDown.vue";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
+const pageIndex = ref(1);
+const pageSize = ref(10);
+const columnFilters = ref([]);
 const columns = [
   {
     accessorKey: "productId",
@@ -124,20 +142,54 @@ const columns = [
     },
   },
 ];
+const searchValue = ref("");
+
+const debouncedSearch = debounce(async (newValue) => {
+  console.log(newValue);
+  await fetchDataAndUpdateTable(newValue);
+}, 1000); // 300ms delay
+watch(searchValue, debouncedSearch);
 
 const table = ref(null);
 onMounted(async () => {
-  const res = await fetchData(`${process.env.VUE_APP_URL}/product`);
+  await fetchDataAndUpdateTable();
+});
+function valueUpdater(updaterOrValue, ref) {
+  ref.value =
+    typeof updaterOrValue === "function"
+      ? updaterOrValue(ref.value)
+      : updaterOrValue;
+}
+const fetchDataAndUpdateTable = async (search = "") => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/product/search/list?page=${pageIndex.value}&pageSize=${pageSize.value}}&searchText=${search}`
+  );
   if (res) {
-    data.value = res;
+    data.value = res.products;
   }
   table.value = useVueTable({
     data: data.value,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    onColumnFiltersChange: (updaterOrValue) =>
+      valueUpdater(updaterOrValue, columnFilters),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      get columnFilters() {
+        return columnFilters.value;
+      },
+    },
   });
-});
+};
+
+const handlePreviousPage = () => {
+  pageIndex.value--;
+  fetchDataAndUpdateTable();
+};
+const handleNextPage = () => {
+  pageIndex.value++;
+  fetchDataAndUpdateTable();
+};
 </script>
 
 <style scoped></style>

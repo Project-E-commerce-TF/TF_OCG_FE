@@ -28,6 +28,7 @@
     "hosted-git-info": "^7.0.1",
     "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
+    "lodash": "^4.17.21",
     "lucide-vue-next": "^0.294.0",
     "node-fetch": "^3.3.2",
     "print-js": "^1.6.0",

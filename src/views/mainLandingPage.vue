@@ -165,7 +165,7 @@ onMounted(async () => {
 <style scoped>
 .image-slide {
   object-fit: cover;
-  height: 90vh;
+  /* height: 90vh; */
 }
 
 .custom-width {
