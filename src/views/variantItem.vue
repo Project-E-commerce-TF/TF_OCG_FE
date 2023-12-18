@@ -1,8 +1,8 @@
 <template>
-  <div class="px-32 bg-gray-200 py-8">
+  <div class="md:px-32 bg-gray-200 md:py-8 px-3">
     <div v-if="!loading" class="parent flex flex-col md:flex-row relative mb-3">
       <!-- Slide Image -->
-      <div class="slideImg w-full md:w-1/3 mb-4 md:mb-0">
+      <div class="slideImg w-full md:w-1/2 mb-4 md:mb-0">
         <div class="w-[100%] h-full m-auto">
           <img :src="variantImg" class="w-full h-full rounded-s-xl" />
         </div>
@@ -10,7 +10,7 @@
 
       <!-- Product Information -->
       <div
-        class="info w-full h-full md:w-2/3 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
+        class="info w-full h-full md:w-1/2 rounded-e-xl p-4 md:p-10 flex flex-col gap-4 md:gap-10 bg-grey_white"
       >
         <h2 class="text-primary text-2xl md:text-4xl font-bold mb-2">
           {{ data.product.title }}

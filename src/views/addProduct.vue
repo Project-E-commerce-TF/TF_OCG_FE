@@ -192,13 +192,13 @@
       >
         Variant
       </div>
-      <div class="flex gap-5 items-center">
+      <div class="flex flex-col gap-5">
         <div
           v-for="option in optionSet"
           :key="option.optionProductId"
-          class="flex gap-5 items-center grow"
+          class="flex gap-5 items-center"
         >
-          <label>{{ option.optionType }}</label>
+          <label class="min-w-[10%]">{{ option.optionType }}</label>
           <select
             v-model="selectedOptionValues[option.optionProductId]"
             class="grow rounded-md border border-solid p-2"
@@ -212,27 +212,44 @@
             </option>
           </select>
         </div>
-        <label>Price</label>
-        <input
-          type="number"
-          v-model="priceVariant"
-          placeholder="Price"
-          class="grow rounded-md border border-solid p-2"
-        />
-        <label>Amount</label>
-        <input
-          type="number"
-          v-model="amount"
-          placeholder="Amount"
-          class="grow rounded-md border border-solid p-2"
-        />
-        <label>Image Address</label>
-        <input
-          v-model="imgAddress"
-          placeholder="Image Address"
-          class="grow rounded-md border border-solid p-2"
-        />
-
+        <div class="flex gap-5 items-center justify-start">
+          <label class="min-w-[10%]">Price</label>
+          <input
+            type="number"
+            v-model="priceVariant"
+            placeholder="Price"
+            class="grow rounded-md border border-solid p-2"
+          />
+        </div>
+        <div class="flex gap-5 items-center">
+          <label class="min-w-[10%]">Amount</label>
+          <input
+            type="number"
+            v-model="amount"
+            placeholder="Amount"
+            class="grow rounded-md border border-solid p-2"
+          />
+        </div>
+        <div class="flex my-5 items-start">
+          <label
+            for="imageAddress"
+            :class="[
+              { 'input-error': isInputError.file },
+              ' border border-gray-500 rounded-lg p-1 w-[120px] max-w-[120px] min-w-[120px] cursor-pointer hover:opacity-80',
+            ]"
+            >Choose image</label
+          >
+          <input
+            type="file"
+            id="imageAddress"
+            class="grow rounded-md border border-solid p-2 hidden"
+            accept="image/*"
+            @change="handleFileUpload"
+          />
+          <div class="overflow-hidden max-w-full mx-2">
+            {{ file?.name || "No file chosen" }}
+          </div>
+        </div>
         <button
           @click.prevent="submitVariant"
           class="bg-primary text-white p-2 rounded-lg"
@@ -267,7 +284,6 @@ const optionSet = ref([]);
 const selectedOptionValues = ref({});
 
 const file = ref(null);
-const imgAddress = ref("");
 const amount = ref(0);
 const priceVariant = ref(0);
 const categoryList = ref([]);
@@ -298,22 +314,22 @@ const itemList = ref([]);
 
 const handleFileUpload = (event) => {
   file.value = event.target.files[0];
-  const validTypes = ["image/jpeg", "image/png", "image/gif"];
-  const maxSize = 1000000;
+  // const validTypes = ["image/jpeg", "image/png", "image/gif"];
+  // const maxSize = 1000000;
 
-  if (file?.value?.length === 0) {
-    error.value = "No file selected";
-    return;
-  } else if (!validTypes.includes(file?.value?.type)) {
-    error.value = "Invalid file type";
-    return;
-  } else if (file?.value?.size > maxSize) {
-    error.value = "File is too large";
-    return;
-  } else {
-    isInputError.value.file = false;
-    error.value = "";
-  }
+  // if (file?.value?.length === 0) {
+  //   error.value = "No file selected";
+  //   return;
+  // } else if (!validTypes.includes(file?.value?.type)) {
+  //   error.value = "Invalid file type";
+  //   return;
+  // } else if (file?.value?.size > maxSize) {
+  //   error.value = "File is too large";
+  //   return;
+  // } else {
+  isInputError.value.file = false;
+  error.value = "";
+  // }
 };
 
 const addItem = () => {
@@ -462,34 +478,42 @@ const submitOptionValue = async () => {
 
 const submitVariant = async () => {
   try {
-    const body = {};
     if (
       !priceVariant.value ||
       !amount.value ||
-      !imgAddress.value
+      !file.value
       // || Object.keys(selectedOptionValues.value).length !== 2
     ) {
       error.value = "Please fill all fields";
       return;
     }
-    body.productId = product.value.productId;
-    body.title = product.value.title;
-    body.price = priceVariant.value;
-    body.image = imgAddress.value;
-    body.countInStock = amount.value;
-    body.optionValue1 = Number(Object.values(selectedOptionValues.value)[0]);
-    body.optionValue2 = Number(Object.values(selectedOptionValues.value)[1]);
-    error.value = "";
+
+    const formData = new FormData();
+    formData.append("imageFile", file.value);
+    formData.append("productId", Number(product.value.productId));
+    formData.append("price", Number(priceVariant.value));
+    formData.append("countInStock", Number(amount.value));
+    formData.append(
+      "optionValue1",
+      Number(Object.values(selectedOptionValues.value)[0])
+    );
+    formData.append(
+      "optionValue2",
+      Number(Object.values(selectedOptionValues.value)[1] || 0)
+    );
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/variant/add-variant`,
       "POST",
-      body
+      formData
     );
     if (res) {
       priceVariant.value = 0;
       amount.value = 0;
       error.value = "";
       successMess.value = "Add variant success";
+      await setTimeout(() => {
+        successMess.value = "";
+      }, 2000);
     }
   } catch (err) {
     console.log(err);
