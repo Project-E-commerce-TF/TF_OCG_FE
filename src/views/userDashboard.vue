@@ -4,7 +4,7 @@
       type="text"
       v-model="searchValue"
       class="text-black p-2 rounded-lg w-full"
-      placeholder="Filter title..."
+      placeholder="Filter email..."
     />
   </div>
   <div v-if="table" class="border rounded-md">

@@ -206,6 +206,14 @@ const routes = [
         component: () => import("../views/ProductEditDashboard.vue"),
       },
       {
+        path: "discount/edit/:id",
+        name: "DiscountEdit",
+        meta: {
+          layout: "default",
+        },
+        component: () => import("../views/DiscountEditDashboard.vue"),
+      },
+      {
         path: "order/edit/:id",
         name: "OrderEdit",
         meta: {

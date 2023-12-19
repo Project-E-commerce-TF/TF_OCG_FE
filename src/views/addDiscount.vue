@@ -94,7 +94,7 @@
         >
           Submit
         </button>
-        <router-link :to="{ name: `Dashboard` }">
+        <router-link :to="{ name: `DiscountDashboard` }">
           <button
             class="font-bold text-primary text-xl py-4 px-6 rounded-lg bg-white border-primary border-solid border hover:opacity-80 min-w-[190px]"
           >
@@ -114,7 +114,7 @@ const discountCode = ref("");
 const discountType = ref("");
 const discountValue = ref(0);
 const discountQuantity = ref(0);
-const userId = ref("");
+const userId = ref(0);
 const beneficiary = ref(false);
 const startDate = ref("");
 const endDate = ref("");
@@ -129,20 +129,21 @@ const submit = async () => {
       !discountValue.value ||
       !discountQuantity.value ||
       !startDate.value ||
-      !endDate.value ||
-      beneficiary.value
+      !endDate.value
     ) {
       errorMess.value = "Please fill all fields";
       return;
     }
     const body = {
-      discountCode: discountCode.value,
-      discountType: discountType.value,
-      value: Number(discountValue.value),
-      availableQuantity: Number(discountQuantity.value),
+      discount: {
+        discountCode: discountCode.value,
+        discountType: discountType.value,
+        value: Number(discountValue.value),
+        availableQuantity: Number(discountQuantity.value),
+        startDate: new Date(startDate.value),
+        endDate: new Date(endDate.value),
+      },
       userId: Number(userId.value),
-      startDate: new Date(startDate.value),
-      endDate: new Date(endDate.value),
     };
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/discount`,

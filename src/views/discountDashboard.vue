@@ -1,11 +1,11 @@
 <template>
-  <div class="flex mb-2 text-white">
+  <div class="flex mb-2 text-white items-center">
     <div v-if="table" class="grow items-center py-4 mr-3">
       <input
         type="text"
         v-model="searchValue"
         class="text-black p-2 rounded-lg w-full"
-        placeholder="Filter ..."
+        placeholder="Filter code..."
       />
     </div>
     <router-link :to="{ name: 'AddDiscount' }">
@@ -76,7 +76,7 @@
 
 <script setup>
 import { fetchData } from "@/utils/axiosFetchApi";
-import { h, onMounted, ref } from "vue";
+import { h, onMounted, ref, watch } from "vue";
 import {
   Table,
   TableBody,
@@ -91,11 +91,17 @@ import {
   getSortedRowModel,
   useVueTable,
 } from "@tanstack/vue-table";
+import DropdownAction from "@/components/ui/DataTableDropDownDiscount.vue";
 import { ArrowUpDown } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
+import { debounce } from "lodash";
 
 const data = ref([]);
 const sorting = ref([]);
+const searchValue = ref("");
+const pageIndex = ref(1);
+const pageSize = ref(10);
+const table = ref(null);
 
 function valueUpdater(updaterOrValue, ref) {
   ref.value =
@@ -160,11 +166,38 @@ const columns = [
       return h("div", { class: "lowercase" }, formattedDate);
     },
   },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const discount = row.original;
+
+      return h(
+        "div",
+        { class: "relative" },
+        h(DropdownAction, {
+          discount,
+          onDiscountDeleted: () => fetchDataAndUpdateTable(),
+        })
+      );
+    },
+  },
 ];
 
-const table = ref(null);
 onMounted(async () => {
-  const res = await fetchData(`${process.env.VUE_APP_URL}/discount`);
+  await fetchDataAndUpdateTable();
+});
+
+const debouncedSearch = debounce(async (newValue) => {
+  pageIndex.value = 1;
+  await fetchDataAndUpdateTable(newValue);
+}, 1000); // 300ms delay
+watch(searchValue, debouncedSearch);
+
+const fetchDataAndUpdateTable = async (search = "") => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/discount?page=${pageIndex.value}&pageSize=${pageSize.value}&searchText=${search}`
+  );
   if (res) {
     data.value = res;
   }
@@ -180,7 +213,16 @@ onMounted(async () => {
       },
     },
   });
-});
+};
+
+const handlePreviousPage = () => {
+  pageIndex.value--;
+  fetchDataAndUpdateTable();
+};
+const handleNextPage = () => {
+  pageIndex.value++;
+  fetchDataAndUpdateTable();
+};
 </script>
 
 <style scoped></style>
