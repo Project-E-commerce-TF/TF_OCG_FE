@@ -16,7 +16,7 @@
         <div class="row flex justify-between mt-4">
           <div class="col flex">
             <img
-              :src="order.orderDetails[0].variantImage"
+              :src="order.orderDetails[0]?.variantImage"
               alt="variant-image"
               class="w-32 h-32 object-cover mr-2 rounded-xl"
             />

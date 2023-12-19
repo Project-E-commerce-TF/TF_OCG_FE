@@ -2,10 +2,9 @@
   <div class="overflow-hidden">
     <!-- Slide show for images -->
     <div
-      class="swiper-container image-slider w-[100vw] overflow-hidden"
+      class="swiper-container image-slider w-[100vw] overflow-hidden h-[88vh]"
       ref="imageSwiper"
     >
-      <!-- ... (unchanged) ... -->
       <div class="swiper-wrapper">
         <div
           v-for="(image, index) in slideshowImages"

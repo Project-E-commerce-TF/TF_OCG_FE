@@ -79,9 +79,10 @@
         </div>
         <div
           v-if="shippingFee !== null && shippingFee > 0"
-          class="mt-2 text-primary font-bold"
+          class="mt-2 text-primary font-bold flex justify-between"
         >
-          Shipping Fee: {{ shippingFee }}
+          <div>Shipping Fee:</div>
+          <div>{{ numberToCurrencyVND(shippingFee) }} VND</div>
         </div>
         <div class="col mt-4">Your Location</div>
         <div class="">
@@ -139,7 +140,8 @@
               {{ numberToCurrencyVND(calculateTotalPrice) }}
             </div>
             <div class="row text-right text-sm text-save">
-              You Saved {{ numberToCurrencyVND(calculateSavings) }}
+              You Saved
+              {{ numberToCurrencyVND(calculateSavings) }}
             </div>
           </div>
         </div>
@@ -227,7 +229,7 @@ const formattedDiscount = computed(() => {
   if (discount && discount.discountType === "percentage") {
     return `-${discount.value}%`;
   } else if (discount && discount.discountType === "fixed") {
-    return `-${discount.value}`;
+    return `-${numberToCurrencyVND(discount.value)} VND`;
   } else {
     return "";
   }
@@ -526,8 +528,9 @@ const onApprove = async (data, discountCode) => {
 };
 
 const resultMessage = async (message) => {
-  const container = document.querySelector("#result-message");
-  container.innerHTML = message;
+  // const container = document.querySelector("#result-message");
+  // container.innerHTML = message;
+  console.log(message);
 };
 </script>
 <style scoped>
