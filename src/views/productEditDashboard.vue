@@ -43,13 +43,23 @@
             <div class="text-center p-2 bg-gray-600 rounded-lg mb-4">
               {{ option.optionType }}
             </div>
-            <li
+            <div
               v-for="op in option.optionValues"
               :key="op.optionValueId"
-              class="my-2"
+              class="flex justify-start gap-2"
             >
-              {{ op.value }}
-            </li>
+              <button
+                data-v-6fb020b5=""
+                type="button"
+                class="rounded-lg text-red-400 font-bold hover:opacity-80"
+                @click="deleteOptionValue(op.optionProductId, op.value)"
+              >
+                x
+              </button>
+              <li class="my-2">
+                {{ op.value }}
+              </li>
+            </div>
             <button
               v-if="!toggleMoreValue[option.optionProductId]"
               type="button"
@@ -502,7 +512,13 @@ watch(
   product,
   () => {
     for (let i = 0; i < product.value?.variants?.length; i++) {
-      let option1 = product.value.optionProducts[0].optionValues.find(
+      if (
+        !product.value.optionProducts[0].optionValues ||
+        !product.value.optionProducts[1].optionValues
+      ) {
+        continue;
+      }
+      let option1 = product.value.optionProducts[0]?.optionValues.find(
         (option) => {
           return option.optionValueId == product.value.variants[i].optionValue1;
         }
@@ -695,6 +711,22 @@ const cancelModal = () => {
   newVariant.value.countInStock = 0;
   newVariant.value.price = 0;
   file.value = null;
+};
+
+const deleteOptionValue = async (id, value) => {
+  const res = await fetchData(
+    `${process.env.VUE_APP_URL}/option-value/${id}`,
+    "DELETE",
+    { value }
+  );
+  if (res) {
+    const res = await fetchData(
+      `${process.env.VUE_APP_URL}/product/${route.params.id}`
+    );
+    if (res && res.product.productId > 0) {
+      product.value = res;
+    }
+  }
 };
 </script>
 

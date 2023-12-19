@@ -1,10 +1,37 @@
 <template>
-  <div class="flex justify-end mb-2 text-white">
+  <div class="flex mb-2 text-white">
+    <div v-if="table" class="grow items-center py-4 mr-3">
+      <input
+        type="text"
+        v-model="searchValue"
+        class="text-black p-2 rounded-lg w-full"
+        placeholder="Filter ..."
+      />
+    </div>
     <router-link :to="{ name: 'AddDiscount' }">
       <Button>Add discount</Button>
     </router-link>
   </div>
   <div v-if="table" class="border rounded-md">
+    <div class="flex items-center justify-end py-4 space-x-2 mr-2">
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="pageIndex == 1"
+        @click="handlePreviousPage"
+      >
+        Previous
+      </Button>
+      <div class="w-20px px-5">{{ pageIndex }}</div>
+      <Button
+        variant="outline"
+        size="sm"
+        :disabled="data.length < pageSize"
+        @click="handleNextPage"
+      >
+        Next
+      </Button>
+    </div>
     <Table>
       <TableHeader>
         <TableRow
