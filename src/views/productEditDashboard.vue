@@ -651,6 +651,11 @@ const submitNewVariant = async () => {
         file.value = null;
       }, 1000);
     }
+  } else {
+    error.value = "Variant has already existed";
+    await setTimeout(() => {
+      error.value = "";
+    }, 2000);
   }
 };
 
