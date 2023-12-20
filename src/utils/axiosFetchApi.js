@@ -31,7 +31,6 @@ export async function refreshAccessToken() {
     const refreshToken = Cookies.get("refreshToken");
     console.log(refreshToken);
     const response = await axios.post(
-      // "http://52.74.248.97:8080/auth/refresh-token",
       "http://52.74.248.97:8000/auth/refresh-token",
       {},
       {
