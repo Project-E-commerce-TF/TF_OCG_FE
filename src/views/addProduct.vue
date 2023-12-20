@@ -484,7 +484,6 @@ const submitOptionValue = async () => {
     }
   } catch (err) {
     console.log(err);
-    error.value = err.response.data.error;
   }
 };
 

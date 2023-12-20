@@ -50,11 +50,19 @@
             class="w-full md:w-20 p-2 bg-gray_sidebar rounded-lg mb-2 md:mb-0"
           />
           <button
+            v-if="hasVariants"
             class="grow bg-primary text-white rounded-lg h-[100%] md:ml-2 p-2 font-bold hover:opacity-80"
             @click="addToCart"
           >
             Add to cart
           </button>
+          <div
+            v-else
+            class="grow bg-gray-400 text-white rounded-lg h-[100%] md:ml-2 p-2 font-bold text-center"
+            style="cursor: not-allowed"
+          >
+            Add to cart
+          </div>
         </div>
       </div>
       <div v-if="alertMessage" class="alert-message font-bold mt-2">
@@ -142,7 +150,7 @@
 </template>
 <script setup>
 // import { numberToCurrencyVND } from "@/utils/currencyVND";
-import { ref, watch, onBeforeUnmount, watchEffect } from "vue";
+import { ref, watch, onBeforeUnmount, watchEffect, computed } from "vue";
 import { fetchData } from "@/utils/axiosFetchApi";
 import { useRoute } from "vue-router";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
@@ -336,6 +344,22 @@ watch(
   },
   { immediate: true }
 );
+
+const variantHasOption = (variant) => {
+  const optionValues = Object.values(selectedOptions.value);
+  return optionValues.every(
+    (value, index) => variant[`optionValue${index + 1}`] === value
+  );
+};
+
+// Updated hasVariants function that checks if any variant has the selected options
+const hasVariants = computed(() => {
+  const hasVariants =
+    data.value.variants &&
+    data.value.variants.some((variant) => variantHasOption(variant));
+
+  return hasVariants;
+});
 </script>
 
 <style scoped>
