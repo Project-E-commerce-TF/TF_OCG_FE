@@ -439,6 +439,16 @@ const submitProduct = async () => {
 
 const submitOptionValue = async () => {
   try {
+    const opList = await fetchData(
+      `${process.env.VUE_APP_URL}/option-product/get-by/${product.value.productId}`
+    );
+    if (opList.length == 2) {
+      error.value = "You can only add 2 options";
+      await setTimeout(() => {
+        error.value = "";
+      }, 2000);
+      return;
+    }
     if (!optionProductInput.value) {
       error.value = "Please fill all fields";
       return;
