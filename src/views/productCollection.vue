@@ -82,8 +82,11 @@ const typeSort = ref("asc");
 const fieldSort = ref("title");
 
 onMounted(async () => {
-  await store.dispatch("fetchProductList");
-  productList.value = store.state.productList;
+  console.log(Object.keys(route.query).length == 0);
+  if (Object.keys(route.query).length == 0) {
+    await store.dispatch("fetchProductList");
+    productList.value = store.state.productList;
+  }
 });
 const productList = computed(() => {
   return store.state.productList;
@@ -102,9 +105,10 @@ watch(
       },
     });
     const updateCurrentQuery = route.query;
+    console.log("collec");
     await store.dispatch("fetchProductList", updateCurrentQuery);
-  },
-  { immediate: true }
+  }
+  // { immediate: true }
 );
 </script>
 

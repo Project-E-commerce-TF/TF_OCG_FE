@@ -21,8 +21,10 @@ const itemPerPage = ref(10);
 const currentPage = ref(1);
 
 onMounted(async () => {
-  await store.dispatch("fetchProductList");
-  totalItem.value = store.state.totalItems;
+  currentPage.value = Number(route.query.page) || 1;
+  // console.log("pagi");
+  // await store.dispatch("fetchProductList");
+  // totalItem.value = store.state.totalItems;
 });
 
 const totalItem = computed(() => store.state.totalItems);
@@ -38,9 +40,10 @@ watch(
     });
 
     const updateCurrentQuery = route.query;
+    console.log("pagi");
     await store.dispatch("fetchProductList", updateCurrentQuery);
-  },
-  { immediate: true }
+  }
+  // { immediate: true }
 );
 </script>
 

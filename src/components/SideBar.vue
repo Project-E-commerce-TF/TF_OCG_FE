@@ -73,16 +73,16 @@ watch(
   cateList,
   async () => {
     const currentQuery = route.query;
-    console.log(currentQuery);
     await router.push({
       path: "/products",
       query: { ...currentQuery, category: cateList.value.join() },
     });
 
     const updateCurrentQuery = route.query;
+    console.log("sidebar");
     await store.dispatch("fetchProductList", updateCurrentQuery);
   },
-  { deep: true, immediate: true }
+  { deep: true }
 );
 </script>
 

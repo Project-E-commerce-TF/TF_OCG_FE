@@ -50,6 +50,7 @@ watch(
     });
 
     const updateCurrentQuery = route.query;
+    console.log("minmax");
     await store.dispatch("fetchProductList", updateCurrentQuery);
   },
   { deep: true }
