@@ -486,7 +486,6 @@ const submitOptionValue = async () => {
     disabledAddVariant.value = true;
   } catch (err) {
     console.log(err);
-    error.value = err.response.data.error;
   }
 };
 
