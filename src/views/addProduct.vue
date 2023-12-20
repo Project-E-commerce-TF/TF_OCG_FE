@@ -165,7 +165,7 @@
                 type="submit"
                 class="text-white text-xl py-4 px-10 rounded-lg bg-primary hover:opacity-80 min-w-[190px]"
               >
-                Submit List
+                Submit Opiton
               </button>
             </div>
             <div class="flex justify-around mt-10">
