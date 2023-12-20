@@ -44,7 +44,7 @@
           type="text"
           placeholder="User Id"
           v-model="userId"
-          class="rounded-lg py-1 px-2 border border-solid ml-2"
+          class="rounded-lg py-1 px-2 border border-solid ml-2 max-w-[20%]"
         />
       </div>
       <div class="flex my-5 items-center">
@@ -154,6 +154,7 @@ const submit = async () => {
     if (res) {
       errorMess.value = "";
       successMess.value = "Add discount successfully";
+      userId.value = 0;
     }
   } catch (err) {
     console.log(err);

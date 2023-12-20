@@ -512,12 +512,12 @@ watch(
   product,
   () => {
     for (let i = 0; i < product.value?.variants?.length; i++) {
-      if (
-        !product.value.optionProducts[0].optionValues ||
-        !product.value.optionProducts[1].optionValues
-      ) {
-        continue;
-      }
+      // if (
+      //   !product.value.optionProducts[0].optionValues ||
+      //   !product.value.optionProducts[1].optionValues
+      // ) {
+      //   continue;
+      // }
       let option1 = product.value.optionProducts[0]?.optionValues.find(
         (option) => {
           return option.optionValueId == product.value.variants[i].optionValue1;
