@@ -343,7 +343,7 @@ const removeItem = (index) => {
   itemList.value.splice(index, 1);
 };
 
-function convertDataStructure(inputData) {
+const convertDataStructure = (inputData) => {
   const optionSetMap = new Map();
 
   inputData.forEach((item) => {
@@ -354,6 +354,7 @@ function convertDataStructure(inputData) {
         optionType,
         optionValue: [],
       });
+      // optionSet;
     }
     optionSetMap.get(optionProductId).optionValue.push({
       optionValueId,
@@ -363,7 +364,7 @@ function convertDataStructure(inputData) {
   });
   const optionSet = [...optionSetMap.values()];
   return optionSet;
-}
+};
 
 // --------------------------------------------------
 onMounted(async () => {
@@ -437,18 +438,9 @@ const submitProduct = async () => {
   }
 };
 
+const opListCount = ref(0);
 const submitOptionValue = async () => {
   try {
-    const opList = await fetchData(
-      `${process.env.VUE_APP_URL}/option-product/get-by/${product.value.productId}`
-    );
-    if (opList.length == 2) {
-      error.value = "You can only add 2 options";
-      await setTimeout(() => {
-        error.value = "";
-      }, 2000);
-      return;
-    }
     if (!optionProductInput.value) {
       error.value = "Please fill all fields";
       return;
@@ -484,6 +476,12 @@ const submitOptionValue = async () => {
     disabledAddOptionValue.value = false;
     disabledAddOption.value = false;
     disabledAddVariant.value = true;
+    opListCount.value++;
+    if (opListCount.value == 2) {
+      await setTimeout(() => {
+        continueToVariant();
+      }, 2000);
+    }
   } catch (err) {
     console.log(err);
   }
