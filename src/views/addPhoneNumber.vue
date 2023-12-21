@@ -6,7 +6,7 @@
       <div class="flex gap-2">
         <label class="text-primary text--sm">Phone </label>
         <input
-          type="number"
+          type="text"
           v-model="phoneNumber"
           class="border-primary border-solid border rounded-lg grow"
         />
