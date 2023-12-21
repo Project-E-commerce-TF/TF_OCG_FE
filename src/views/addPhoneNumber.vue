@@ -42,6 +42,7 @@ const submitNumber = async () => {
       return;
     }
     const userId = getLocalStorage("infoUser").userID;
+    console.log(userId);
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/users/${userId}`,
       "PUT",

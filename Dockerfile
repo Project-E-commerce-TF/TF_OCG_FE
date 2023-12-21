@@ -1,4 +1,3 @@
-# Use the official Node.js 14 image as base
 FROM node:16.16.0
 
 # Set the working directory

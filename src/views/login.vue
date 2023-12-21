@@ -65,7 +65,7 @@
           </div>
           <div class="row">
             <form
-              action="http://52.74.248.97:8000/auth/login-google"
+              action="https://gottago.cyou/api/auth/login-google"
               method="get"
             >
               <button
@@ -114,6 +114,7 @@ import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useLogin } from "@/composables/useLogin";
 import Cookies from "js-cookie";
+import { getLocalStorage } from "@/utils/localStorage";
 
 const { error, isPending, login } = useLogin();
 const route = useRoute();
@@ -142,14 +143,18 @@ if (route.query.accessToken) {
     userName: route.query.userName,
     email: route.query.email,
     role: route.query.role,
+    phoneNumber: route.query.phoneNumber,
     userType: route.query.userType,
     accessToken: route.query.accessToken,
     refreshToken: route.query.refreshToken,
   };
+  console.log("pone", route.query.phoneNumber);
+  console.log("type", typeof route.query.phoneNumber);
   const returnedTarget = Object.assign(tartget, routeQuery);
   localStorage.setItem("infoUser", JSON.stringify(returnedTarget));
   Cookies.set("accessToken", returnedTarget.accessToken, { expires: 1 / 24 });
   Cookies.set("refreshToken", returnedTarget.refreshToken, { expires: 1 });
-  router.push({ name: "PhoneNumber" });
+  if (!getLocalStorage("infoUser").phoneNumber)
+    router.push({ name: "PhoneNumber" });
 }
 </script>

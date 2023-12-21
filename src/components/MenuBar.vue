@@ -62,16 +62,16 @@
         </button>
         <div class="ml-2 font-bold">Map</div>
       </router-link>
-      <router-link to="/wishlist" class="flex">
-        <button class="w-5 h-6 bg-transparent border-none">
+      <button class="flex" @click="handleWishlistLinkClick">
+        <div class="w-5 h-6 bg-transparent border-none">
           <img
             :src="require('@/assets/images/icon_wishlist.png')"
             alt="icon_search"
             class="w-full h-full"
           />
-        </button>
+        </div>
         <div class="ml-2 font-bold">Wishlist</div>
-      </router-link>
+      </button>
       <button class="flex" @click="handleCartLinkClick">
         <div class="w-5 h-6 bg-transparent border-none relative">
           <img
@@ -137,10 +137,17 @@ const showAlert = (message) => {
 
 const handleCartLinkClick = () => {
   if (!authen.value) {
-    showAlert("Please log in to view your cart.");
+    showAlert("Please login to view your cart.");
   } else {
-    // Navigate to the cart page
     router.push("/cart");
+  }
+};
+
+const handleWishlistLinkClick = () => {
+  if (!authen.value) {
+    showAlert("Please login to view your wishlist.");
+  } else {
+    router.push("/wishlist");
   }
 };
 </script>

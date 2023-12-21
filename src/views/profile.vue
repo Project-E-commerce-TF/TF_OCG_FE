@@ -392,7 +392,6 @@ onMounted(async () => {
     );
     if (response) {
       user.value = response; // Assign the value like this
-      console.log(response);
     } else {
       console.error("Invalid response format:", response);
     }
