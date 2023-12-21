@@ -1,6 +1,6 @@
 <template>
   <div
-    class="p-10 font-bold text-3xl rounded-lg bg-gray_sidebar px-80 py-20 h-[100vh]"
+    class="font-bold text-3xl rounded-xl bg-gray_sidebar w-[50%] m-auto mt-10 p-20 h-[90vh]"
   >
     <div class="mb-20 text-primary text-center">Change password</div>
     <div class="flex flex-col gap-4 mb-6">
@@ -8,7 +8,7 @@
       <input
         type="password"
         v-model="newPassword"
-        class="border-gray_footer border-solid border rounded-lg p-3"
+        class="border-gray_footer border-solid border rounded-lg px-1"
       />
     </div>
     <div class="flex flex-col gap-4 mb-6">
@@ -16,7 +16,7 @@
       <input
         type="password"
         v-model="confirmPassword"
-        class="border-gray_footer border-solid border rounded-lg p-3"
+        class="border-gray_footer border-solid border rounded-lg px-1"
       />
     </div>
     <div class="flex justify-between">
