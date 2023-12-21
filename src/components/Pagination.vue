@@ -17,7 +17,7 @@ import store from "../store/index.js";
 
 const router = useRouter();
 const route = useRoute();
-const itemPerPage = ref(10);
+const itemPerPage = ref(12);
 const currentPage = ref(1);
 
 onMounted(async () => {
@@ -28,7 +28,9 @@ onMounted(async () => {
 });
 
 const totalItem = computed(() => store.state.totalItems);
-
+watch(route.query, () => {
+  currentPage.value = Number(route.query.page) || 1;
+});
 watch(
   currentPage,
   async () => {
@@ -42,6 +44,7 @@ watch(
     const updateCurrentQuery = route.query;
     console.log("pagi");
     await store.dispatch("fetchProductList", updateCurrentQuery);
+    totalItem.value = store.state.totalItems;
   }
   // { immediate: true }
 );

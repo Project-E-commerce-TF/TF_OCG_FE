@@ -19,11 +19,20 @@ export default createStore({
 
   actions: {
     async fetchProductList({ commit }, obj) {
-      const queryString = new URLSearchParams(obj).toString();
+      let searchParams = new URLSearchParams(obj);
+      let queryString = searchParams.toString();
+      console.log(new URLSearchParams(obj));
 
-      const result = await fetchData(
+      let result = await fetchData(
         `${process.env.VUE_APP_URL}/product/search/list?${queryString}`
       );
+      if (!result.products) {
+        searchParams.set("page", 1);
+        queryString = searchParams.toString();
+        result = await fetchData(
+          `${process.env.VUE_APP_URL}/product/search/list?${queryString}`
+        );
+      }
       commit("setProductList", result);
     },
     async fetchCartList({ commit }) {
