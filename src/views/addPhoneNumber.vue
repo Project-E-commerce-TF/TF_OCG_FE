@@ -1,20 +1,26 @@
 <template>
   <div
-    class="main p-10 font-bold text-3xl rounded-lg bg-gray_sidebar flex flex-col justify-center gap-8"
+    class="main p-10 font-bold text-3xl rounded-lg bg-gray_sidebar w-[50%] m-auto mt-20"
   >
-    <div class="text-primary text-center">Your phone number</div>
-    <input
-      type="text"
-      v-model="phoneNumber"
-      class="border-primary border-solid border rounded-lg px-6 py-3 mx-40"
-    />
-    <div class="text-rose-700 text-xl text-center">{{ error }}</div>
-    <button
-      class="text-white text-xl py-4 px-6 rounded-lg bg-primary hover:opacity-80 mx-60"
-      @click="submitNumber"
-    >
-      Get Link
-    </button>
+    <div>
+      <div class="flex gap-2">
+        <label class="text-primary text--sm">Phone </label>
+        <input
+          type="number"
+          v-model="phoneNumber"
+          class="border-primary border-solid border rounded-lg grow"
+        />
+      </div>
+      <div class="text-rose-700 text-xl text-center">{{ error }}</div>
+      <div class="flex justify-center mt-5">
+        <button
+          class="text-white text-xl py-2 px-6 rounded-lg bg-primary hover:opacity-80"
+          @click="submitNumber"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +46,7 @@ const submitNumber = async () => {
       `${process.env.VUE_APP_URL}/users/${userId}`,
       "PUT",
       {
-        phoneNumber: phoneNumber.value,
+        phoneNumber: Number(phoneNumber.value),
       }
     );
     if (res) {
@@ -54,6 +60,6 @@ const submitNumber = async () => {
 
 <style scoped>
 .main {
-  height: 100vh;
+  height: 30vh;
 }
 </style>
