@@ -8,7 +8,7 @@
         <input
           type="text"
           v-model="phoneNumber"
-          class="border-primary border-solid border rounded-lg grow"
+          class="border-primary border-solid border rounded-lg grow text-xl p-2"
         />
       </div>
       <div class="text-rose-700 text-xl text-center">{{ error }}</div>
@@ -26,7 +26,7 @@
 
 <script setup>
 import { fetchData } from "@/utils/axiosFetchApi";
-import { getLocalStorage } from "@/utils/localStorage";
+import { getLocalStorage, setLocalStorage } from "@/utils/localStorage";
 import { regexPhoneNumberVn } from "@/utils/regexPhoneNumberVn";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -41,15 +41,18 @@ const submitNumber = async () => {
       error.value = "Invalid phone number";
       return;
     }
-    const userId = getLocalStorage("infoUser").userId;
+    const userId = getLocalStorage("infoUser").userID;
     const res = await fetchData(
       `${process.env.VUE_APP_URL}/users/${userId}`,
       "PUT",
       {
-        phoneNumber: Number(phoneNumber.value),
+        phoneNumber: phoneNumber.value,
       }
     );
     if (res) {
+      const user = getLocalStorage("infoUser");
+      user.phoneNumber = res.phoneNumber;
+      setLocalStorage("infoUser", user);
       router.push({ name: "Home" });
     }
   } catch (err) {

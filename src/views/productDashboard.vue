@@ -28,7 +28,7 @@
       <Button
         variant="outline"
         size="sm"
-        :disabled="data.length < pageSize"
+        :disabled="Math.ceil(totalItems / 10) == pageIndex"
         @click="handleNextPage"
       >
         Next
@@ -101,6 +101,7 @@ import DropdownAction from "@/components/ui/DataTableDropDown.vue";
 import { numberToCurrencyVND } from "@/utils/currencyVND";
 
 const data = ref([]);
+const totalItems = ref(0);
 const table = ref(null);
 const pageIndex = ref(1);
 const pageSize = ref(10);
@@ -162,13 +163,9 @@ function valueUpdater(updaterOrValue, ref) {
       : updaterOrValue;
 }
 
-const fetchDataAndUpdateTable = async (search = "") => {
-  const res = await fetchData(
-    `${process.env.VUE_APP_URL}/product/search/list?page=${pageIndex.value}&pageSize=${pageSize.value}&searchText=${search}`
-  );
-  if (res) {
-    data.value = res.products;
-  }
+const updateTable = (res) => {
+  data.value = res.products;
+  totalItems.value = res.totalItems;
   table.value = useVueTable({
     data: data.value,
     columns: columns,
@@ -184,13 +181,31 @@ const fetchDataAndUpdateTable = async (search = "") => {
   });
 };
 
+const fetchDataAndUpdateTable = async (search = "") => {
+  let res = await fetchData(
+    `${process.env.VUE_APP_URL}/product/search/list?page=${pageIndex.value}&pageSize=${pageSize.value}&searchText=${search}`
+  );
+  if (res && res.products) {
+    updateTable(res);
+  } else {
+    res = await fetchData(
+      `${process.env.VUE_APP_URL}/product/search/list?page=1&pageSize=${pageSize.value}&searchText=${search}`
+    );
+    if (res && res.products) {
+      updateTable(res);
+    }
+  }
+};
+
 const handlePreviousPage = () => {
   pageIndex.value--;
   fetchDataAndUpdateTable();
 };
 const handleNextPage = () => {
   pageIndex.value++;
+  console.log(Math.ceil(totalItems.value / 10));
   console.log(pageIndex.value);
+  console.log(Math.ceil(totalItems.value / 10) == pageIndex.value);
   fetchDataAndUpdateTable();
 };
 </script>
