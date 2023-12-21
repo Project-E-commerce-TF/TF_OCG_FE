@@ -215,7 +215,7 @@ const calculateSavings = computed(() => {
 
   if (discount) {
     if (discount.discountType === "percentage") {
-      return (discountedTotalPrices.value * discount.value) / 100;
+      return (totalPrices.value * discount.value) / 100;
     } else if (discount.discountType === "fixed") {
       return discount.value;
     }
