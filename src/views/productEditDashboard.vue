@@ -213,7 +213,7 @@
                 <div
                   v-for="(optionSet, index) in product.optionProducts"
                   :key="index"
-                  class="flex my-5 items-center"
+                  class="flex my-5 items-center hidden"
                 >
                   <label class="w-1/5">{{ optionSet.optionType }}</label>
                   <select

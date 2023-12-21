@@ -64,7 +64,10 @@
             </button>
           </div>
           <div class="row">
-            <form action="http://52.74.248.97/auth/login-google" method="get">
+            <form
+              action="http://52.74.248.97:8000/auth/login-google"
+              method="get"
+            >
               <button
                 type="submit"
                 class="py-3 justify-center w-full bg-grey_white text-mouse_gray font-bold rounded-lg flex"
