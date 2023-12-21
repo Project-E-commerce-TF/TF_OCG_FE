@@ -9,7 +9,7 @@
         <label class="text-xl text-primary">Your email</label>
         <input
           v-model="email"
-          class="text-xl border-gray_footer border-solid border rounded-lg p-3"
+          class="text-xl border-gray_footer border-solid border rounded-lg p-1"
         />
       </div>
       <div class="flex justify-between">
